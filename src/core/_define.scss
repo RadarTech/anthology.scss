@@ -1,0 +1,91 @@
+/// Defines a functional CSS helper. For optimization reasons, this mixin does not emit any CSS. To emit currently
+/// defined helpers, use 'emit-functional-properties()' and 'emit-responsive-functional-properties()'
+///
+/// @param {String} $shorthand - The name for this series of helpers.
+/// @param {String} $property - The CSS property to target.
+/// @param {Map} $values - A map of values to assign.
+/// @param {Bool} $options.important - Whether to emit '!important' versions of the selectors. This overrides the
+/// argument in `emit-properties()` and `emit-responsive-properties()` [default: true].
+/// @param {List} $options.pseudos - A list of pseudo-classes or pseudo-elements to generate selectors for.
+/// @param {List} $options.themes - A list of themes to generate selectors for.
+@mixin sf-define($shorthand, $property, $values, $options: ())
+{
+  // Ensure `set-config(...)` has been included prior.
+  @include __sf-validate-config-is-ready();
+
+  // Merge default options
+  $options: __sf-define-options($options);
+
+  // Unpack options
+  $important: __sf-map-get($options, 'important');
+  $responsive: __sf-map-get($options, 'responsive');
+  $pseudos: __sf-map-get($options, 'pseudos');
+  $themes: __sf-map-get($options, 'themes');
+
+
+  // Visit each adjective and cache its configuration.
+  @each $adjective, $value in $values
+  {
+    // Map explicitly responsive properties.
+    @if type-of($value) == map
+    {
+      @each $breakpoint, $breakpoint-value in $value
+      {
+
+        // Handle valid breakpoints.
+        @if __sf-map-has-key($__sf-cache, ('responsive', $breakpoint))
+        {
+          $__sf-cache: __sf-map-set(
+            $__sf-cache,
+            ('responsive', $breakpoint, $shorthand, $adjective),
+            ($property, $breakpoint-value, $important, false, $pseudos, $themes)
+          ) !global;
+        }
+
+        // Handle the default case.
+        @else if $breakpoint == 'default'
+        {
+          @warn "made it!";
+          $__sf-cache: __sf-map-set(
+            $__sf-cache,
+            ('generic', $shorthand, $adjective),
+            ($property, $breakpoint-value, $important, $pseudos, $themes)
+          ) !global;
+        }
+
+        // Throw if breakpoint key is invalid.
+        @else
+        {
+          @error "Invalid breakpoint key: #{$breakpoint}. Choose one of: #{map-keys(map-get($__sf-cache, 'responsive'))}, or default.";
+        }
+
+      }
+    }
+
+    // Add default properties
+    @else
+    {
+
+      @if $responsive == true
+      {
+        // Map responsive properties dynamically
+        @each $breakpoint in map-keys(map-get($__sf-cache, 'responsive'))
+        {
+          $__sf-cache: __sf-map-set(
+            $__sf-cache,
+            ('responsive', $breakpoint, $shorthand, $adjective),
+            ($property, $value, $important, true, $pseudos, $themes)
+          ) !global;
+        }
+      }
+
+      $__sf-cache: __sf-map-set(
+        $__sf-cache,
+        ('generic', $shorthand, $adjective),
+        ($property, $value, $important, $pseudos, $themes)
+      ) !global;
+
+    }
+
+  }
+}

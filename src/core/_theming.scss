@@ -1,0 +1,47 @@
+/// Emits arbitrary themed CSS.
+///
+/// @param {String} $theme - The theme to target
+@mixin sf-with-theme($theme)
+{
+  $full-selector: '';
+
+  @each $selector in selector-parse(&)
+  {
+    $nested-element-theme-selector: '[data-theme~="#{$theme}"] #{$selector}';
+    $same-element-theme-selector: __sf-stringify(selector-unify($selector, '[data-theme~="#{$theme}"]'));
+    $selector: '#{$nested-element-theme-selector}, #{$same-element-theme-selector}';
+
+    @if $full-selector == ''
+    {
+      $full-selector: $selector;
+    }
+    @else
+    {
+      $full-selector: '#{$full-selector}, #{$selector}';
+    }
+  }
+
+  @at-root #{$full-selector} { @content; }
+}
+
+/// Emits themed CSS for a single property.
+///
+/// @param {String} $property - The CSS property to change.
+/// @param {Map} $themed-values - A map of corresponding themes/values.
+@mixin sf-themeify($property, $themed-values)
+{
+  @each $theme, $value in $themed-values
+  {
+
+    @if $theme == 'default'
+    {
+      #{$property}: $value;
+    }
+
+    @else
+    {
+      @include with-theme($theme) { #{$property}: $value; }
+    }
+
+  }
+}

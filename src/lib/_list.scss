@@ -1,0 +1,33 @@
+/// Checks if a list contains a value.
+///
+/// @param {List} $list - The list to search in.
+/// @param {*} $value - The value to look for.
+/// @return {Bool} - The truthiness of the value's existence in the list.
+@function __sf-list-contains($list, $value)
+{
+  @return index($list, $value) != null;
+}
+
+/// Removes a value from a list.
+///
+/// @param {List} $list - The list to remove values from.
+/// @param {*} $value - The value to remove.
+/// @return {List} - The newly formed list.
+@function __sf-list-remove($list, $value)
+{
+
+  $result: ();
+
+  @for $i from 1 through length($list)
+  {
+
+    @if nth($list, $i) != $value
+    {
+      $result: append($result, nth($list, $i));
+    }
+
+  }
+
+  @return $result;
+
+}

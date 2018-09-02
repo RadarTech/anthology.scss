@@ -1,0 +1,134 @@
+
+/// Recursive 'map-merge'
+/// Source: https://medium.com/@pentzzsolt/a-non-destructive-map-merge-function-for-sass-f91637f87b2e
+///
+/// @param {Map} $parent-map - The map we are merging into.
+/// @param {ArgList} $child-maps - A list of maps we are sourcing for the merge. Values here take precedence.
+/// @return {*} - The newly formed map.
+@function __sf-map-merge($parent-map, $child-maps...)
+{
+  $result: $parent-map;
+
+  @each $child-map in $child-maps
+  {
+    @each $key, $value in $child-map
+    {
+
+      @if (
+        not map-has-key($result, $key)) or
+        (type-of(map-get($result, $key)) != type-of($value)) or
+        (not (type-of(map-get($result, $key)) == map and type-of($value) == map))
+      {
+
+        $result: map-merge($result, ($key: $value));
+
+      }
+
+      @else
+      {
+        $result: map-merge($result, ($key: __sf-map-merge(map-get($result, $key), $value)));
+      }
+
+    }
+  }
+
+	@return $result;
+}
+
+/// Recursive 'map-get'
+/// Source: https://css-tricks.com/snippets/sass/deep-getset-maps/
+///
+/// @param {Map} $map - The map we are searching.
+/// @param {List} $keys - The path we are searching in the map.
+/// @return {*} - The value at the specified $keys path.
+@function __sf-map-get($map, $keys)
+{
+  $result: $map;
+
+  // If $keys is a single key, don't recurse.
+  @if length($keys) == 1
+  {
+    @return map-get($map, $keys);
+  }
+
+  @each $key in $keys
+  {
+    $result: map-get($result, $key);
+  }
+
+  @return $result;
+}
+
+/// Recursive 'map-set'
+/// Source: https://css-tricks.com/snippets/sass/deep-getset-maps/
+///
+/// @param {Map} $map - The map we are assigning values in.
+/// @param {List} $keys - The path to the key we are assigning.
+/// @param {*} $value - The value to assign.
+/// @return {Map} - The newly formed map.
+@function __sf-map-set($map, $keys, $value)
+{
+  $maps: ($map,);
+  $result: null;
+
+  // If the last key is a map already
+  // Warn the user we will be overriding it with $value
+  @if type-of(nth($keys, -1)) == "map"
+  {
+    @warn "The last key you specified is a map; it will be overrided with `#{$value}`.";
+  }
+
+  // If $keys is a single key
+  // Just merge and return
+  @if length($keys) == 1
+  {
+    @return map-merge($map, ($keys: $value));
+  }
+
+  // Loop from the first to the second to last key from $keys
+  // Store the associated map to this key in the $maps list
+  // If the key doesn't exist, throw an error
+  @for $i from 1 through length($keys) - 1
+  {
+    $current-key: nth($keys, $i);
+    $current-map: nth($maps, -1);
+    $current-get: map-get($current-map, $current-key);
+    @if $current-get == null {
+      $current-get: ();
+    }
+    $maps: append($maps, $current-get);
+  }
+
+  // Loop from the last map to the first one
+  // Merge it with the previous one
+  @for $i from length($maps) through 1
+  {
+    $current-map: nth($maps, $i);
+    $current-key: nth($keys, $i);
+    $current-val: if($i == length($maps), $value, $result);
+    $result: map-merge($current-map, ($current-key: $current-val));
+  }
+
+  @return $result;
+}
+
+/// Recursive 'map-has-key'
+///
+/// @param {Map} $map - The map we are searching in.
+/// @param {List} $keys - The path to the key we are verifying exists.
+/// @return {Boolean} - The truthiness of the specified key's existence.
+@function __sf-map-has-key($map, $keys)
+{
+  $current-map: $map;
+  $result: true;
+
+  @each $key in $keys
+  {
+    @if type-of($current-map) != map { @return false }
+    $result: map-has-key($current-map, $key);
+    @if $result == false { @return $result }
+    $current-map: map-get($current-map, $key);
+  }
+
+  @return $result;
+}

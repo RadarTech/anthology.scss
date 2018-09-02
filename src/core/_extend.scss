@@ -1,0 +1,19 @@
+/// Provides a simple API for writing object-oriented CSS classes that extend generated, functional properties. Note
+/// that the property must already be emitted using `emit-properties(...)` or `emit-responsive-properties(...)`.
+///
+/// @param {String} $shorthand - The name of the selector series.
+/// @param {String} $adjective - The name of the adjective to target.
+/// @param {Map} $options - Options associated with the `$shorthand` and `$adjective` specified.
+/// @param {String} $options.breakpoint - Whether to extend at a specific responsive breakpoint [default: null].
+/// @param {String} $options.theme - Whether to extend with a specific theme [default: null].
+/// @param {String} $options.pseudo - Whether to extend and target a specific psuedo-class or pseudo-element [default:
+/// null].
+/// @param {Bool} $options.important - Whether to extend with `!important`.
+@mixin sf-extend($shorthand, $adjective, $options: ())
+{
+  // Merge default options
+  $options: __sf-single-selector-options($options);
+
+  $raw-selector: __sf-raw-selector($shorthand, $adjective, $options);
+  @extend #{'[class~="#{$raw-selector}"]'};
+}

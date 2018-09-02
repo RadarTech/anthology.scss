@@ -1,0 +1,31 @@
+@import './src/san-francisco';
+
+@include sf-config(
+  (
+    'breakpoints': (
+      'small': 500px,
+      'medium': 1200px,
+      'large': 1800px
+    )
+  )
+);
+
+$adjectives: (
+  'red': red,
+  'greyscale': (
+    'default': rgb(50, 50, 50),
+    'small': rgb(100, 100, 100),
+    'medium': rgb(150, 150, 150),
+    'large': rgb(200, 200, 200),
+  )
+);
+
+@include sf-define('bg', background-color, $adjectives,
+  (
+    'pseudos': (':hover', ':before'),
+    'themes': ('night', 'day'),
+  )
+);
+
+@include sf-emit(true);
+@include sf-emit-responsive(true);

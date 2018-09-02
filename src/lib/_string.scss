@@ -1,0 +1,57 @@
+/// Split a string
+/// Based on: https://stackoverflow.com/questions/32376461/how-to-split-a-string-into-two-lists-of-numbers-in-sass
+///
+/// @param {String} $string - The string to split.
+/// @param {String} $delimiter - The delimiter to split on.
+/// @return {List} - A list containing the remaining strings after splitting.
+@function __sf-str-split($string, $delimiter)
+{
+  $result: ();
+  $index: str-index($string, $delimiter);
+
+  @while $index != null
+  {
+    // Find the substring at the next instance of $index
+    $item: str-slice($string, 1, $index - 1);
+    $result: append($result, $item);
+
+    // Remove the substring and update $index
+    $string: str-slice($string, $index + 1);
+    $index: str-index($string, $delimiter);
+  }
+
+  // Add the remaining string to list (the last item)
+  $result: append($result, $string);
+
+  $result: list-remove($result, ''); // Remove empty strings, if any are produced.
+  @return $result;
+}
+
+/// Checks if a substring exists somewhere in a parent string.
+///
+/// @param {String} $string - The string we are searching in.
+/// @param {String} $substring - The string we are searching for.
+/// @return {Bool} - The truthiness of the substrings's existence in the parent string.
+@function __sf-str-contains($string, $substring)
+{
+  @return str-index($string, $substring) != null;
+}
+
+/// Checks if a substring exists at the beginning of a parent string.
+///
+/// @param {String} $string - The string we are searching in.
+/// @param {String} $substring - The string we are searching for.
+/// @return {Bool} - The truthiness of the substring's existence in the parent string.
+@function __sf-str-starts-with($string, $substring)
+{
+  @return str-index($string, $substring) == 1;
+}
+
+/// __sf-stringify an arbitrary number of values.
+///
+/// @param {ArgList} $values - A list of values to __sf-stringify.
+/// @return {String} - The resulting string.
+@function __sf-stringify($values...)
+{
+  @return '#{$values}';
+}

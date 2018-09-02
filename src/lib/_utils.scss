@@ -1,0 +1,41 @@
+// Ensure that `set-config(...)` has been included at least once.
+@mixin __sf-validate-config-is-ready() {
+  @if not $__sf-config-is-ready {
+    @error 'Before defining your own functional properties, run `@include sf-config(...);`.';
+  }
+}
+
+// Returns the cache with the specified key reset to its default value.
+@function __sf-flush-cache($cache-key) {
+  @return __sf-map-set(
+    $__sf-cache,
+    $cache-key,
+    __sf-map-get($__sf-cache-defaults, $cache-key)
+  );
+}
+
+// Merge default options for 'single selectors'.
+@function __sf-single-selector-options($options: ()) {
+  @return __sf-map-merge(
+    (
+      'breakpoint': null,
+      'theme': null,
+      'pseudo': null,
+      'important': false,
+    ),
+    $options
+  );
+}
+
+// Merge default options for `define-properties(...)` mixin.
+@function __sf-define-options($options: ()) {
+  @return __sf-map-merge(
+    (
+      'important': true,
+      'responsive': true,
+      'pseudos': null,
+      'themes': null,
+    ),
+    $options
+  );
+}

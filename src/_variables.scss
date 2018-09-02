@@ -1,0 +1,17 @@
+$__sf-config-is-ready: false;
+
+$__sf-config: ();
+$__sf-config-defaults: (
+  'breakpoints': null,
+  'separator': '-',
+  'important-tag': '!',
+  'theme-tag': '#',
+  'responsive-tag': '@',
+  'grid-prefix': 'sf-grid',
+);
+
+$__sf-cache: ();
+$__sf-cache-defaults: (
+  'generic': (),
+  'responsive': (),
+);

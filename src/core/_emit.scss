@@ -1,0 +1,119 @@
+// Performs the actual CSS generation for all combinations of selectors with a given `$shorthand` and `$adjective`.
+@mixin __sf-do-emit($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, $important)
+{
+  $full-selector-args: ($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, $important);
+
+  @if $important
+  {
+    $full-selector: __sf-full-selector($full-selector-args...);
+
+    #{$full-selector} {
+      #{$property}: $value !important;
+    }
+  }
+
+  @else
+  {
+    $full-selector: __sf-full-selector($full-selector-args...);
+
+    #{$full-selector} {
+      #{$property}: $value;
+    }
+  }
+}
+
+/// Emits non-responsive helpers. Emitted properties are flushed afterwards.
+///
+/// @param {Bool} $important - Whether to emit '!important' versions of the selectors. Keep in mind this generates twice
+/// as much CSS [default: false].
+@mixin sf-emit($important: false)
+{
+  @if length(map-get($__sf-cache, 'generic')) == 0
+  {
+    @warn 'Nothing to emit';
+  }
+
+  @each $shorthand, $adjectives in map-get($__sf-cache, 'generic')
+  {
+    @each $adjective, $helper in $adjectives
+    {
+      // Unpack helper
+      $property: nth($helper, 1);
+      $value: nth($helper, 2);
+      $important-override: nth($helper, 3);
+      $pseudos: nth($helper, 4);
+      $themes: nth($helper, 5);
+
+      // Emit without `!important`
+      @include __sf-do-emit($shorthand, $adjective, $property, $value, null, $pseudos, $themes, false);
+
+      // Emit with `!important`
+      @if $important and $important-override
+      {
+        @include __sf-do-emit($shorthand, $adjective, $property, $value, null, $pseudos, $themes, true);
+      }
+    }
+  }
+
+  $__sf-cache: __sf-flush-cache('generic') !global;
+}
+
+/// Emits responsive, media query efficient helpers. Emitted properties are flushed afterwards.
+///
+/// @param {Bool} $important - Whether to emit '!important' versions of the selectors. Keep in mind this generates twice
+/// as much CSS [default: false].
+@mixin sf-emit-responsive($important: false)
+{
+  @if not map-get($__sf-config, 'breakpoints')
+  {
+    @warn 'Responsive breakpoints are not configured. Make sure to run `@include set-config( ( 'breakpoints': (...) ) );';
+  }
+
+  @each $breakpoint, $shorthands in map-get($__sf-cache, 'responsive')
+  {
+    @include sf-breakpoint($breakpoint)
+    {
+      @each $shorthand, $adjectives in $shorthands
+      {
+        @each $adjective, $helper in $adjectives
+        {
+          // Unpack helper
+          $property: nth($helper, 1);
+          $value: nth($helper, 2);
+          $important-override: nth($helper, 3);
+          $include-responsive-tag: nth($helper, 4);
+          $pseudos: nth($helper, 5);
+          $themes: nth($helper, 6);
+
+          // Emit without responsive tag (dynamically responsive values)
+          @if not($include-responsive-tag)
+          {
+            // Emit without `!important`;
+            @include __sf-do-emit($shorthand, $adjective, $property, $value, null, $pseudos, $themes, false);
+
+            // Emit with `!important`
+            @if $important and $important-override
+            {
+              @include __sf-do-emit($shorthand, $adjective, $property, $value, null, $pseudos, $themes, true);
+            }
+          }
+
+          // Emit with responsive tag
+          @else
+          {
+            // Emit without `!important`
+            @include __sf-do-emit($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, false);
+
+            // Emit with `!important`
+            @if $important and $important-override
+            {
+              @include __sf-do-emit($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, true);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  $__sf-cache: __sf-flush-cache('responsive') !global;
+}

@@ -1,0 +1,130 @@
+// Generates a raw string for composing into usable selectors.
+@function __sf-raw-selector($shorthand, $adjective, $options: ())
+{
+  // Get config properties
+  $sep: __sf-map-get($__sf-config, 'separator');
+  $imp-tag: __sf-map-get($__sf-config, 'important-tag');
+  $theme-tag: __sf-map-get($__sf-config, 'theme-tag');
+  $res-tag: __sf-map-get($__sf-config, 'responsive-tag');
+
+  // $options should already be normalized with `__sf-single-selector-options(...)` by this point.
+  // Unpack options
+  $breakpoint: __sf-map-get($options, 'breakpoint');
+  $theme: __sf-map-get($options, 'theme');
+  $pseudo: __sf-map-get($options, 'pseudo');
+  $important: __sf-map-get($options, 'important');
+
+  // Build the resulting selector
+  $result: '#{$shorthand}#{$sep}#{$adjective}';
+
+  @if $important
+  {
+    $with-important: $imp-tag;
+    $result: '#{$result}#{$sep}#{$with-important}';
+  }
+
+  @if $theme
+  {
+    $with-theme: '#{$theme-tag}#{$theme}';
+    $result: '#{$result}#{$sep}#{$with-theme}';
+  }
+
+  @if $breakpoint
+  {
+    $with-breakpoint: '#{$res-tag}#{$breakpoint}';
+    $result: '#{$result}#{$sep}#{$with-breakpoint}';
+  }
+
+  @if $pseudo
+  {
+    @if not __sf-str-starts-with($pseudo, ':') and not __sf-str-starts-with($pseudo, '::')
+    {
+      @error 'Expected a pseudo-class or pseudo-element, recieved `#{$pseudo}`.';
+    }
+
+    $with-pseudo: '#{$pseudo}';
+    $result: '#{$result}#{$sep}#{$with-pseudo}';
+  }
+
+  @return $result;
+}
+
+// Generates a usable selector that targets the class attribute, like this: `[class~="shorthand-adjective-*"]`.
+@function __sf-class-attribute-selector($shorthand, $adjective, $options: ())
+{
+  // Merge default options
+  $options: __sf-single-selector-options($options);
+
+  // Unpack options
+  $breakpoint: __sf-map-get($options, 'breakpoint');
+  $theme: __sf-map-get($options, 'theme');
+  $pseudo: __sf-map-get($options, 'pseudo');
+  $important: __sf-map-get($options, 'important');
+
+  // Build selector
+  $theme-designation-selector: '[data-theme~="#{$theme}"]';
+  $raw-selector: __sf-raw-selector($shorthand, $adjective, $options);
+  $result: '[class~="#{$raw-selector}"]';
+
+
+  @if $theme
+  {
+    $result: '#{$theme-designation-selector} #{$result}, #{$result}#{$theme-designation-selector}';
+  }
+
+  @if $pseudo
+  {
+    $result: selector-append($result, $pseudo);
+  }
+
+  // __sf-stringify
+  $result: __sf-stringify($result);
+
+  @return $result;
+}
+
+// Generates all combinations of class attribute selectors for the given arguments.
+@function __sf-full-selector($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, $important)
+{
+  $result: __sf-class-attribute-selector($shorthand, $adjective, ('important': $important, 'breakpoint': $breakpoint));
+
+  @if $pseudos
+  {
+
+    @each $pseudo in $pseudos
+    {
+
+      @if $themes
+      {
+        @each $theme in $themes
+        {
+          $selector: __sf-class-attribute-selector($shorthand, $adjective, ('theme': $theme, 'pseudo': $pseudo, 'important': $important, 'breakpoint': $breakpoint));
+          @if not __sf-str-contains($result, $selector)
+          {
+            $result: '#{$result}, #{$selector}';
+          }
+        }
+      }
+
+      $selector: __sf-class-attribute-selector($shorthand, $adjective, ('pseudo': $pseudo, 'important': $important, 'breakpoint': $breakpoint));
+      @if not __sf-str-contains($result, $selector)
+      {
+        $result: '#{$result}, #{$selector}';
+      }
+    }
+  }
+
+  @if $themes
+  {
+    @each $theme in $themes
+    {
+      $selector: __sf-class-attribute-selector($shorthand, $adjective, ('theme': $theme, 'important': $important, 'breakpoint': $breakpoint));
+      @if not __sf-str-contains($result, $selector)
+      {
+        $result: '#{$result}, #{$selector}';
+      }
+    }
+  }
+
+  @return $result;
+}
