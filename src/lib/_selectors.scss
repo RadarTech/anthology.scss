@@ -19,7 +19,7 @@
 
   @if $important
   {
-    $with-important: $imp-tag;
+    $with-important: '#{$imp-tag}';
     $result: '#{$result}#{$sep}#{$with-important}';
   }
 
@@ -50,7 +50,7 @@
 }
 
 // Generates a usable selector that targets the class attribute, like this: `[class~="shorthand-adjective-*"]`.
-@function __sf-class-attribute-selector($shorthand, $adjective, $options: ())
+@function __sf-compound-selector($shorthand, $adjective, $options: ())
 {
   // Merge default options
   $options: __sf-single-selector-options($options);
@@ -63,21 +63,25 @@
 
   // Build selector
   $theme-designation-selector: '[data-theme~="#{$theme}"]';
-  $raw-selector: __sf-raw-selector($shorthand, $adjective, $options);
-  $result: '[class~="#{$raw-selector}"]';
-
+  $raw-selector: __sf-str-escape(__sf-raw-selector($shorthand, $adjective, $options), 2);
+  $result: '.#{$raw-selector}';
 
   @if $theme
   {
-    $result: '#{$theme-designation-selector} #{$result}, #{$result}#{$theme-designation-selector}';
+    @if $pseudo
+    {
+      $result: '#{$theme-designation-selector} #{$result}#{$pseudo}, #{$result}#{$theme-designation-selector}#{$pseudo}';
+    }
+    @else
+    {
+      $result: '#{$theme-designation-selector} #{$result}, #{$result}#{$theme-designation-selector}';
+    }
   }
-
-  @if $pseudo
+  @else if $pseudo
   {
-    $result: selector-append($result, $pseudo);
+    $result: '#{$result}#{$pseudo}';
   }
 
-  // __sf-stringify
   $result: __sf-stringify($result);
 
   @return $result;
@@ -86,7 +90,7 @@
 // Generates all combinations of class attribute selectors for the given arguments.
 @function __sf-full-selector($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, $important)
 {
-  $result: __sf-class-attribute-selector($shorthand, $adjective, ('important': $important, 'breakpoint': $breakpoint));
+  $result: __sf-compound-selector($shorthand, $adjective, ('important': $important, 'breakpoint': $breakpoint));
 
   @if $pseudos
   {
@@ -98,7 +102,7 @@
       {
         @each $theme in $themes
         {
-          $selector: __sf-class-attribute-selector($shorthand, $adjective, ('theme': $theme, 'pseudo': $pseudo, 'important': $important, 'breakpoint': $breakpoint));
+          $selector: __sf-compound-selector($shorthand, $adjective, ('theme': $theme, 'pseudo': $pseudo, 'important': $important, 'breakpoint': $breakpoint));
           @if not __sf-str-contains($result, $selector)
           {
             $result: '#{$result}, #{$selector}';
@@ -106,7 +110,7 @@
         }
       }
 
-      $selector: __sf-class-attribute-selector($shorthand, $adjective, ('pseudo': $pseudo, 'important': $important, 'breakpoint': $breakpoint));
+      $selector: __sf-compound-selector($shorthand, $adjective, ('pseudo': $pseudo, 'important': $important, 'breakpoint': $breakpoint));
       @if not __sf-str-contains($result, $selector)
       {
         $result: '#{$result}, #{$selector}';
@@ -118,7 +122,7 @@
   {
     @each $theme in $themes
     {
-      $selector: __sf-class-attribute-selector($shorthand, $adjective, ('theme': $theme, 'important': $important, 'breakpoint': $breakpoint));
+      $selector: __sf-compound-selector($shorthand, $adjective, ('theme': $theme, 'important': $important, 'breakpoint': $breakpoint));
       @if not __sf-str-contains($result, $selector)
       {
         $result: '#{$result}, #{$selector}';

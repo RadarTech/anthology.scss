@@ -45,7 +45,6 @@
         // Handle the default case.
         @else if $breakpoint == 'default'
         {
-          @warn "made it!";
           $__sf-cache: __sf-map-set(
             $__sf-cache,
             ('generic', $shorthand, $adjective),

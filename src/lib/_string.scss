@@ -23,7 +23,6 @@
   // Add the remaining string to list (the last item)
   $result: append($result, $string);
 
-  $result: list-remove($result, ''); // Remove empty strings, if any are produced.
   @return $result;
 }
 
@@ -54,4 +53,54 @@
 @function __sf-stringify($values...)
 {
   @return '#{$values}';
+}
+
+$__sf-escape-chars: (':', '@', '!', '#');
+
+///
+@function __sf-str-escape($string, $escape-multiplicity: 1) {
+  $result: $string;
+  $escape: '';
+
+  // Create a string of '\\' escapes at the appropriate length.
+  @for $i from 1 through $escape-multiplicity
+  {
+    $escape: '#{$escape}\\';
+  }
+
+  // If $result starts with a number, escape it.
+  @for $i from 0 through 9
+  {
+    @if __sf-str-starts-with($result, quote($i))
+    {
+      $result: '#{$escape}#{$result}';
+    }
+  }
+
+  // If $result starts with a dash or slash, escape it.
+  @if __sf-str-starts-with($result, '-') or __sf-str-starts-with($result, '_')
+  {
+    $result: '#{$escape}#{$result}';
+  }
+
+  // Escape the listed characters
+  @each $c in $__sf-escape-chars {
+    $split-string: __sf-str-split($result, $c);
+
+    @for $i from 1 through length($split-string)
+    {
+      $part: nth($split-string, $i);
+
+      @if $i == 1
+      {
+        $result: $part;
+      }
+      @else
+      {
+        $result: '#{$result}#{$escape}#{$c}#{$part}';
+      }
+    }
+  }
+
+  @return $result;
 }

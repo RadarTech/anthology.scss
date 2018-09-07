@@ -29,3 +29,7 @@ $adjectives: (
 
 @include sf-emit(true);
 @include sf-emit-responsive(true);
+
+.foo {
+  @include sf-extend('bg', 'red', ('pseudo': ':hover'));
+}
