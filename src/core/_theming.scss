@@ -1,14 +1,14 @@
 /// Emits arbitrary themed CSS.
 ///
 /// @param {String} $theme - The theme to target
-@mixin sf-with-theme($theme)
+@mixin ant-with-theme($theme)
 {
   $full-selector: '';
 
   @each $selector in selector-parse(&)
   {
     $nested-element-theme-selector: '[data-theme~="#{$theme}"] #{$selector}';
-    $same-element-theme-selector: __sf-stringify(selector-unify($selector, '[data-theme~="#{$theme}"]'));
+    $same-element-theme-selector: __ant-stringify(selector-unify($selector, '[data-theme~="#{$theme}"]'));
     $selector: '#{$nested-element-theme-selector}, #{$same-element-theme-selector}';
 
     @if $full-selector == ''
@@ -28,7 +28,7 @@
 ///
 /// @param {String} $property - The CSS property to change.
 /// @param {Map} $themed-values - A map of corresponding themes/values.
-@mixin sf-themeify($property, $themed-values)
+@mixin ant-themeify($property, $themed-values)
 {
   @each $theme, $value in $themed-values
   {

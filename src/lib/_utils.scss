@@ -1,22 +1,22 @@
 // Ensure that `set-config(...)` has been included at least once.
-@mixin __sf-validate-config-is-ready() {
-  @if not $__sf-config-is-ready {
-    @error 'Before defining your own functional properties, run `@include sf-config(...);`.';
+@mixin __ant-validate-config-is-ready() {
+  @if not $__ant-config-is-ready {
+    @error 'Before defining your own functional properties, run `@include ant-config(...);`.';
   }
 }
 
 // Returns the cache with the specified key reset to its default value.
-@function __sf-flush-cache($cache-key) {
-  @return __sf-map-set(
-    $__sf-cache,
+@function __ant-flush-cache($cache-key) {
+  @return __ant-map-set(
+    $__ant-cache,
     $cache-key,
-    __sf-map-get($__sf-cache-defaults, $cache-key)
+    __ant-map-get($__ant-cache-defaults, $cache-key)
   );
 }
 
 // Merge default options for 'single selectors'.
-@function __sf-single-selector-options($options: ()) {
-  @return __sf-map-merge(
+@function __ant-single-selector-options($options: ()) {
+  @return __ant-map-merge(
     (
       'breakpoint': null,
       'theme': null,
@@ -28,8 +28,8 @@
 }
 
 // Merge default options for `define-properties(...)` mixin.
-@function __sf-define-options($options: ()) {
-  @return __sf-map-merge(
+@function __ant-define-options($options: ()) {
+  @return __ant-map-merge(
     (
       'important': true,
       'responsive': true,

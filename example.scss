@@ -1,12 +1,13 @@
-@import './src/san-francisco';
+@import './src/anthology';
 
-@include sf-config(
+@include ant-config(
   (
     'breakpoints': (
       'small': 500px,
       'medium': 1200px,
       'large': 1800px
-    )
+    ),
+    'separator': '_'
   )
 );
 
@@ -20,16 +21,16 @@ $adjectives: (
   )
 );
 
-@include sf-define('bg', background-color, $adjectives,
+@include ant-define('bg', background-color, $adjectives,
   (
     'pseudos': (':hover', ':before'),
     'themes': ('night', 'day'),
   )
 );
 
-@include sf-emit(true);
-@include sf-emit-responsive(true);
+@include ant-emit(true);
+@include ant-emit-responsive(true);
 
 .foo {
-  @include sf-extend('bg', 'red', ('pseudo': ':hover'));
+  @include ant-extend('bg', 'red', ('pseudo': ':hover'));
 }

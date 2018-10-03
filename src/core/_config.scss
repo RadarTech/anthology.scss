@@ -3,19 +3,15 @@
 ///
 /// @param {Map} $config.breakpoints - A map of responsive breakpoints [default: null].
 /// @param {String} $config.separator - A string delimiter which appears between each piece of the generated selectors [default: '-'].
-/// @param {} $config.important-tag - A string identifier which signifies generated properties to be `!important` [default: '!'].
-/// @param {} $config.theme-tag - A string which prefixes theme names [default: '#'].
-/// @param {} $config.responsive-tag - A string which prefixes responsive breakpoint names [default: '@'].
-/// @param {} $config.grid-prefix - A string which prefixes named grid classes [default: 'sf-grid'].
-@mixin sf-config($config: ())
+@mixin ant-config($config: ())
 {
 
   // Assign an empty map to each configured breakpoint
   @each $breakpoint, $value in map-get($config, 'breakpoints')
   {
 
-    $__sf-cache-defaults: __sf-map-set(
-      $__sf-cache-defaults,
+    $__ant-cache-defaults: __ant-map-set(
+      $__ant-cache-defaults,
       ('responsive', $breakpoint),
       ()
     ) !global;
@@ -23,8 +19,8 @@
   }
 
   // Build global objects
-  $__sf-config: __sf-map-merge($__sf-config-defaults, $config) !global;
-  $__sf-cache: __sf-map-merge($__sf-cache-defaults, $__sf-cache) !global;
-  $__sf-config-is-ready: true !global;
+  $__ant-config: __ant-map-merge($__ant-config-defaults, $config, $__ant-config-tags) !global;
+  $__ant-cache: __ant-map-merge($__ant-cache-defaults, $__ant-cache) !global;
+  $__ant-config-is-ready: true !global;
 
 }

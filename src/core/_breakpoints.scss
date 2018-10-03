@@ -1,36 +1,36 @@
 // TODO: Document these mixins
 
-@mixin sf-breakpoint($point)
+@mixin ant-breakpoint($point)
 {
-  @if __sf-map-has-key($__sf-config, ('breakpoints', $point))
+  @if __ant-map-has-key($__ant-config, ('breakpoints', $point))
   {
-    $size: __sf-map-get($__sf-config, ('breakpoints', $point));
+    $size: __ant-map-get($__ant-config, ('breakpoints', $point));
     @media (min-width: $size) { @content; }
   }
 
   @else
   {
-    @error 'Breakpoint `#{$point}` is not registered by `sf-config(...)`. Please register all breakpoints before using `sf-breakpoint(...)`.';
+    @error 'Breakpoint `#{$point}` is not registered by `ant-config(...)`. Please register all breakpoints before using `ant-breakpoint(...)`.';
   }
 }
 
-@mixin sf-until-breakpoint($point)
+@mixin ant-until-breakpoint($point)
 {
-  @if __sf-map-has-key($__sf-config, ('breakpoints', $point))
+  @if __ant-map-has-key($__ant-config, ('breakpoints', $point))
   {
-    $size: __sf-map-get($__sf-config, ('breakpoints', $point));
+    $size: __ant-map-get($__ant-config, ('breakpoints', $point));
     @media (max-width: $size) { @content; }
   }
 
   @else
   {
-    @error 'Breakpoint `#{$point}` is not registered by `sf-config(...)`. Please register all breakpoints before using `sf-until-breakpoint(...)`.';
+    @error 'Breakpoint `#{$point}` is not registered by `ant-config(...)`. Please register all breakpoints before using `ant-until-breakpoint(...)`.';
   }
 }
 
-@mixin sf-between-breakpoints($min-point, $max-point)
+@mixin ant-between-breakpoints($min-point, $max-point)
 {
-  $min-size: __sf-map-get($__sf-config, ('breakpoints', $min-point));
-  $max-size: __sf-map-get($__sf-config, ('breakpoints', $max-point));
+  $min-size: __ant-map-get($__ant-config, ('breakpoints', $min-point));
+  $max-size: __ant-map-get($__ant-config, ('breakpoints', $max-point));
   @media (min-width: $min-size) and (max-width: $max-size) { @content; }
 }

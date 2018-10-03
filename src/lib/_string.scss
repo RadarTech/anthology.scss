@@ -4,7 +4,7 @@
 /// @param {String} $string - The string to split.
 /// @param {String} $delimiter - The delimiter to split on.
 /// @return {List} - A list containing the remaining strings after splitting.
-@function __sf-str-split($string, $delimiter)
+@function __ant-str-split($string, $delimiter)
 {
   $result: ();
   $index: str-index($string, $delimiter);
@@ -31,7 +31,7 @@
 /// @param {String} $string - The string we are searching in.
 /// @param {String} $substring - The string we are searching for.
 /// @return {Bool} - The truthiness of the substrings's existence in the parent string.
-@function __sf-str-contains($string, $substring)
+@function __ant-str-contains($string, $substring)
 {
   @return str-index($string, $substring) != null;
 }
@@ -41,24 +41,24 @@
 /// @param {String} $string - The string we are searching in.
 /// @param {String} $substring - The string we are searching for.
 /// @return {Bool} - The truthiness of the substring's existence in the parent string.
-@function __sf-str-starts-with($string, $substring)
+@function __ant-str-starts-with($string, $substring)
 {
   @return str-index($string, $substring) == 1;
 }
 
-/// __sf-stringify an arbitrary number of values.
+/// __ant-stringify an arbitrary number of values.
 ///
-/// @param {ArgList} $values - A list of values to __sf-stringify.
+/// @param {ArgList} $values - A list of values to __ant-stringify.
 /// @return {String} - The resulting string.
-@function __sf-stringify($values...)
+@function __ant-stringify($values...)
 {
   @return '#{$values}';
 }
 
-$__sf-escape-chars: (':', '@', '!', '#');
+$__ant-escape-chars: (':', '@', '!', '#');
 
-///
-@function __sf-str-escape($string, $escape-multiplicity: 1) {
+/// Escapes
+@function __ant-str-escape($string, $escape-multiplicity: 1) {
   $result: $string;
   $escape: '';
 
@@ -71,21 +71,21 @@ $__sf-escape-chars: (':', '@', '!', '#');
   // If $result starts with a number, escape it.
   @for $i from 0 through 9
   {
-    @if __sf-str-starts-with($result, quote($i))
+    @if __ant-str-starts-with($result, quote($i))
     {
       $result: '#{$escape}#{$result}';
     }
   }
 
   // If $result starts with a dash or slash, escape it.
-  @if __sf-str-starts-with($result, '-') or __sf-str-starts-with($result, '_')
+  @if __ant-str-starts-with($result, '-') or __ant-str-starts-with($result, '_')
   {
     $result: '#{$escape}#{$result}';
   }
 
   // Escape the listed characters
-  @each $c in $__sf-escape-chars {
-    $split-string: __sf-str-split($result, $c);
+  @each $c in $__ant-escape-chars {
+    $split-string: __ant-str-split($result, $c);
 
     @for $i from 1 through length($split-string)
     {

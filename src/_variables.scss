@@ -1,17 +1,19 @@
-$__sf-config-is-ready: false;
+$__ant-config-is-ready: false;
 
-$__sf-config: ();
-$__sf-config-defaults: (
+$__ant-config: ();
+$__ant-config-defaults: (
   'breakpoints': null,
   'separator': '-',
+);
+
+$__ant-config-tags: (
   'important-tag': '!',
   'theme-tag': '#',
   'responsive-tag': '@',
-  'grid-prefix': 'sf-grid',
 );
 
-$__sf-cache: ();
-$__sf-cache-defaults: (
+$__ant-cache: ();
+$__ant-cache-defaults: (
   'generic': (),
   'responsive': (),
 );
