@@ -2,7 +2,7 @@
   "name": "san-francisco.scss",
   "version": "0.1.0",
   "scripts": {
-    "start": "node-sass --output ./example-output ./example.scss"
+    "example": "node-sass --output ./examples/basic ./examples/basic/basic.scss"
   },
   "dependencies": {
     "node-sass": "~4.9.3"
