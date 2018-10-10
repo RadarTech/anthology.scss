@@ -5,7 +5,7 @@
 /// @param {Map} $parent-map - The map we are merging into.
 /// @param {ArgList} $child-maps - A list of maps we are sourcing for the merge. Values here take precedence.
 /// @return {*} - The newly formed map.
-@function __ant-map-merge($parent-map, $child-maps...)
+@function __anth-map-merge($parent-map, $child-maps...)
 {
   $result: $parent-map;
 
@@ -26,7 +26,7 @@
 
       @else
       {
-        $result: map-merge($result, ($key: __ant-map-merge(map-get($result, $key), $value)));
+        $result: map-merge($result, ($key: __anth-map-merge(map-get($result, $key), $value)));
       }
 
     }
@@ -41,7 +41,7 @@
 /// @param {Map} $map - The map we are searching.
 /// @param {List} $keys - The path we are searching in the map.
 /// @return {*} - The value at the specified $keys path.
-@function __ant-map-get($map, $keys)
+@function __anth-map-get($map, $keys)
 {
   $result: $map;
 
@@ -66,7 +66,7 @@
 /// @param {List} $keys - The path to the key we are assigning.
 /// @param {*} $value - The value to assign.
 /// @return {Map} - The newly formed map.
-@function __ant-map-set($map, $keys, $value)
+@function __anth-map-set($map, $keys, $value)
 {
   $maps: ($map,);
   $result: null;
@@ -117,7 +117,7 @@
 /// @param {Map} $map - The map we are searching in.
 /// @param {List} $keys - The path to the key we are verifying exists.
 /// @return {Boolean} - The truthiness of the specified key's existence.
-@function __ant-map-has-key($map, $keys)
+@function __anth-map-has-key($map, $keys)
 {
   $current-map: $map;
   $result: true;

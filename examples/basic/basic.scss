@@ -1,6 +1,6 @@
 @import './src/anthology';
 
-@include ant-config(
+@include anth-config(
   (
     'breakpoints': (
       'small': 500px,
@@ -21,16 +21,16 @@ $adjectives: (
   )
 );
 
-@include ant-define('bg', background-color, $adjectives,
+@include anth-define('bg', background-color, $adjectives,
   (
     'pseudos': (':hover', ':before'),
     'themes': ('night', 'day'),
   )
 );
 
-@include ant-emit(true);
-@include ant-emit-responsive(true);
+@include anth-emit(true);
+@include anth-emit-responsive(true);
 
 .foo {
-  @include ant-extend('bg', 'red', ('pseudo': ':hover'));
+  @include anth-extend('bg', 'red', ('pseudo': ':hover'));
 }

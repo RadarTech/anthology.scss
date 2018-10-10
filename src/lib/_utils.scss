@@ -1,22 +1,22 @@
 // Ensure that `set-config(...)` has been included at least once.
-@mixin __ant-validate-config-is-ready() {
-  @if not $__ant-config-is-ready {
-    @error 'Before defining your own functional properties, run `@include ant-config(...);`.';
+@mixin __anth-validate-config-is-ready() {
+  @if not $__anth-config-is-ready {
+    @error 'Before defining your own functional properties, run `@include anth-config(...);`.';
   }
 }
 
 // Returns the cache with the specified key reset to its default value.
-@function __ant-flush-cache($cache-key) {
-  @return __ant-map-set(
-    $__ant-cache,
+@function __anth-flush-cache($cache-key) {
+  @return __anth-map-set(
+    $__anth-cache,
     $cache-key,
-    __ant-map-get($__ant-cache-defaults, $cache-key)
+    __anth-map-get($__anth-cache-defaults, $cache-key)
   );
 }
 
 // Merge default options for 'single selectors'.
-@function __ant-single-selector-options($options: ()) {
-  @return __ant-map-merge(
+@function __anth-single-selector-options($options: ()) {
+  @return __anth-map-merge(
     (
       'breakpoint': null,
       'theme': null,
@@ -28,8 +28,8 @@
 }
 
 // Merge default options for `define-properties(...)` mixin.
-@function __ant-define-options($options: ()) {
-  @return __ant-map-merge(
+@function __anth-define-options($options: ()) {
+  @return __anth-map-merge(
     (
       'important': true,
       'responsive': true,

@@ -1,18 +1,18 @@
 // Generates a raw string for composing into usable selectors.
-@function __ant-raw-selector($shorthand, $adjective, $options: ())
+@function __anth-raw-selector($shorthand, $adjective, $options: ())
 {
   // Get config properties
-  $sep: __ant-map-get($__ant-config, 'separator');
-  $imp-tag: __ant-map-get($__ant-config, 'important-tag');
-  $theme-tag: __ant-map-get($__ant-config, 'theme-tag');
-  $res-tag: __ant-map-get($__ant-config, 'responsive-tag');
+  $sep: __anth-map-get($__anth-config, 'separator');
+  $imp-tag: __anth-map-get($__anth-config, 'important-tag');
+  $theme-tag: __anth-map-get($__anth-config, 'theme-tag');
+  $res-tag: __anth-map-get($__anth-config, 'responsive-tag');
 
-  // $options should already be normalized with `__ant-single-selector-options(...)` by this point.
+  // $options should already be normalized with `__anth-single-selector-options(...)` by this point.
   // Unpack options
-  $breakpoint: __ant-map-get($options, 'breakpoint');
-  $theme: __ant-map-get($options, 'theme');
-  $pseudo: __ant-map-get($options, 'pseudo');
-  $important: __ant-map-get($options, 'important');
+  $breakpoint: __anth-map-get($options, 'breakpoint');
+  $theme: __anth-map-get($options, 'theme');
+  $pseudo: __anth-map-get($options, 'pseudo');
+  $important: __anth-map-get($options, 'important');
 
   // Build the resulting selector
   $result: '#{$shorthand}#{$sep}#{$adjective}';
@@ -37,7 +37,7 @@
 
   @if $pseudo
   {
-    @if not __ant-str-starts-with($pseudo, ':') and not __ant-str-starts-with($pseudo, '::')
+    @if not __anth-str-starts-with($pseudo, ':') and not __anth-str-starts-with($pseudo, '::')
     {
       @error 'Expected a pseudo-class or pseudo-element, recieved `#{$pseudo}`.';
     }
@@ -50,20 +50,20 @@
 }
 
 // Generates a usable selector that targets the class attribute, like this: `[class~="shorthand-adjective-*"]`.
-@function __ant-compound-selector($shorthand, $adjective, $options: ())
+@function __anth-compound-selector($shorthand, $adjective, $options: ())
 {
   // Merge default options
-  $options: __ant-single-selector-options($options);
+  $options: __anth-single-selector-options($options);
 
   // Unpack options
-  $breakpoint: __ant-map-get($options, 'breakpoint');
-  $theme: __ant-map-get($options, 'theme');
-  $pseudo: __ant-map-get($options, 'pseudo');
-  $important: __ant-map-get($options, 'important');
+  $breakpoint: __anth-map-get($options, 'breakpoint');
+  $theme: __anth-map-get($options, 'theme');
+  $pseudo: __anth-map-get($options, 'pseudo');
+  $important: __anth-map-get($options, 'important');
 
   // Build selector
   $theme-designation-selector: '[data-theme~="#{$theme}"]';
-  $raw-selector: __ant-str-escape(__ant-raw-selector($shorthand, $adjective, $options), 2);
+  $raw-selector: __anth-str-escape(__anth-raw-selector($shorthand, $adjective, $options), 2);
   $result: '.#{$raw-selector}';
 
   @if $theme
@@ -82,15 +82,15 @@
     $result: '#{$result}#{$pseudo}';
   }
 
-  $result: __ant-stringify($result);
+  $result: __anth-stringify($result);
 
   @return $result;
 }
 
 // Generates all combinations of class attribute selectors for the given arguments.
-@function __ant-full-selector($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, $important)
+@function __anth-full-selector($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, $important)
 {
-  $result: __ant-compound-selector($shorthand, $adjective, ('important': $important, 'breakpoint': $breakpoint));
+  $result: __anth-compound-selector($shorthand, $adjective, ('important': $important, 'breakpoint': $breakpoint));
 
   @if $pseudos
   {
@@ -102,16 +102,16 @@
       {
         @each $theme in $themes
         {
-          $selector: __ant-compound-selector($shorthand, $adjective, ('theme': $theme, 'pseudo': $pseudo, 'important': $important, 'breakpoint': $breakpoint));
-          @if not __ant-str-contains($result, $selector)
+          $selector: __anth-compound-selector($shorthand, $adjective, ('theme': $theme, 'pseudo': $pseudo, 'important': $important, 'breakpoint': $breakpoint));
+          @if not __anth-str-contains($result, $selector)
           {
             $result: '#{$result}, #{$selector}';
           }
         }
       }
 
-      $selector: __ant-compound-selector($shorthand, $adjective, ('pseudo': $pseudo, 'important': $important, 'breakpoint': $breakpoint));
-      @if not __ant-str-contains($result, $selector)
+      $selector: __anth-compound-selector($shorthand, $adjective, ('pseudo': $pseudo, 'important': $important, 'breakpoint': $breakpoint));
+      @if not __anth-str-contains($result, $selector)
       {
         $result: '#{$result}, #{$selector}';
       }
@@ -122,8 +122,8 @@
   {
     @each $theme in $themes
     {
-      $selector: __ant-compound-selector($shorthand, $adjective, ('theme': $theme, 'important': $important, 'breakpoint': $breakpoint));
-      @if not __ant-str-contains($result, $selector)
+      $selector: __anth-compound-selector($shorthand, $adjective, ('theme': $theme, 'important': $important, 'breakpoint': $breakpoint));
+      @if not __anth-str-contains($result, $selector)
       {
         $result: '#{$result}, #{$selector}';
       }

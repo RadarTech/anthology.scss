@@ -1,36 +1,36 @@
 // TODO: Document these mixins
 
-@mixin ant-breakpoint($point)
+@mixin anth-breakpoint($point)
 {
-  @if __ant-map-has-key($__ant-config, ('breakpoints', $point))
+  @if __anth-map-has-key($__anth-config, ('breakpoints', $point))
   {
-    $size: __ant-map-get($__ant-config, ('breakpoints', $point));
+    $size: __anth-map-get($__anth-config, ('breakpoints', $point));
     @media (min-width: $size) { @content; }
   }
 
   @else
   {
-    @error 'Breakpoint `#{$point}` is not registered by `ant-config(...)`. Please register all breakpoints before using `ant-breakpoint(...)`.';
+    @error 'Breakpoint `#{$point}` is not registered by `anth-config(...)`. Please register all breakpoints before using `anth-breakpoint(...)`.';
   }
 }
 
-@mixin ant-until-breakpoint($point)
+@mixin anth-until-breakpoint($point)
 {
-  @if __ant-map-has-key($__ant-config, ('breakpoints', $point))
+  @if __anth-map-has-key($__anth-config, ('breakpoints', $point))
   {
-    $size: __ant-map-get($__ant-config, ('breakpoints', $point));
+    $size: __anth-map-get($__anth-config, ('breakpoints', $point));
     @media (max-width: $size) { @content; }
   }
 
   @else
   {
-    @error 'Breakpoint `#{$point}` is not registered by `ant-config(...)`. Please register all breakpoints before using `ant-until-breakpoint(...)`.';
+    @error 'Breakpoint `#{$point}` is not registered by `anth-config(...)`. Please register all breakpoints before using `anth-until-breakpoint(...)`.';
   }
 }
 
-@mixin ant-between-breakpoints($min-point, $max-point)
+@mixin anth-between-breakpoints($min-point, $max-point)
 {
-  $min-size: __ant-map-get($__ant-config, ('breakpoints', $min-point));
-  $max-size: __ant-map-get($__ant-config, ('breakpoints', $max-point));
+  $min-size: __anth-map-get($__anth-config, ('breakpoints', $min-point));
+  $max-size: __anth-map-get($__anth-config, ('breakpoints', $max-point));
   @media (min-width: $min-size) and (max-width: $max-size) { @content; }
 }

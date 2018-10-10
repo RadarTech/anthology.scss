@@ -3,15 +3,15 @@
 ///
 /// @param {Map} $config.breakpoints - A map of responsive breakpoints [default: null].
 /// @param {String} $config.separator - A string delimiter which appears between each piece of the generated selectors [default: '-'].
-@mixin ant-config($config: ())
+@mixin anth-config($config: ())
 {
 
   // Assign an empty map to each configured breakpoint
   @each $breakpoint, $value in map-get($config, 'breakpoints')
   {
 
-    $__ant-cache-defaults: __ant-map-set(
-      $__ant-cache-defaults,
+    $__anth-cache-defaults: __anth-map-set(
+      $__anth-cache-defaults,
       ('responsive', $breakpoint),
       ()
     ) !global;
@@ -19,8 +19,8 @@
   }
 
   // Build global objects
-  $__ant-config: __ant-map-merge($__ant-config-defaults, $config, $__ant-config-tags) !global;
-  $__ant-cache: __ant-map-merge($__ant-cache-defaults, $__ant-cache) !global;
-  $__ant-config-is-ready: true !global;
+  $__anth-config: __anth-map-merge($__anth-config-defaults, $config, $__anth-config-tags) !global;
+  $__anth-cache: __anth-map-merge($__anth-cache-defaults, $__anth-cache) !global;
+  $__anth-config-is-ready: true !global;
 
 }

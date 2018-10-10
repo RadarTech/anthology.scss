@@ -3,7 +3,7 @@
 /// @param {List} $list - The list to search in.
 /// @param {*} $value - The value to look for.
 /// @return {Bool} - The truthiness of the value's existence in the list.
-@function __ant-list-contains($list, $value)
+@function __anth-list-contains($list, $value)
 {
   @return index($list, $value) != null;
 }
@@ -13,7 +13,7 @@
 /// @param {List} $list - The list to remove values from.
 /// @param {*} $value - The value to remove.
 /// @return {List} - The newly formed list.
-@function __ant-list-remove($list, $value)
+@function __anth-list-remove($list, $value)
 {
 
   $result: ();

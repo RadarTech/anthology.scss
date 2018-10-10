@@ -8,19 +8,19 @@
 /// argument in `emit-properties()` and `emit-responsive-properties()` [default: true].
 /// @param {List} $options.pseudos - A list of pseudo-classes or pseudo-elements to generate selectors for.
 /// @param {List} $options.themes - A list of themes to generate selectors for.
-@mixin ant-define($shorthand, $property, $values, $options: ())
+@mixin anth-define($shorthand, $property, $values, $options: ())
 {
   // Ensure `set-config(...)` has been included prior.
-  @include __ant-validate-config-is-ready();
+  @include __anth-validate-config-is-ready();
 
   // Merge default options
-  $options: __ant-define-options($options);
+  $options: __anth-define-options($options);
 
   // Unpack options
-  $important: __ant-map-get($options, 'important');
-  $responsive: __ant-map-get($options, 'responsive');
-  $pseudos: __ant-map-get($options, 'pseudos');
-  $themes: __ant-map-get($options, 'themes');
+  $important: __anth-map-get($options, 'important');
+  $responsive: __anth-map-get($options, 'responsive');
+  $pseudos: __anth-map-get($options, 'pseudos');
+  $themes: __anth-map-get($options, 'themes');
 
 
   // Visit each adjective and cache its configuration.
@@ -33,10 +33,10 @@
       {
 
         // Handle valid breakpoints.
-        @if __ant-map-has-key($__ant-cache, ('responsive', $breakpoint))
+        @if __anth-map-has-key($__anth-cache, ('responsive', $breakpoint))
         {
-          $__ant-cache: __ant-map-set(
-            $__ant-cache,
+          $__anth-cache: __anth-map-set(
+            $__anth-cache,
             ('responsive', $breakpoint, $shorthand, $adjective),
             ($property, $breakpoint-value, $important, false, $pseudos, $themes)
           ) !global;
@@ -45,8 +45,8 @@
         // Handle the default case.
         @else if $breakpoint == 'default'
         {
-          $__ant-cache: __ant-map-set(
-            $__ant-cache,
+          $__anth-cache: __anth-map-set(
+            $__anth-cache,
             ('generic', $shorthand, $adjective),
             ($property, $breakpoint-value, $important, $pseudos, $themes)
           ) !global;
@@ -55,7 +55,7 @@
         // Throw if breakpoint key is invalid.
         @else
         {
-          @error "Invalid breakpoint key: #{$breakpoint}. Choose one of: #{map-keys(map-get($__ant-cache, 'responsive'))}, or default.";
+          @error "Invalid breakpoint key: #{$breakpoint}. Choose one of: #{map-keys(map-get($__anth-cache, 'responsive'))}, or default.";
         }
 
       }
@@ -68,18 +68,18 @@
       @if $responsive == true
       {
         // Map responsive properties dynamically
-        @each $breakpoint in map-keys(map-get($__ant-cache, 'responsive'))
+        @each $breakpoint in map-keys(map-get($__anth-cache, 'responsive'))
         {
-          $__ant-cache: __ant-map-set(
-            $__ant-cache,
+          $__anth-cache: __anth-map-set(
+            $__anth-cache,
             ('responsive', $breakpoint, $shorthand, $adjective),
             ($property, $value, $important, true, $pseudos, $themes)
           ) !global;
         }
       }
 
-      $__ant-cache: __ant-map-set(
-        $__ant-cache,
+      $__anth-cache: __anth-map-set(
+        $__anth-cache,
         ('generic', $shorthand, $adjective),
         ($property, $value, $important, $pseudos, $themes)
       ) !global;
