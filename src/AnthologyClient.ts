@@ -1,5 +1,7 @@
 import { AnthologyRule, ExtractOptions } from './types';
 
+// TODO: Improve doc comments...
+
 export class AnthologyClient<BreakpointNames extends string> {
   // --- Properties --- //
 
