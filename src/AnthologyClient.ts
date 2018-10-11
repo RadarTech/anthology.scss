@@ -13,7 +13,7 @@ export class AnthologyClient<BreakpointNames extends string> {
   // --- Constructor --- //
 
   constructor(styleSheet: StyleSheet = AnthologyClient.styleSheets[0]) {
-    if (!styleSheet) {
+    if (!styleSheet && !AnthologyClient.styleSheets[0]) {
       throw new Error(
         'Could not find any style sheets containing Anthology.scss metadata.',
       );
@@ -66,8 +66,7 @@ export class AnthologyClient<BreakpointNames extends string> {
    * Parse metadata for this instance of `Anthology.scss`.
    */
   public parseMetadata(): this {
-    // TODO: better error messaging
-    if (!this.stylesheet['cssRules']) {
+    if (!this.stylesheet['rules'] && !this.stylesheet['cssRules']) {
       throw new Error('Style sheet does not contain any CSS rules.');
     }
 
