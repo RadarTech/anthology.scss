@@ -1,6 +1,6 @@
 import { ExtractOptions } from './types';
 
-export class Anthology<BreakpointNames extends string> {
+export class AnthologyClient<BreakpointNames extends string> {
   // --- Properties --- //
 
   private _metadata: any;
@@ -9,7 +9,7 @@ export class Anthology<BreakpointNames extends string> {
 
   // --- Constructor --- //
 
-  constructor(styleSheet: StyleSheet = Anthology.styleSheets[0]) {
+  constructor(styleSheet: StyleSheet = AnthologyClient.styleSheets[0]) {
     if (!styleSheet) console.log('boop');
     this._stylesheet = styleSheet;
     this.parseMetadata();

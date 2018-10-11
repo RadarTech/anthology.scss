@@ -1,5 +1,5 @@
 import { ExtractOptions } from './types';
-export declare class Anthology<BreakpointNames extends string> {
+export declare class AnthologyClient<BreakpointNames extends string> {
     private _metadata;
     private _stylesheet;
     private _rules;

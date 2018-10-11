@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Anthology = /** @class */ (function () {
+var AnthologyClient = /** @class */ (function () {
     // --- Constructor --- //
-    function Anthology(styleSheet) {
-        if (styleSheet === void 0) { styleSheet = Anthology.styleSheets[0]; }
+    function AnthologyClient(styleSheet) {
+        if (styleSheet === void 0) { styleSheet = AnthologyClient.styleSheets[0]; }
         if (!styleSheet)
             console.log('boop');
         this._stylesheet = styleSheet;
         this.parseMetadata();
     }
-    Object.defineProperty(Anthology, "styleSheets", {
+    Object.defineProperty(AnthologyClient, "styleSheets", {
         // --- Getters --- //
         /**
          * Get all Anthology-compatible style sheets in the document.
@@ -32,7 +32,7 @@ var Anthology = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Anthology.prototype, "breakpoints", {
+    Object.defineProperty(AnthologyClient.prototype, "breakpoints", {
         /**
          * Get the breakpoints configured for this instance of `Anthology.scss`.
          *
@@ -50,7 +50,7 @@ var Anthology = /** @class */ (function () {
     /**
      * Parses metadata for this instance of `Anthology.scss`.
      */
-    Anthology.prototype.parseMetadata = function () {
+    AnthologyClient.prototype.parseMetadata = function () {
         // TODO: better error messaging
         if (!this._stylesheet['cssRules']) {
             throw new Error('Style sheet does not contain any CSS rules.');
@@ -75,7 +75,7 @@ var Anthology = /** @class */ (function () {
      * @param adjective
      * @param options
      */
-    Anthology.prototype.extract = function (shorthand, adjective, options) {
+    AnthologyClient.prototype.extract = function (shorthand, adjective, options) {
         var _this = this;
         if (options === void 0) { options = {}; }
         // TODO: memoize and improve comments
@@ -110,6 +110,6 @@ var Anthology = /** @class */ (function () {
         });
         return styleRule.style;
     };
-    return Anthology;
+    return AnthologyClient;
 }());
-exports.Anthology = Anthology;
+exports.AnthologyClient = AnthologyClient;

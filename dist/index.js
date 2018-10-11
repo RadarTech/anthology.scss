@@ -1,4 +1,4 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Anthology_1 = require("./Anthology");
-exports.Anthology = Anthology_1.Anthology;
+var AnthologyClient_1 = require("./AnthologyClient");
+exports.AnthologyClient = AnthologyClient_1.AnthologyClient;

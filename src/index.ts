@@ -1,1 +1,1 @@
-export { Anthology } from './Anthology';
+export { AnthologyClient } from './AnthologyClient';
