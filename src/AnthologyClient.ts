@@ -56,6 +56,7 @@ export class AnthologyClient<BreakpointNames extends string> {
    * @memberof Anthology
    */
   public get breakpoints(): { [key in BreakpointNames]: string } {
+    // TODO: add more functionality here (i.e.: media query helpers for JS).
     return this.metadata.config.breakpoints;
   }
 
