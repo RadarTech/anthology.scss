@@ -7,7 +7,7 @@ export class AnthologyClient<BreakpointNames extends string> {
   // --- Properties --- //
 
   private metadata: any;
-  private stylesheet: StyleSheet;
+  private styleSheet: StyleSheet;
   private rules: CSSRule[];
 
   // --- Constructor --- //
@@ -19,7 +19,7 @@ export class AnthologyClient<BreakpointNames extends string> {
       );
     }
 
-    this.stylesheet = styleSheet;
+    this.styleSheet = styleSheet;
     this.parseMetadata();
   }
 
@@ -66,12 +66,12 @@ export class AnthologyClient<BreakpointNames extends string> {
    * Parse metadata for this instance of `Anthology.scss`.
    */
   public parseMetadata(): this {
-    if (!this.stylesheet['rules'] && !this.stylesheet['cssRules']) {
+    if (!this.styleSheet['rules'] && !this.styleSheet['cssRules']) {
       throw new Error('Style sheet does not contain any CSS rules.');
     }
 
     // Grab the style sheet and cast to proper typing.
-    const cssSheet = this.stylesheet as CSSStyleSheet;
+    const cssSheet = this.styleSheet as CSSStyleSheet;
 
     // Get an array of rules from the sheet.
     const rules = (Array.from(
