@@ -1,5 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var chalk_1 = require("chalk");
+// TODO: Improve doc comments...
 var AnthologyClient = /** @class */ (function () {
     // --- Constructor --- //
     function AnthologyClient(styleSheet) {
@@ -42,6 +44,7 @@ var AnthologyClient = /** @class */ (function () {
          * @memberof Anthology
          */
         get: function () {
+            // TODO: add more functionality here (i.e.: media query helpers for JS).
             return this.metadata.config.breakpoints;
         },
         enumerable: true,
@@ -56,14 +59,19 @@ var AnthologyClient = /** @class */ (function () {
         if (!this.stylesheet['cssRules']) {
             throw new Error('Style sheet does not contain any CSS rules.');
         }
+        // Grab the style sheet and cast to proper typing.
         var cssSheet = this.stylesheet;
+        // Get an array of rules from the sheet.
         var rules = Array.from(cssSheet.rules || cssSheet.cssRules);
+        // Find the metadata rule.
         var metadataRule = rules.find(function (rule) {
             return (rule.selectorText === '-anthology-metadata::before');
         });
+        // Raise an error if metadata is not found.
         if (!metadataRule) {
             throw new Error('Style sheet does not contain Anthology.scss metadata.');
         }
+        // Parse metadata (parsing is done twice because the content is provided as a nested string).
         var metadata = JSON.parse(JSON.parse(metadataRule.style.content));
         this.metadata = metadata;
         this.rules = rules;
@@ -81,7 +89,7 @@ var AnthologyClient = /** @class */ (function () {
     AnthologyClient.prototype.extract = function (shorthand, adjective, options) {
         var _this = this;
         if (options === void 0) { options = {}; }
-        // TODO: memoize and improve comments
+        // TODO: memoize
         var separator = this.metadata.config.separator;
         var importantTag = this.metadata.config['important-tag'];
         var themeTag = this.metadata.config['theme-tag'];
@@ -98,26 +106,37 @@ var AnthologyClient = /** @class */ (function () {
         var selector;
         var selectorEscaped;
         // Find the first matching CSS Rule
-        this.rules.find(function (rule) {
-            // Search dynamically-responsive rules first
+        var isValidRule = !!this.rules.find(function (rule) {
+            // Search through dynamically-responsive rules first.
             if (!!options.breakpoint && rule.type === CSSRule.MEDIA_RULE) {
                 var mediaRule = rule;
+                // If we arrive at the desired breakpoint, search there next!
                 if (mediaRule.conditionText.includes(_this.breakpoints[options.breakpoint])) {
+                    // Define selectors
                     selector = "" + shorthand + separator + adjective + important + theme + pseudo;
                     selectorEscaped = CSS.escape(selector);
+                    // Look through each internal rule...
                     return !!Array.from(mediaRule.cssRules).find(function (rule) {
+                        // Define the rule (for inclusion in return value) and test for a potential match.
                         styleRule = rule;
                         return styleRule.selectorText.includes(selectorEscaped);
                     });
                 }
             }
             else if (rule.type === CSSRule.STYLE_RULE) {
+                // Define selectors
                 selector = "" + shorthand + separator + adjective + important + theme + breakpoint + pseudo;
                 selectorEscaped = CSS.escape(selector);
+                // Define the rule (for inclusion in return value) and test for a potential match.
                 styleRule = rule;
                 return styleRule.selectorText.includes(selectorEscaped);
             }
         });
+        // Throw if the rule is invalid or not found in this style sheet.
+        if (!isValidRule) {
+            throw new Error("Could not find Anthology-generated rule associated with selector: " + chalk_1.default.cyan(selectorEscaped));
+        }
+        // Define `property` and `value` for inclusion in return value.
         var property = styleRule.style[0];
         var value = styleRule.style[property];
         return {
