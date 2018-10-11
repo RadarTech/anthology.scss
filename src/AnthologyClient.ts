@@ -32,7 +32,7 @@ export class AnthologyClient<BreakpointNames extends string> {
    * @static
    * @memberof Anthology
    */
-  public static get styleSheets() {
+  public static get styleSheets(): StyleSheet[] {
     // TODO: memoize
     const styleSheets = Array.from(document.styleSheets);
 
@@ -65,7 +65,7 @@ export class AnthologyClient<BreakpointNames extends string> {
   /**
    * Parse metadata for this instance of `Anthology.scss`.
    */
-  public parseMetadata() {
+  public parseMetadata(): this {
     // TODO: better error messaging
     if (!this.stylesheet['cssRules']) {
       throw new Error('Style sheet does not contain any CSS rules.');
