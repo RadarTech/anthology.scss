@@ -37,7 +37,7 @@ export class AnthologyClient<BreakpointNames extends string> {
   }
 
   /**
-   * Get the breakpoints configured for this instance of `Anthology.scss`.
+   * Get breakpoints configured for this instance of `Anthology.scss`.
    *
    * @readonly
    * @type {{ [key in BreakpointNames]: string }}
@@ -50,7 +50,7 @@ export class AnthologyClient<BreakpointNames extends string> {
   // --- Methods --- //
 
   /**
-   * Parses metadata for this instance of `Anthology.scss`.
+   * Parse metadata for this instance of `Anthology.scss`.
    */
   public parseMetadata() {
     // TODO: better error messaging
