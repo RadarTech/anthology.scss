@@ -1,1 +1,0 @@
-export { AnthologyClient } from './AnthologyClient';

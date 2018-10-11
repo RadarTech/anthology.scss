@@ -1,0 +1,3 @@
+{
+  "extends": "@radarrelay/tslint-config"
+}

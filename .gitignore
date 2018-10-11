@@ -1,1 +1,4 @@
 node-modules/
+.vscode/
+.cache/
+.parcel-dist/
