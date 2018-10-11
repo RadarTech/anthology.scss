@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import { AnthologyRule, ExtractOptions } from './types';
 
 // TODO: Improve doc comments...
@@ -69,20 +70,27 @@ export class AnthologyClient<BreakpointNames extends string> {
       throw new Error('Style sheet does not contain any CSS rules.');
     }
 
+    // Grab the style sheet and cast to proper typing.
     const cssSheet = this.stylesheet as CSSStyleSheet;
+
+    // Get an array of rules from the sheet.
     const rules = (Array.from(
       cssSheet.rules || cssSheet.cssRules,
     ) as unknown) as CSSRule[];
+
+    // Find the metadata rule.
     const metadataRule: CSSStyleRule = rules.find(rule => {
       return (
         (rule as CSSStyleRule).selectorText === '-anthology-metadata::before'
       );
     }) as CSSStyleRule;
 
+    // Raise an error if metadata is not found.
     if (!metadataRule) {
       throw new Error('Style sheet does not contain Anthology.scss metadata.');
     }
 
+    // Parse metadata (parsing is done twice because the content is provided as a nested string).
     const metadata = JSON.parse(JSON.parse(metadataRule.style.content));
 
     this.metadata = metadata;
@@ -105,7 +113,7 @@ export class AnthologyClient<BreakpointNames extends string> {
     adjective: string,
     options: ExtractOptions = {},
   ): AnthologyRule {
-    // TODO: memoize and improve comments
+    // TODO: memoize
     const separator = this.metadata.config.separator;
     const importantTag = this.metadata.config['important-tag'];
     const themeTag = this.metadata.config['theme-tag'];
@@ -125,30 +133,47 @@ export class AnthologyClient<BreakpointNames extends string> {
     let selectorEscaped: string;
 
     // Find the first matching CSS Rule
-    this.rules.find(rule => {
-      // Search dynamically-responsive rules first
+    const isValidRule = !!this.rules.find(rule => {
+      // Search through dynamically-responsive rules first.
       if (!!options.breakpoint && rule.type === CSSRule.MEDIA_RULE) {
         const mediaRule = rule as CSSMediaRule;
+
+        // If we arrive at the desired breakpoint, search there next!
         if (
           mediaRule.conditionText.includes(this.breakpoints[options.breakpoint])
         ) {
+          // Define selectors
           selector = `${shorthand}${separator}${adjective}${important}${theme}${pseudo}`;
           selectorEscaped = CSS.escape(selector);
 
+          // Look through each internal rule...
           return !!Array.from(mediaRule.cssRules).find(rule => {
+            // Define the rule (for inclusion in return value) and test for a potential match.
             styleRule = rule as CSSStyleRule;
             return styleRule.selectorText.includes(selectorEscaped);
           });
         }
       } else if (rule.type === CSSRule.STYLE_RULE) {
+        // Define selectors
         selector = `${shorthand}${separator}${adjective}${important}${theme}${breakpoint}${pseudo}`;
         selectorEscaped = CSS.escape(selector);
 
+        // Define the rule (for inclusion in return value) and test for a potential match.
         styleRule = rule as CSSStyleRule;
         return styleRule.selectorText.includes(selectorEscaped);
       }
     });
 
+    // Throw if the rule is invalid or not found in this style sheet.
+    if (!isValidRule) {
+      throw new Error(
+        `Could not find Anthology-generated rule associated with selector: ${chalk.cyan(
+          selectorEscaped,
+        )}`,
+      );
+    }
+
+    // Define `property` and `value` for inclusion in return value.
     const property = styleRule.style[0];
     const value = styleRule.style[property];
 
