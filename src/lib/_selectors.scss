@@ -39,7 +39,7 @@
   {
     @if not __anth-str-starts-with($pseudo, ':') and not __anth-str-starts-with($pseudo, '::')
     {
-      @error 'Expected a pseudo-class or pseudo-element, recieved `#{$pseudo}`.';
+      @error 'Expected a pseudo-class or pseudo-element, received `#{$pseudo}`.';
     }
 
     $with-pseudo: '#{$pseudo}';
