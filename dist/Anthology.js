@@ -33,6 +33,13 @@ var Anthology = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(Anthology.prototype, "breakpoints", {
+        /**
+         * Get the breakpoints configured for this instance of `Anthology.scss`.
+         *
+         * @readonly
+         * @type {{ [key in BreakpointNames]: string }}
+         * @memberof Anthology
+         */
         get: function () {
             return this._metadata.config.breakpoints;
         },
@@ -41,7 +48,7 @@ var Anthology = /** @class */ (function () {
     });
     // --- Methods --- //
     /**
-     * Parses `Anthology.scss` metadata.
+     * Parses metadata for this instance of `Anthology.scss`.
      */
     Anthology.prototype.parseMetadata = function () {
         // TODO: better error messaging

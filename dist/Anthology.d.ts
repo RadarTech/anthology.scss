@@ -1,3 +1,4 @@
+import { ExtractOptions } from './types';
 export declare class Anthology<BreakpointNames extends string> {
     private _metadata;
     private _stylesheet;
@@ -11,11 +12,18 @@ export declare class Anthology<BreakpointNames extends string> {
      * @memberof Anthology
      */
     static readonly styleSheets: StyleSheet[];
+    /**
+     * Get the breakpoints configured for this instance of `Anthology.scss`.
+     *
+     * @readonly
+     * @type {{ [key in BreakpointNames]: string }}
+     * @memberof Anthology
+     */
     readonly breakpoints: {
         [key in BreakpointNames]: string;
     };
     /**
-     * Parses `Anthology.scss` metadata.
+     * Parses metadata for this instance of `Anthology.scss`.
      */
     parseMetadata(): this;
     /**
@@ -25,5 +33,5 @@ export declare class Anthology<BreakpointNames extends string> {
      * @param adjective
      * @param options
      */
-    extract(shorthand: string, adjective: string, options?: any): CSSStyleDeclaration;
+    extract(shorthand: string, adjective: string, options?: ExtractOptions): CSSStyleDeclaration;
 }

@@ -1,3 +1,5 @@
+import { ExtractOptions } from './types';
+
 export class Anthology<BreakpointNames extends string> {
   // --- Properties --- //
 
@@ -34,6 +36,13 @@ export class Anthology<BreakpointNames extends string> {
     });
   }
 
+  /**
+   * Get the breakpoints configured for this instance of `Anthology.scss`.
+   *
+   * @readonly
+   * @type {{ [key in BreakpointNames]: string }}
+   * @memberof Anthology
+   */
   public get breakpoints(): { [key in BreakpointNames]: string } {
     return this._metadata.config.breakpoints;
   }
@@ -41,7 +50,7 @@ export class Anthology<BreakpointNames extends string> {
   // --- Methods --- //
 
   /**
-   * Parses `Anthology.scss` metadata.
+   * Parses metadata for this instance of `Anthology.scss`.
    */
   public parseMetadata() {
     // TODO: better error messaging
@@ -74,7 +83,7 @@ export class Anthology<BreakpointNames extends string> {
    * @param adjective
    * @param options
    */
-  public extract(shorthand: string, adjective: string, options: any = {}) {
+  public extract(shorthand: string, adjective: string, options: ExtractOptions = {}) {
     // TODO: memoize and improve comments
     const separator = this._metadata.config.separator;
     const importantTag = this._metadata.config['important-tag'];
