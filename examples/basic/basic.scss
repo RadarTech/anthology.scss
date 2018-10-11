@@ -1,4 +1,4 @@
-@import './src/anthology';
+@import '../../scss/anthology';
 
 @include anth-config(
   (
@@ -7,7 +7,7 @@
       'medium': 1200px,
       'large': 1800px
     ),
-    'separator': '_'
+    'separator': '-'
   )
 );
 
@@ -32,5 +32,5 @@ $adjectives: (
 @include anth-emit-responsive(true);
 
 .foo {
-  @include anth-extend('bg', 'red', ('pseudo': ':hover'));
+  @include anth-extend('bg', 'greyscale');
 }

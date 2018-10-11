@@ -23,4 +23,9 @@
   $__anth-cache: __anth-map-merge($__anth-cache-defaults, $__anth-cache) !global;
   $__anth-config-is-ready: true !global;
 
+  // Emit metadata
+  @at-root -anthology-metadata::before {
+    content: __anth-to-json(( 'config': $__anth-config ));
+  }
+
 }
