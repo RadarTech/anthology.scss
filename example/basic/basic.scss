@@ -1,6 +1,6 @@
 @import '../../anthology';
 
-@include __anthology-config(
+@include a(configure,
   (
     'breakpoints': (
       'small': 500px,
@@ -21,16 +21,16 @@ $adjectives: (
   )
 );
 
-@include __anthology-define('bg', background-color, $adjectives,
+@include a(define, 'bg', background-color, $adjectives,
   (
     'pseudos': (':hover', ':before'),
     'themes': ('night', 'day'),
   )
 );
 
-@include __anthology-emit(true);
-@include __anthology-emit-responsive(true);
+@include a(emit, true);
+@include a(emit-responsive, true);
 
 .foo {
-  @include __anthology-extend('bg', 'greyscale');
+  @include a(extend, 'bg', 'greyscale');
 }
