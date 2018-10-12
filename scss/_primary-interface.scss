@@ -1,0 +1,15 @@
+@mixin a($mixin, $args...) {
+  @if ($mixin == 'define') { @include __anthology-define(); }
+  @else if ($mixin == 'emit') { @include __anthology-emit(); }
+  @else if ($mixin == 'emit-responsive') { @include __anthology-emit-responsive(); }
+  @else if ($mixin == 'extend') { @include __anthology-extend(); }
+  @else if ($mixin == 'with-theme') { @include __anthology-with-theme(); }
+  @else if ($mixin == 'themeify') { @include __anthology-themeify(); }
+  @else if ($mixin == 'breakpoint') { @include __anthology-breakpoint(); }
+  @else if ($mixin == 'until-breakpoint') { @include __anthology-until-breakpoint(); }
+  @else if ($mixin == 'between-breakpoints') { @include __anthology-between-breakpoint(); }
+}
+
+@function a($function, $args...) {
+  @return call('__anthology-#{$function}', $args...);
+}

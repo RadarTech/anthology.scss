@@ -1,22 +1,22 @@
 // Ensure that `set-config(...)` has been included at least once.
-@mixin __anth-validate-config-is-ready() {
-  @if not $__anth-config-is-ready {
+@mixin __anthology-validate-config-is-ready() {
+  @if not $__anthology-config-is-ready {
     @error 'Before defining your own functional properties, run `@include anth-config(...);`.';
   }
 }
 
 // Returns the cache with the specified key reset to its default value.
-@function __anth-flush-cache($cache-key) {
-  @return __anth-map-set(
-    $__anth-cache,
+@function __anthology-flush-cache($cache-key) {
+  @return __anthology-map-set(
+    $__anthology-cache,
     $cache-key,
-    __anth-map-get($__anth-cache-defaults, $cache-key)
+    __anthology-map-get($__anthology-cache-defaults, $cache-key)
   );
 }
 
 // Merge default options for 'single selectors'.
-@function __anth-single-selector-options($options: ()) {
-  @return __anth-map-merge(
+@function __anthology-single-selector-options($options: ()) {
+  @return __anthology-map-merge(
     (
       'breakpoint': null,
       'theme': null,
@@ -28,8 +28,8 @@
 }
 
 // Merge default options for `define-properties(...)` mixin.
-@function __anth-define-options($options: ()) {
-  @return __anth-map-merge(
+@function __anthology-define-options($options: ()) {
+  @return __anthology-map-merge(
     (
       'important': true,
       'responsive': true,
@@ -40,7 +40,7 @@
   );
 }
 
-@function __anth-to-json($map) {
+@function __anthology-to-json($map) {
   $typeOfArg: type-of($map);
 
   @if $typeOfArg == 'list'
@@ -52,7 +52,7 @@
     @for $i from 1 through $listLength
     {
       $list-item: nth($list, $i);
-      $result: '#{$result} #{__anth-to-json($list-item)}';
+      $result: '#{$result} #{__anthology-to-json($list-item)}';
       @if $i != $listLength { $result: '#{$result},'; }
     }
 
@@ -78,7 +78,7 @@
     // Transform inner maps into JSON
     @if $typeOfValue == 'map' or $typeOfValue == 'list'
     {
-      $result: '#{$result} "#{$key}": #{__anth-to-json($value)}';
+      $result: '#{$result} "#{$key}": #{__anthology-to-json($value)}';
     }
     @else
     {

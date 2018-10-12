@@ -3,15 +3,15 @@
 ///
 /// @param {Map} $config.breakpoints - A map of responsive breakpoints [default: null].
 /// @param {String} $config.separator - A string delimiter which appears between each piece of the generated selectors [default: '-'].
-@mixin -a-config($config: ())
+@mixin __anthology-config($config: ())
 {
 
   // Assign an empty map to each configured breakpoint
   @each $breakpoint, $value in map-get($config, 'breakpoints')
   {
 
-    $__anth-cache-defaults: __anth-map-set(
-      $__anth-cache-defaults,
+    $__anthology-cache-defaults: __anthology-map-set(
+      $__anthology-cache-defaults,
       ('responsive', $breakpoint),
       ()
     ) !global;
@@ -19,13 +19,13 @@
   }
 
   // Build global objects
-  $__anth-config: __anth-map-merge($__anth-config-defaults, $config, $__anth-config-tags) !global;
-  $__anth-cache: __anth-map-merge($__anth-cache-defaults, $__anth-cache) !global;
-  $__anth-config-is-ready: true !global;
+  $__anthology-config: __anthology-map-merge($__anthology-config-defaults, $config, $__anthology-config-tags) !global;
+  $__anthology-cache: __anthology-map-merge($__anthology-cache-defaults, $__anthology-cache) !global;
+  $__anthology-config-is-ready: true !global;
 
   // Emit metadata
   @at-root -anthology-metadata::before {
-    content: __anth-to-json(( 'config': $__anth-config ));
+    content: __anthology-to-json(( 'config': $__anthology-config ));
   }
 
 }

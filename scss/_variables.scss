@@ -1,19 +1,19 @@
-$__anth-config-is-ready: false;
+$__anthology-config-is-ready: false;
 
-$__anth-config: ();
-$__anth-config-defaults: (
+$__anthology-config: ();
+$__anthology-config-defaults: (
   'breakpoints': null,
   'separator': '-',
 );
 
-$__anth-config-tags: (
+$__anthology-config-tags: (
   'important-tag': '!',
   'theme-tag': '#',
   'responsive-tag': '@',
 );
 
-$__anth-cache: ();
-$__anth-cache-defaults: (
+$__anthology-cache: ();
+$__anthology-cache-defaults: (
   'generic': (),
   'responsive': (),
 );
