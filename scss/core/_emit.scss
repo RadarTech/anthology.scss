@@ -71,7 +71,7 @@
 
   @each $breakpoint, $shorthands in map-get($__anth-cache, 'responsive')
   {
-    @include anth-breakpoint($breakpoint)
+    @include -a-breakpoint($breakpoint)
     {
       @each $shorthand, $adjectives in $shorthands
       {

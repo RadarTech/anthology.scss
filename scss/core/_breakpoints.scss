@@ -10,11 +10,11 @@
 
   @else
   {
-    @error 'Breakpoint `#{$point}` is not registered by `anth-config(...)`. Please register all breakpoints before using `anth-breakpoint(...)`.';
+    @error 'Breakpoint `#{$point}` is not registered by `anth-config(...)`. Please register all breakpoints before using `-a-breakpoint(...)`.';
   }
 }
 
-@mixin anth-until-breakpoint($point)
+@mixin -a-until-breakpoint($point)
 {
   @if __anth-map-has-key($__anth-config, ('breakpoints', $point))
   {
@@ -24,7 +24,7 @@
 
   @else
   {
-    @error 'Breakpoint `#{$point}` is not registered by `anth-config(...)`. Please register all breakpoints before using `anth-until-breakpoint(...)`.';
+    @error 'Breakpoint `#{$point}` is not registered by `anth-config(...)`. Please register all breakpoints before using `-a-until-breakpoint(...)`.';
   }
 }
 
