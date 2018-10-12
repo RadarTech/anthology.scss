@@ -1,7 +1,7 @@
 /// Emits arbitrary themed CSS.
 ///
 /// @param {String} $theme - The theme to target
-@mixin anth-with-theme($theme)
+@mixin -a-with-theme($theme)
 {
   $full-selector: '';
 
@@ -28,7 +28,7 @@
 ///
 /// @param {String} $property - The CSS property to change.
 /// @param {Map} $themed-values - A map of corresponding themes/values.
-@mixin anth-themeify($property, $themed-values)
+@mixin -a-themeify($property, $themed-values)
 {
   @each $theme, $value in $themed-values
   {

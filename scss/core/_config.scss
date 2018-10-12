@@ -3,7 +3,7 @@
 ///
 /// @param {Map} $config.breakpoints - A map of responsive breakpoints [default: null].
 /// @param {String} $config.separator - A string delimiter which appears between each piece of the generated selectors [default: '-'].
-@mixin anth-config($config: ())
+@mixin -a-config($config: ())
 {
 
   // Assign an empty map to each configured breakpoint

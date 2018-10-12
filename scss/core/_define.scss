@@ -8,7 +8,7 @@
 /// argument in `emit-properties()` and `emit-responsive-properties()` [default: true].
 /// @param {List} $options.pseudos - A list of pseudo-classes or pseudo-elements to generate selectors for.
 /// @param {List} $options.themes - A list of themes to generate selectors for.
-@mixin anth-define($shorthand, $property, $values, $options: ())
+@mixin -a-define($shorthand, $property, $values, $options: ())
 {
   // Ensure `set-config(...)` has been included prior.
   @include __anth-validate-config-is-ready();

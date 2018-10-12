@@ -9,7 +9,7 @@
 /// @param {String} $options.pseudo - Whether to extend and target a specific psuedo-class or pseudo-element [default:
 /// null].
 /// @param {Bool} $options.important - Whether to extend with `!important`.
-@mixin anth-extend($shorthand, $adjective, $options: ())
+@mixin -a-extend($shorthand, $adjective, $options: ())
 {
   // Merge default options
   $options: __anth-single-selector-options($options);

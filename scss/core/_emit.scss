@@ -26,7 +26,7 @@
 ///
 /// @param {Bool} $important - Whether to emit '!important' versions of the selectors. Keep in mind this generates twice
 /// as much CSS [default: false].
-@mixin anth-emit($important: false)
+@mixin -a-emit($important: false)
 {
   @if length(map-get($__anth-cache, 'generic')) == 0
   {
@@ -62,7 +62,7 @@
 ///
 /// @param {Bool} $important - Whether to emit '!important' versions of the selectors. Keep in mind this generates twice
 /// as much CSS [default: false].
-@mixin anth-emit-responsive($important: false)
+@mixin -a-emit-responsive($important: false)
 {
   @if not map-get($__anth-config, 'breakpoints')
   {
