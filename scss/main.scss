@@ -1,19 +1,19 @@
 // Global variables
-@import './scss/variables';
+@import './variables';
 
 // Internal APIs
-@import './scss/lib/map';
-@import './scss/lib/list';
-@import './scss/lib/string';
-@import './scss/lib/utils';
-@import './scss/lib/selectors';
+@import './lib/map';
+@import './lib/list';
+@import './lib/string';
+@import './lib/utils';
+@import './lib/selectors';
 
 // Public APIs
-@import './scss/core/configure';
-@import './scss/core/breakpoints';
-@import './scss/core/theming';
-@import './scss/core/define';
-@import './scss/core/emit';
-@import './scss/core/extend';
+@import './core/configure';
+@import './core/breakpoints';
+@import './core/theming';
+@import './core/define';
+@import './core/emit';
+@import './core/extend';
 
 @import './primary-interface';
