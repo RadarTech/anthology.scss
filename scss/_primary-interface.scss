@@ -4,11 +4,11 @@
   @else if ($mixin == 'emit') { @include __anthology-emit($args...); }
   @else if ($mixin == 'emit-responsive') { @include __anthology-emit-responsive($args...); }
   @else if ($mixin == 'extend') { @include __anthology-extend($args...); }
-  @else if ($mixin == 'with-theme') { @include __anthology-with-theme() { @content; }; }
+  @else if ($mixin == 'with-theme') { @include __anthology-with-theme($args...) { @content; }; }
   @else if ($mixin == 'themeify') { @include __anthology-themeify($args...); }
-  @else if ($mixin == 'breakpoint') { @include __anthology-breakpoint($args...); }
-  @else if ($mixin == 'until-breakpoint') { @include __anthology-until-breakpoint($args...); }
-  @else if ($mixin == 'between-breakpoints') { @include __anthology-between-breakpoint($args...); }
+  @else if ($mixin == 'breakpoint') { @include __anthology-breakpoint($args...) { @content; }; }
+  @else if ($mixin == 'until-breakpoint') { @include __anthology-until-breakpoint($args...) { @content; }; }
+  @else if ($mixin == 'between-breakpoints') { @include __anthology-between-breakpoint($args...) { @content; }; }
 }
 
 @function a($function, $args...) {
