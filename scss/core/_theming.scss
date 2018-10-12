@@ -40,7 +40,7 @@
 
     @else
     {
-      @include with-theme($theme) { #{$property}: $value; }
+      @include -a-with-theme($theme) { #{$property}: $value; }
     }
 
   }
