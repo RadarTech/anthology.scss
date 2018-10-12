@@ -12,5 +12,5 @@
 }
 
 @function a($function, $args...) {
-  @return call('__anthology-#{$function}', $args...);
+  @return call(get-function('__anthology-#{$function}'), $args...);
 }
