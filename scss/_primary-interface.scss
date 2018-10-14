@@ -8,7 +8,7 @@
   @else if ($mixin == 'themeify') { @include __anthology-themeify($args...); }
   @else if ($mixin == 'breakpoint') { @include __anthology-breakpoint($args...) { @content; }; }
   @else if ($mixin == 'until-breakpoint') { @include __anthology-until-breakpoint($args...) { @content; }; }
-  @else if ($mixin == 'between-breakpoints') { @include __anthology-between-breakpoint($args...) { @content; }; }
+  @else if ($mixin == 'between-breakpoints') { @include __anthology-between-breakpoints($args...) { @content; }; }
 }
 
 @function a($function, $args...) {
