@@ -6,10 +6,10 @@ var AnthologyClient = /** @class */ (function () {
     // --- Constructor --- //
     function AnthologyClient(styleSheet) {
         if (styleSheet === void 0) { styleSheet = AnthologyClient.styleSheets[0]; }
-        if (!styleSheet) {
+        if (!styleSheet && !AnthologyClient.styleSheets[0]) {
             throw new Error('Could not find any style sheets containing Anthology.scss metadata.');
         }
-        this.stylesheet = styleSheet;
+        this.styleSheet = styleSheet;
         this.parseMetadata();
     }
     Object.defineProperty(AnthologyClient, "styleSheets", {
@@ -55,12 +55,11 @@ var AnthologyClient = /** @class */ (function () {
      * Parse metadata for this instance of `Anthology.scss`.
      */
     AnthologyClient.prototype.parseMetadata = function () {
-        // TODO: better error messaging
-        if (!this.stylesheet['cssRules']) {
+        if (!this.styleSheet['rules'] && !this.styleSheet['cssRules']) {
             throw new Error('Style sheet does not contain any CSS rules.');
         }
         // Grab the style sheet and cast to proper typing.
-        var cssSheet = this.stylesheet;
+        var cssSheet = this.styleSheet;
         // Get an array of rules from the sheet.
         var rules = Array.from(cssSheet.rules || cssSheet.cssRules);
         // Find the metadata rule.

@@ -1,7 +1,7 @@
 import { AnthologyRule, ExtractOptions } from './types';
 export declare class AnthologyClient<BreakpointNames extends string> {
     private metadata;
-    private stylesheet;
+    private styleSheet;
     private rules;
     constructor(styleSheet?: StyleSheet);
     /**
