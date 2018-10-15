@@ -10,12 +10,12 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "chalk": "~2.4.1",
-    "node-sass": "~4.9.3"
+    "chalk": "~2.4.1"
   },
   "devDependencies": {
     "@radarrelay/tslint-config": "github:RadarRelay/tslint-config",
     "@types/chalk": "~2.2.0",
+    "node-sass": "~4.9.3",
     "parcel-bundler": "~1.10.2",
     "prettier": "~1.14.3",
     "tslint": "~5.11.0",
