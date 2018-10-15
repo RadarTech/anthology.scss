@@ -1,4 +1,4 @@
-@mixin a($mixin, $args...) {
+@mixin A($mixin, $args...) {
   @if ($mixin == 'configure') { @include __anthology-configure($args...); }
   @else if ($mixin == 'define') { @include __anthology-define($args...); }
   @else if ($mixin == 'emit') { @include __anthology-emit($args...); }
@@ -11,6 +11,6 @@
   @else if ($mixin == 'between-breakpoints') { @include __anthology-between-breakpoints($args...) { @content; }; }
 }
 
-@function a($function, $args...) {
+@function A($function, $args...) {
   @return call(get-function('__anthology-#{$function}'), $args...);
 }
