@@ -11,7 +11,7 @@ export declare class AnthologyClient<BreakpointNames extends string> {
      * @static
      * @memberof Anthology
      */
-    static readonly styleSheets: StyleSheet[];
+    static readonly StyleSheets: StyleSheet[];
     /**
      * Get breakpoints configured for this instance of `Anthology.scss`.
      *

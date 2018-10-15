@@ -5,14 +5,14 @@ var chalk_1 = require("chalk");
 var AnthologyClient = /** @class */ (function () {
     // --- Constructor --- //
     function AnthologyClient(styleSheet) {
-        if (styleSheet === void 0) { styleSheet = AnthologyClient.styleSheets[0]; }
-        if (!styleSheet && !AnthologyClient.styleSheets[0]) {
+        if (styleSheet === void 0) { styleSheet = AnthologyClient.StyleSheets[0]; }
+        if (!styleSheet && !AnthologyClient.StyleSheets[0]) {
             throw new Error('Could not find any style sheets containing Anthology.scss metadata.');
         }
         this.styleSheet = styleSheet;
         this.parseMetadata();
     }
-    Object.defineProperty(AnthologyClient, "styleSheets", {
+    Object.defineProperty(AnthologyClient, "StyleSheets", {
         // --- Getters --- //
         /**
          * Get all Anthology-compatible style sheets in the document.
