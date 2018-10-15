@@ -12,8 +12,8 @@ export class AnthologyClient<BreakpointNames extends string> {
 
   // --- Constructor --- //
 
-  constructor(styleSheet: StyleSheet = AnthologyClient.styleSheets[0]) {
-    if (!styleSheet && !AnthologyClient.styleSheets[0]) {
+  constructor(styleSheet: StyleSheet = AnthologyClient.StyleSheets[0]) {
+    if (!styleSheet && !AnthologyClient.StyleSheets[0]) {
       throw new Error(
         'Could not find any style sheets containing Anthology.scss metadata.',
       );
@@ -32,7 +32,7 @@ export class AnthologyClient<BreakpointNames extends string> {
    * @static
    * @memberof Anthology
    */
-  public static get styleSheets(): StyleSheet[] {
+  public static get StyleSheets(): StyleSheet[] {
     // TODO: memoize
     const styleSheets = Array.from(document.styleSheets);
 
