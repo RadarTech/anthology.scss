@@ -1,6 +1,6 @@
 {
   "name": "anthology.scss",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "author": "Ian K Smith <ian.smith@radarrelay.com>",
   "scripts": {
     "example:basic": "parcel ./example/basic/basic.html --out-dir ./.parcel-dist",
