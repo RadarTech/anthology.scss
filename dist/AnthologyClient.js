@@ -7,7 +7,7 @@ var AnthologyClient = /** @class */ (function () {
     function AnthologyClient(styleSheet) {
         if (styleSheet === void 0) { styleSheet = AnthologyClient.StyleSheets[0]; }
         if (!styleSheet && !AnthologyClient.StyleSheets[0]) {
-            throw new Error('Could not find any style sheets containing Anthology.scss metadata.');
+            console.warn('Could not find any style sheets containing Anthology.scss metadata.');
         }
         this.styleSheet = styleSheet;
         this.parseMetadata();
@@ -56,7 +56,7 @@ var AnthologyClient = /** @class */ (function () {
      */
     AnthologyClient.prototype.parseMetadata = function () {
         if (!this.styleSheet['rules'] && !this.styleSheet['cssRules']) {
-            throw new Error('Style sheet does not contain any CSS rules.');
+            console.warn('Style sheet does not contain any CSS rules.');
         }
         // Grab the style sheet and cast to proper typing.
         var cssSheet = this.styleSheet;
@@ -68,7 +68,7 @@ var AnthologyClient = /** @class */ (function () {
         });
         // Raise an error if metadata is not found.
         if (!metadataRule) {
-            throw new Error('Style sheet does not contain Anthology.scss metadata.');
+            console.warn('Style sheet does not contain Anthology.scss metadata.');
         }
         // Parse metadata (parsing is done twice because the content is provided as a nested string).
         var metadata = JSON.parse(JSON.parse(metadataRule.style.content));
@@ -133,7 +133,7 @@ var AnthologyClient = /** @class */ (function () {
         });
         // Throw if the rule is invalid or not found in this style sheet.
         if (!isValidRule) {
-            throw new Error("Could not find Anthology-generated rule associated with selector: " + chalk_1.default.cyan(selectorEscaped));
+            console.warn("Could not find Anthology-generated rule associated with selector: " + chalk_1.default.cyan(selectorEscaped));
         }
         // Define `property` and `value` for inclusion in return value.
         var property = styleRule.style[0];
