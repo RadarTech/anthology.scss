@@ -14,7 +14,7 @@ export class AnthologyClient<BreakpointNames extends string> {
 
   constructor(styleSheet: StyleSheet = AnthologyClient.StyleSheets[0]) {
     if (!styleSheet && !AnthologyClient.StyleSheets[0]) {
-      throw new Error(
+      console.warn(
         'Could not find any style sheets containing Anthology.scss metadata.',
       );
     }
@@ -67,7 +67,7 @@ export class AnthologyClient<BreakpointNames extends string> {
    */
   public parseMetadata(): this {
     if (!this.styleSheet['rules'] && !this.styleSheet['cssRules']) {
-      throw new Error('Style sheet does not contain any CSS rules.');
+      console.warn('Style sheet does not contain any CSS rules.');
     }
 
     // Grab the style sheet and cast to proper typing.
@@ -87,7 +87,7 @@ export class AnthologyClient<BreakpointNames extends string> {
 
     // Raise an error if metadata is not found.
     if (!metadataRule) {
-      throw new Error('Style sheet does not contain Anthology.scss metadata.');
+      console.warn('Style sheet does not contain Anthology.scss metadata.');
     }
 
     // Parse metadata (parsing is done twice because the content is provided as a nested string).
@@ -166,7 +166,7 @@ export class AnthologyClient<BreakpointNames extends string> {
 
     // Throw if the rule is invalid or not found in this style sheet.
     if (!isValidRule) {
-      throw new Error(
+      console.warn(
         `Could not find Anthology-generated rule associated with selector: ${chalk.cyan(
           selectorEscaped,
         )}`,
