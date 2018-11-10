@@ -35,11 +35,14 @@
         // Handle valid breakpoints.
         @if __anthology-map-has-key($__anthology-cache, ('responsive', $breakpoint))
         {
-          $__anthology-cache: __anthology-map-set(
-            $__anthology-cache,
-            ('responsive', $breakpoint, $shorthand, $adjective),
-            ($property, $breakpoint-value, $important, false, $pseudos, $themes)
-          ) !global;
+          @if $responsive == true
+          {
+            $__anthology-cache: __anthology-map-set(
+              $__anthology-cache,
+              ('responsive', $breakpoint, $shorthand, $adjective),
+              ($property, $breakpoint-value, $important, false, $pseudos, $themes)
+            ) !global;
+          }
         }
 
         // Handle the default case.
