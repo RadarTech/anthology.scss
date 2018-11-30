@@ -1,16 +1,32 @@
 @mixin A($mixin, $args...) {
-  @if ($mixin == 'configure') { @include __anthology-configure($args...); }
-  @else if ($mixin == 'define') { @include __anthology-define($args...); }
-  @else if ($mixin == 'emit') { @include __anthology-emit($args...); }
-  @else if ($mixin == 'emit-responsive') { @include __anthology-emit-responsive($args...); }
-  @else if ($mixin == 'extend') { @include __anthology-extend($args...); }
-  @else if ($mixin == 'with-theme') { @include __anthology-with-theme($args...) { @content; }; }
-  @else if ($mixin == 'themeify') { @include __anthology-themeify($args...); }
-  @else if ($mixin == 'breakpoint') { @include __anthology-breakpoint($args...) { @content; }; }
-  @else if ($mixin == 'until-breakpoint') { @include __anthology-until-breakpoint($args...) { @content; }; }
-  @else if ($mixin == 'between-breakpoints') { @include __anthology-between-breakpoints($args...) { @content; }; }
+  @if not(mixin-exists('__anthology-#{$mixin}'))
+  {
+    @error 'Anthology mixin `#{$mixin}` not found.';
+  }
+
+  @if $mixin == 'configure' { @include __anthology-configure($args...); }
+  @else if $mixin == 'define' { @include __anthology-define($args...); }
+  @else if $mixin == 'emit' { @include __anthology-emit($args...); }
+  @else if $mixin == 'emit-responsive' { @include __anthology-emit-responsive($args...); }
+  @else if $mixin == 'extend' { @include __anthology-extend($args...); }
+  @else if $mixin == 'with-theme' { @include __anthology-with-theme($args...) { @content; }; }
+  @else if $mixin == 'themeify' { @include __anthology-themeify($args...); }
+  @else if $mixin == 'breakpoint' { @include __anthology-breakpoint($args...) { @content; }; }
+  @else if $mixin == 'until-breakpoint' { @include __anthology-until-breakpoint($args...) { @content; }; }
+  @else if $mixin == 'between-breakpoints' { @include __anthology-between-breakpoints($args...) { @content; }; }
+  @else if $mixin == 'grid' { @include __anthology-grid($args...) { @content; }; }
 }
 
 @function A($function, $args...) {
-  @return call(get-function('__anthology-#{$function}'), $args...);
+  $function-name: '__anthology-#{$function}';
+  $function-exists: function-exists($function-name);
+
+  @if $function-exists == true
+  {
+    @return call(get-function('__anthology-#{$function}'), $args...);
+  }
+  @else
+  {
+    @error 'Anthology function `#{$function}` not found.'
+  }
 }
