@@ -1,4 +1,5 @@
 $__anthology-config-is-ready: false;
+$__anthology-metadata-is-emitted: false;
 
 $__anthology-config: ();
 $__anthology-config-defaults: (
@@ -10,6 +11,8 @@ $__anthology-config-tags: (
   'important-tag': '!',
   'theme-tag': '#',
   'responsive-tag': '@',
+  'grid-prefix': 'grid',
+  'grid-area-prefix': 'area',
 );
 
 $__anthology-cache: ();

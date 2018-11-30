@@ -1,0 +1,78 @@
+$grid-areas: ();
+
+@mixin __anthology-grid($name, $responsive-template-config)
+{
+  // Get config properties
+  $sep: __anthology-map-get($__anthology-config, 'separator');
+  $grid-prefix: __anthology-map-get($__anthology-config, 'grid-prefix');
+  $grid-area-prefix: __anthology-map-get($__anthology-config, 'grid-area-prefix');
+
+  $selector: '.#{$grid-prefix}#{$sep}#{$name}';
+
+  & #{$selector} {
+    @content;
+    display: grid;
+
+    @each $breakpoint, $template-config in $responsive-template-config
+    {
+
+      // Raw values
+      $columns: map-get($template-config, 'columns');
+      $rows: map-get($template-config, 'rows');
+      $auto-columns: map-get($template-config, 'auto-columns');
+      $auto-rows: map-get($template-config, 'auto-rows');
+      $gap: map-get($template-config, 'gap');
+      $template: map-get($template-config, 'template');
+
+      // Generate selectors for each area used in the template, if one does not already exist.
+      @if $template
+      {
+        @each $string in $template
+        {
+          $areas: A(str-split, $string, ' ');
+          $areas: A(list-remove, $areas, '.');
+
+          @each $area in $areas
+          {
+            @if not A(list-contains, $grid-areas, $area)
+            {
+              $grid-areas: append($grid-areas, $area) !global;
+              @at-root .#{$grid-area-prefix}#{$sep}#{$area} { grid-area: unquote($area) }
+            }
+          }
+        }
+      }
+
+      // Handle valid breakpoints.
+      @if A(map-has-key, $__anthology-config, ('breakpoints', $breakpoint))
+      {
+        @include bp($breakpoint) {
+          grid-template-columns: $columns;
+          grid-template-rows: $rows;
+          grid-template-areas: $template;
+          grid-auto-columns: $auto-columns;
+          grid-auto-rows: $auto-rows;
+          grid-gap: $gap;
+        }
+      }
+
+      // Handle default case.
+      @else if $breakpoint == 'default'
+      {
+        grid-template-columns: $columns;
+        grid-template-rows: $rows;
+        grid-template-areas: $template;
+        grid-auto-columns: $auto-columns;
+        grid-auto-rows: $auto-rows;
+        grid-gap: $gap;
+      }
+
+      // Throw if breakpoint key is invalid.
+      @else
+      {
+        @error "Invalid breakpoint key: `#{$breakpoint}`. Choose one of: #{map-keys(map-get($__anthology-config, 'breakpoints'))}, or default.";
+      }
+
+    }
+  }
+}

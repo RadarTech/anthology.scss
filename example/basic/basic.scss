@@ -34,3 +34,17 @@ $adjectives: (
 .foo {
   @include A(extend, 'bg', 'greyscale');
 }
+
+$example-grid-config: (
+  'default': (
+    columns: 1fr 1fr 1fr,
+    rows: 75px 1fr 75px,
+    gap: 1px,
+    template:
+      'navigation    navigation  navigation   '
+      'left-sidebar  content     right-sidebar'
+      'footer        footer      footer       '
+  ),
+);
+
+@include A(grid, example, $example-grid-config);

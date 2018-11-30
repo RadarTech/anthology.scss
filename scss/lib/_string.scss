@@ -77,7 +77,7 @@ $__anthology-escape-chars: (':', '@', '!', '#');
     }
   }
 
-  // If $result starts with a dash or slash, escape it.
+  // If $result starts with a dash or underscore, escape it.
   @if __anthology-str-starts-with($result, '-') or __anthology-str-starts-with($result, '_')
   {
     $result: '#{$escape}#{$result}';

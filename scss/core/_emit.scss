@@ -1,3 +1,16 @@
+// Emits config metadata if it has not already been emitted.
+@mixin __anthology-emit-metadata()
+{
+  @if not($__anthology-metadata-is-emitted == true)
+  {
+    @at-root -anthology-metadata::before {
+      content: __anthology-to-json(( 'config': $__anthology-config ));
+    }
+
+    $__anthology-metadata-is-emitted: true !global;
+  }
+}
+
 // Performs the actual CSS generation for all combinations of selectors with a given `$shorthand` and `$adjective`.
 @mixin __anthology-do-emit($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, $important)
 {
@@ -28,6 +41,8 @@
 /// as much CSS [default: false].
 @mixin __anthology-emit($important: false)
 {
+  @include __anthology-emit-metadata();
+
   @if length(map-get($__anthology-cache, 'generic')) == 0
   {
     @warn 'Nothing to emit';
@@ -64,6 +79,8 @@
 /// as much CSS [default: false].
 @mixin __anthology-emit-responsive($important: false)
 {
+  @include __anthology-emit-metadata();
+
   @if not map-get($__anthology-config, 'breakpoints')
   {
     @warn 'Responsive breakpoints are not configured. Make sure to run `@include set-config( ( 'breakpoints': (...) ) );';

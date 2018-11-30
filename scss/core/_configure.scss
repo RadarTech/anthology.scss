@@ -6,26 +6,28 @@
 @mixin __anthology-configure($config: ())
 {
 
-  // Assign an empty map to each configured breakpoint
-  @each $breakpoint, $value in map-get($config, 'breakpoints')
+  @if not($__anthology-config-is-ready == true)
   {
+    // Assign an empty map to each configured breakpoint
+    @each $breakpoint, $value in map-get($config, 'breakpoints')
+    {
 
-    $__anthology-cache-defaults: __anthology-map-set(
-      $__anthology-cache-defaults,
-      ('responsive', $breakpoint),
-      ()
-    ) !global;
+      $__anthology-cache-defaults: __anthology-map-set(
+        $__anthology-cache-defaults,
+        ('responsive', $breakpoint),
+        ()
+      ) !global;
 
+    }
+
+    // Build global objects
+    $__anthology-config: __anthology-map-merge($__anthology-config-defaults, $config, $__anthology-config-tags) !global;
+    $__anthology-cache: __anthology-map-merge($__anthology-cache-defaults, $__anthology-cache) !global;
+    $__anthology-config-is-ready: true !global;
   }
-
-  // Build global objects
-  $__anthology-config: __anthology-map-merge($__anthology-config-defaults, $config, $__anthology-config-tags) !global;
-  $__anthology-cache: __anthology-map-merge($__anthology-cache-defaults, $__anthology-cache) !global;
-  $__anthology-config-is-ready: true !global;
-
-  // Emit metadata
-  @at-root -anthology-metadata::before {
-    content: __anthology-to-json(( 'config': $__anthology-config ));
+  @else
+  {
+    @warn '`A(configure, ...)` should be included only once per Anthology-generated stylesheet.';
   }
 
 }
