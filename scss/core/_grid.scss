@@ -46,7 +46,7 @@ $grid-areas: ();
       // Handle valid breakpoints.
       @if A(map-has-key, $__anthology-config, ('breakpoints', $breakpoint))
       {
-        @include bp($breakpoint) {
+        @include A(breakpoint, $breakpoint) {
           grid-template-columns: $columns;
           grid-template-rows: $rows;
           grid-template-areas: $template;
