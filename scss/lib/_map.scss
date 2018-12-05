@@ -26,7 +26,7 @@
 
       @else
       {
-        $result: map-merge($result, ($key: __anthology-map-merge(map-get($result, $key), $value)));
+        $result: map-merge($result, ($key: A(map-merge, map-get($result, $key), $value)));
       }
 
     }

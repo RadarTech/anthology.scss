@@ -9,11 +9,26 @@
 /// @param {String} $options.pseudo - Whether to extend and target a specific psuedo-class or pseudo-element [default:
 /// null].
 /// @param {Bool} $options.important - Whether to extend with `!important`.
-@mixin __anthology-extend($shorthand, $adjective, $options: ())
+@mixin __anthology-extend($args...)
 {
-  // Merge default options
-  $options: __anthology-single-selector-options($options);
+  $shorthand: nth($args, 1);
 
-  $raw-selector: __anthology-str-escape(__anthology-raw-selector($shorthand, $adjective, $options));
-  @extend #{'.#{$raw-selector}'};
+  @if type-of($shorthand) == list
+  {
+    @each $entry in $args
+    {
+      @include A(extend, $entry...);
+    }
+  }
+  @else
+  {
+    // Merge default options
+    $adjective: nth($args, 2);
+    $raw-options: if(length($args) > 2, nth($args, 3), ());
+    $options: A(single-selector-options, $raw-options);
+
+    $raw-selector: A(str-escape, A(raw-selector, $shorthand, $adjective, $options));
+
+    @extend #{'.#{$raw-selector}'};
+  }
 }

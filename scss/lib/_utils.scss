@@ -7,7 +7,7 @@
 
 // Returns the cache with the specified key reset to its default value.
 @function __anthology-flush-cache($cache-key) {
-  @return __anthology-map-set(
+  @return A(map-set,
     $__anthology-cache,
     $cache-key,
     __anthology-map-get($__anthology-cache-defaults, $cache-key)
@@ -16,7 +16,7 @@
 
 // Merge default options for 'single selectors'.
 @function __anthology-single-selector-options($options: ()) {
-  @return __anthology-map-merge(
+  @return A(map-merge,
     (
       'breakpoint': null,
       'theme': null,
@@ -29,7 +29,7 @@
 
 // Merge default options for `define-properties(...)` mixin.
 @function __anthology-define-options($options: ()) {
-  @return __anthology-map-merge(
+  @return A(map-merge,
     (
       'important': true,
       'responsive': true,
@@ -52,7 +52,7 @@
     @for $i from 1 through $listLength
     {
       $list-item: nth($list, $i);
-      $result: '#{$result} #{__anthology-to-json($list-item)}';
+      $result: '#{$result} #{A(to-json, $list-item)}';
       @if $i != $listLength { $result: '#{$result},'; }
     }
 
@@ -78,7 +78,7 @@
     // Transform inner maps into JSON
     @if $typeOfValue == 'map' or $typeOfValue == 'list'
     {
-      $result: '#{$result} "#{$key}": #{__anthology-to-json($value)}';
+      $result: '#{$result} "#{$key}": #{A(to-json, $value)}';
     }
     @else
     {

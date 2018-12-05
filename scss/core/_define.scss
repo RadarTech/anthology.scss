@@ -14,13 +14,13 @@
   @include __anthology-validate-config-is-ready();
 
   // Merge default options
-  $options: __anthology-define-options($options);
+  $options: A(define-options, $options);
 
   // Unpack options
-  $important: __anthology-map-get($options, 'important');
-  $responsive: __anthology-map-get($options, 'responsive');
-  $pseudos: __anthology-map-get($options, 'pseudos');
-  $themes: __anthology-map-get($options, 'themes');
+  $important: A(map-get, $options, 'important');
+  $responsive: A(map-get, $options, 'responsive');
+  $pseudos: A(map-get, $options, 'pseudos');
+  $themes: A(map-get, $options, 'themes');
 
 
   // Visit each adjective and cache its configuration.
@@ -33,11 +33,11 @@
       {
 
         // Handle valid breakpoints.
-        @if __anthology-map-has-key($__anthology-cache, ('responsive', $breakpoint))
+        @if A(map-has-key, $__anthology-cache, ('responsive', $breakpoint))
         {
           @if $responsive == true
           {
-            $__anthology-cache: __anthology-map-set(
+            $__anthology-cache: A(map-set,
               $__anthology-cache,
               ('responsive', $breakpoint, $shorthand, $adjective),
               ($property, $breakpoint-value, $important, false, $pseudos, $themes)
@@ -48,7 +48,7 @@
         // Handle the default case.
         @else if $breakpoint == 'default'
         {
-          $__anthology-cache: __anthology-map-set(
+          $__anthology-cache: A(map-set,
             $__anthology-cache,
             ('generic', $shorthand, $adjective),
             ($property, $breakpoint-value, $important, $pseudos, $themes)
@@ -73,7 +73,7 @@
         // Map responsive properties dynamically
         @each $breakpoint in map-keys(map-get($__anthology-cache, 'responsive'))
         {
-          $__anthology-cache: __anthology-map-set(
+          $__anthology-cache: A(map-set,
             $__anthology-cache,
             ('responsive', $breakpoint, $shorthand, $adjective),
             ($property, $value, $important, true, $pseudos, $themes)
@@ -81,7 +81,7 @@
         }
       }
 
-      $__anthology-cache: __anthology-map-set(
+      $__anthology-cache: A(map-set,
         $__anthology-cache,
         ('generic', $shorthand, $adjective),
         ($property, $value, $important, $pseudos, $themes)

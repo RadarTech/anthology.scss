@@ -55,7 +55,13 @@
   @return '#{$values}';
 }
 
-$__anthology-escape-chars: (':', '@', '!', '#');
+$__anthology-escape-chars: (
+  '!', '"', '#', '$', '%','&', "'", '(', ')', '*',
+
+  '+', ',', '.', '/', ':', ';', '<', '=', '>',
+
+  '?', '@', '[', ']', '^', '`', '{', '|', '}', '~'
+);
 
 /// Escapes
 @function __anthology-str-escape($string, $escape-multiplicity: 1) {
@@ -71,21 +77,21 @@ $__anthology-escape-chars: (':', '@', '!', '#');
   // If $result starts with a number, escape it.
   @for $i from 0 through 9
   {
-    @if __anthology-str-starts-with($result, quote($i))
+    @if A(str-starts-with, $result, quote($i))
     {
       $result: '#{$escape}#{$result}';
     }
   }
 
   // If $result starts with a dash or underscore, escape it.
-  @if __anthology-str-starts-with($result, '-') or __anthology-str-starts-with($result, '_')
+  @if A(str-starts-with, $result, '-') or A(str-starts-with, $result, '_')
   {
     $result: '#{$escape}#{$result}';
   }
 
   // Escape the listed characters
   @each $c in $__anthology-escape-chars {
-    $split-string: __anthology-str-split($result, $c);
+    $split-string: A(str-split, $result, $c);
 
     @for $i from 1 through length($split-string)
     {

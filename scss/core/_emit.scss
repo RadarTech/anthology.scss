@@ -4,7 +4,7 @@
   @if not($__anthology-metadata-is-emitted == true)
   {
     @at-root -anthology-metadata::before {
-      content: __anthology-to-json(( 'config': $__anthology-config ));
+      content: A(to-json, ( 'config': $__anthology-config ));
     }
 
     $__anthology-metadata-is-emitted: true !global;
@@ -18,7 +18,7 @@
 
   @if $important
   {
-    $full-selector: __anthology-full-selector($full-selector-args...);
+    $full-selector: A(full-selector, $full-selector-args...);
 
     #{$full-selector} {
       #{$property}: $value !important;
@@ -27,7 +27,7 @@
 
   @else
   {
-    $full-selector: __anthology-full-selector($full-selector-args...);
+    $full-selector: A(full-selector, $full-selector-args...);
 
     #{$full-selector} {
       #{$property}: $value;
@@ -70,7 +70,7 @@
     }
   }
 
-  $__anthology-cache: __anthology-flush-cache('generic') !global;
+  $__anthology-cache: A(flush-cache, 'generic') !global;
 }
 
 /// Emits responsive, media query efficient helpers. Emitted properties are flushed afterwards.
@@ -88,7 +88,7 @@
 
   @each $breakpoint, $shorthands in map-get($__anthology-cache, 'responsive')
   {
-    @include __anthology-breakpoint($breakpoint)
+    @include A(breakpoint, $breakpoint)
     {
       @each $shorthand, $adjectives in $shorthands
       {
@@ -132,5 +132,5 @@
     }
   }
 
-  $__anthology-cache: __anthology-flush-cache('responsive') !global;
+  $__anthology-cache: A(flush-cache, 'responsive') !global;
 }

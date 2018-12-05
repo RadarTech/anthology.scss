@@ -3,9 +3,9 @@ $grid-areas: ();
 @mixin __anthology-grid($name, $responsive-template-config)
 {
   // Get config properties
-  $sep: __anthology-map-get($__anthology-config, 'separator');
-  $grid-prefix: __anthology-map-get($__anthology-config, 'grid-prefix');
-  $grid-area-prefix: __anthology-map-get($__anthology-config, 'grid-area-prefix');
+  $sep: A(map-get, $__anthology-config, 'separator');
+  $grid-prefix: A(map-get, $__anthology-config, 'grid-prefix');
+  $grid-area-prefix: A(map-get, $__anthology-config, 'grid-area-prefix');
 
   $selector: '.#{$grid-prefix}#{$sep}#{$name}';
 

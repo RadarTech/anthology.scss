@@ -2,9 +2,9 @@
 
 @mixin __anthology-breakpoint($point)
 {
-  @if __anthology-map-has-key($__anthology-config, ('breakpoints', $point))
+  @if A(map-has-key, $__anthology-config, ('breakpoints', $point))
   {
-    $size: __anthology-map-get($__anthology-config, ('breakpoints', $point));
+    $size: A(map-get, $__anthology-config, ('breakpoints', $point));
     @media (min-width: $size) { @content; }
   }
 
@@ -16,9 +16,9 @@
 
 @mixin __anthology-until-breakpoint($point)
 {
-  @if __anthology-map-has-key($__anthology-config, ('breakpoints', $point))
+  @if A(map-has-key, $__anthology-config, ('breakpoints', $point))
   {
-    $size: __anthology-map-get($__anthology-config, ('breakpoints', $point));
+    $size: A(map-get, $__anthology-config, ('breakpoints', $point));
     @media (max-width: $size) { @content; }
   }
 
@@ -30,7 +30,7 @@
 
 @mixin __anthology-between-breakpoints($min-point, $max-point)
 {
-  $min-size: __anthology-map-get($__anthology-config, ('breakpoints', $min-point));
-  $max-size: __anthology-map-get($__anthology-config, ('breakpoints', $max-point));
+  $min-size: A(map-get, $__anthology-config, ('breakpoints', $min-point));
+  $max-size: A(map-get, $__anthology-config, ('breakpoints', $max-point));
   @media (min-width: $min-size) and (max-width: $max-size) { @content; }
 }

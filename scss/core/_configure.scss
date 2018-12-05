@@ -12,7 +12,7 @@
     @each $breakpoint, $value in map-get($config, 'breakpoints')
     {
 
-      $__anthology-cache-defaults: __anthology-map-set(
+      $__anthology-cache-defaults: A(map-set,
         $__anthology-cache-defaults,
         ('responsive', $breakpoint),
         ()
@@ -21,8 +21,8 @@
     }
 
     // Build global objects
-    $__anthology-config: __anthology-map-merge($__anthology-config-defaults, $config, $__anthology-config-tags) !global;
-    $__anthology-cache: __anthology-map-merge($__anthology-cache-defaults, $__anthology-cache) !global;
+    $__anthology-config: A(map-merge, $__anthology-config-defaults, $config) !global;
+    $__anthology-cache: A(map-merge, $__anthology-cache-defaults, $__anthology-cache) !global;
     $__anthology-config-is-ready: true !global;
   }
   @else

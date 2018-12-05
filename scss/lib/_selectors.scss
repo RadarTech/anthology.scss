@@ -2,17 +2,17 @@
 @function __anthology-raw-selector($shorthand, $adjective, $options: ())
 {
   // Get config properties
-  $sep: __anthology-map-get($__anthology-config, 'separator');
-  $imp-tag: __anthology-map-get($__anthology-config, 'important-tag');
-  $theme-tag: __anthology-map-get($__anthology-config, 'theme-tag');
-  $res-tag: __anthology-map-get($__anthology-config, 'responsive-tag');
+  $sep: A(map-get, $__anthology-config, 'separator');
+  $imp-tag: A(map-get, $__anthology-config, 'important-tag');
+  $theme-tag: A(map-get, $__anthology-config, 'theme-tag');
+  $res-tag: A(map-get, $__anthology-config, 'responsive-tag');
 
   // $options should already be normalized with `__anthology-single-selector-options(...)` by this point.
   // Unpack options
-  $breakpoint: __anthology-map-get($options, 'breakpoint');
-  $theme: __anthology-map-get($options, 'theme');
-  $pseudo: __anthology-map-get($options, 'pseudo');
-  $important: __anthology-map-get($options, 'important');
+  $breakpoint: A(map-get, $options, 'breakpoint');
+  $theme: A(map-get, $options, 'theme');
+  $pseudo: A(map-get, $options, 'pseudo');
+  $important: A(map-get, $options, 'important');
 
   // Build the resulting selector
   $result: '#{$shorthand}#{$sep}#{$adjective}';
@@ -37,7 +37,7 @@
 
   @if $pseudo
   {
-    @if not __anthology-str-starts-with($pseudo, ':') and not __anthology-str-starts-with($pseudo, '::')
+    @if not A(str-starts-with, $pseudo, ':') and not A(str-starts-with, $pseudo, '::')
     {
       @error 'Expected a pseudo-class or pseudo-element, received `#{$pseudo}`.';
     }
@@ -53,17 +53,17 @@
 @function __anthology-compound-selector($shorthand, $adjective, $options: ())
 {
   // Merge default options
-  $options: __anthology-single-selector-options($options);
+  $options: A(single-selector-options, $options);
 
   // Unpack options
-  $breakpoint: __anthology-map-get($options, 'breakpoint');
-  $theme: __anthology-map-get($options, 'theme');
-  $pseudo: __anthology-map-get($options, 'pseudo');
-  $important: __anthology-map-get($options, 'important');
+  $breakpoint: A(map-get, $options, 'breakpoint');
+  $theme: A(map-get, $options, 'theme');
+  $pseudo: A(map-get, $options, 'pseudo');
+  $important: A(map-get, $options, 'important');
 
   // Build selector
   $theme-designation-selector: '[data-theme~="#{$theme}"]';
-  $raw-selector: __anthology-str-escape(__anthology-raw-selector($shorthand, $adjective, $options), 2);
+  $raw-selector: A(str-escape, A(raw-selector, $shorthand, $adjective, $options), 2);
   $result: '.#{$raw-selector}';
 
   @if $theme
@@ -82,7 +82,7 @@
     $result: '#{$result}#{$pseudo}';
   }
 
-  $result: __anthology-stringify($result);
+  $result: A(stringify, $result);
 
   @return $result;
 }
@@ -90,7 +90,7 @@
 // Generates all combinations of class attribute selectors for the given arguments.
 @function __anthology-full-selector($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, $important)
 {
-  $result: __anthology-compound-selector($shorthand, $adjective, ('important': $important, 'breakpoint': $breakpoint));
+  $result: A(compound-selector, $shorthand, $adjective, ('important': $important, 'breakpoint': $breakpoint));
 
   @if $pseudos
   {
@@ -102,16 +102,16 @@
       {
         @each $theme in $themes
         {
-          $selector: __anthology-compound-selector($shorthand, $adjective, ('theme': $theme, 'pseudo': $pseudo, 'important': $important, 'breakpoint': $breakpoint));
-          @if not __anthology-str-contains($result, $selector)
+          $selector: A(compound-selector, $shorthand, $adjective, ('theme': $theme, 'pseudo': $pseudo, 'important': $important, 'breakpoint': $breakpoint));
+          @if not A(str-contains, $result, $selector)
           {
             $result: '#{$result}, #{$selector}';
           }
         }
       }
 
-      $selector: __anthology-compound-selector($shorthand, $adjective, ('pseudo': $pseudo, 'important': $important, 'breakpoint': $breakpoint));
-      @if not __anthology-str-contains($result, $selector)
+      $selector: A(compound-selector, $shorthand, $adjective, ('pseudo': $pseudo, 'important': $important, 'breakpoint': $breakpoint));
+      @if not A(str-contains, $result, $selector)
       {
         $result: '#{$result}, #{$selector}';
       }
@@ -122,8 +122,8 @@
   {
     @each $theme in $themes
     {
-      $selector: __anthology-compound-selector($shorthand, $adjective, ('theme': $theme, 'important': $important, 'breakpoint': $breakpoint));
-      @if not __anthology-str-contains($result, $selector)
+      $selector: A(compound-selector, $shorthand, $adjective, ('theme': $theme, 'important': $important, 'breakpoint': $breakpoint));
+      @if not A(str-contains, $result, $selector)
       {
         $result: '#{$result}, #{$selector}';
       }
