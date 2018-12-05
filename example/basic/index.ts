@@ -1,4 +1,4 @@
-import { AnthologyClient } from '../../src/index';
+import { AnthologyClient } from '../../dist';
 
 const anthology = new AnthologyClient<'small' | 'medium' | 'large'>();
 console.log('Breakpoints:', anthology.breakpoints);
