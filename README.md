@@ -18,7 +18,6 @@ npm install anthology.scss
 Anthology _mixins_ and _functions_ are called via this primary interface. For example, you can `@include A( {foo}, {args...} );` or set `$bar: A( {baz}, {args...} );`.
 
 ### Mixins
----
 
 #### `A(configure, $config)`
 
@@ -54,7 +53,7 @@ Sets the configuration for generating functional properties. `A(define, ...)` wi
 
 ##### Usage
 
-Defines a functional CSS rule. For optimization reasons, this mixin does not emit any CSS. To emit currently defined helpers, use 'A(emit, ...)' and 'A(emit-responsive, ...)'.
+Defines a functional CSS rule. For optimization reasons, this mixin does not emit any CSS. To emit currently defined helpers, use `A(emit, ...)` and `A(emit-responsive, ...)`.
 
 ---
 
