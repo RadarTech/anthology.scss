@@ -55,3 +55,31 @@ Sets the configuration for generating functional properties. `A(define, ...)` wi
 ##### Usage
 
 Defines a functional CSS rule. For optimization reasons, this mixin does not emit any CSS. To emit currently defined helpers, use 'A(emit, ...)' and 'A(emit-responsive, ...)'.
+
+---
+
+#### `A(emit, $important)`
+
+##### Params
+```
+{Bool} $important - Whether to emit '!important' versions of the rules. [default: false].
+```
+
+##### Usage
+
+Emits non-responsive rules. Emitted properties are flushed afterwards.
+
+---
+
+#### `A(emit-responsive, $important)`
+
+##### Params
+```
+{Bool} $important - Whether to emit '!important' versions of the rules [default: false].
+```
+
+##### Usage
+
+Emits responsive, media query efficient helpers. Emitted properties are flushed afterwards.
+
+---

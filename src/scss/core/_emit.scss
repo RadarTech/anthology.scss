@@ -35,10 +35,9 @@
   }
 }
 
-/// Emits non-responsive helpers. Emitted properties are flushed afterwards.
+/// Emits non-responsive rules. Emitted properties are flushed afterwards.
 ///
-/// @param {Bool} $important - Whether to emit '!important' versions of the selectors. Keep in mind this generates twice
-/// as much CSS [default: false].
+/// @param {Bool} $important - Whether to emit '!important' versions of the rules [default: false].
 @mixin __anthology-emit($important: false)
 {
   @include __anthology-emit-metadata();
@@ -75,8 +74,7 @@
 
 /// Emits responsive, media query efficient helpers. Emitted properties are flushed afterwards.
 ///
-/// @param {Bool} $important - Whether to emit '!important' versions of the selectors. Keep in mind this generates twice
-/// as much CSS [default: false].
+/// @param {Bool} $important - Whether to emit '!important' versions of the rules [default: false].
 @mixin __anthology-emit-responsive($important: false)
 {
   @include __anthology-emit-metadata();

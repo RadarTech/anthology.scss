@@ -1,4 +1,4 @@
-/// Sets the configuration for generating functional properties. The `define-property` mixin will throw if this mixin
+/// Sets the configuration for generating functional properties. `A(define, ...)` will throw if this mixin
 /// has not been included prior.
 ///
 /// @param {Map} $config.breakpoints - A map of responsive breakpoints [default: null].
