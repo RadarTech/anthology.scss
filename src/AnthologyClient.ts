@@ -1,7 +1,9 @@
+// --- Imports -------------------------------------------------------------- //
+
 import chalk from 'chalk';
 import { AnthologyRule, ExtractOptions } from './types';
 
-// TODO: Improve doc comments...
+// --- Business logic ------------------------------------------------------- //
 
 export class AnthologyClient<BreakpointNames extends string> {
   // --- Properties --- //
@@ -14,7 +16,7 @@ export class AnthologyClient<BreakpointNames extends string> {
 
   constructor(styleSheet: StyleSheet = AnthologyClient.StyleSheets[0]) {
     if (!styleSheet && !AnthologyClient.StyleSheets[0]) {
-      console.warn(
+      throw new Error(
         'Could not find any style sheets containing Anthology.scss metadata.',
       );
     }
@@ -67,7 +69,7 @@ export class AnthologyClient<BreakpointNames extends string> {
    */
   public parseMetadata(): this {
     if (!this.styleSheet['rules'] && !this.styleSheet['cssRules']) {
-      console.warn('Style sheet does not contain any CSS rules.');
+      throw new Error('Style sheet does not contain any CSS rules.');
     }
 
     // Grab the style sheet and cast to proper typing.
@@ -87,7 +89,7 @@ export class AnthologyClient<BreakpointNames extends string> {
 
     // Raise an error if metadata is not found.
     if (!metadataRule) {
-      console.warn('Style sheet does not contain Anthology.scss metadata.');
+      throw new Error('Style sheet does not contain Anthology.scss metadata.');
     }
 
     // Parse metadata (parsing is done twice because the content is provided as a nested string).
@@ -133,7 +135,7 @@ export class AnthologyClient<BreakpointNames extends string> {
     let selectorEscaped: string;
 
     // Find the first matching CSS Rule
-    const isValidRule = !!this.rules.find(rule => {
+    const isValidRule = this.rules.find(rule => {
       // Search through dynamically-responsive rules first.
       if (!!options.breakpoint && rule.type === CSSRule.MEDIA_RULE) {
         const mediaRule = rule as CSSMediaRule;
@@ -166,7 +168,7 @@ export class AnthologyClient<BreakpointNames extends string> {
 
     // Throw if the rule is invalid or not found in this style sheet.
     if (!isValidRule) {
-      console.warn(
+      throw new Error(
         `Could not find Anthology-generated rule associated with selector: ${chalk.cyan(
           selectorEscaped,
         )}`,
