@@ -4,20 +4,26 @@
   "author": "Ian K Smith <ian.smith@radarrelay.com>",
   "scripts": {
     "example:basic": "parcel ./example/basic/basic.html --out-dir ./.parcel-dist",
-    "build": "tsc",
-    "lint": "tslint src/**/*.ts"
+    "build": "yarn clean && yarn compile",
+    "compile": "microbundle build src/index.ts --name AnthologyClient",
+    "lint": "tslint src/**/*.ts",
+    "clean": "rimraf dist",
+    "clean:cache": "rimraf .rts2_cache_*"
   },
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
+  "unpkg": "dist/index.umd.js",
   "dependencies": {
     "chalk": "~2.4.1"
   },
   "devDependencies": {
     "@radarrelay/tslint-config": "github:RadarRelay/tslint-config",
     "@types/chalk": "~2.2.0",
+    "microbundle": "^0.8.3",
     "node-sass": "~4.9.3",
     "parcel-bundler": "~1.10.2",
     "prettier": "~1.14.3",
+    "rimraf": "^2.6.2",
     "tslint": "~5.11.0",
     "typescript": "~3.1.2"
   }

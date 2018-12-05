@@ -2,3 +2,4 @@ node-modules/
 .vscode/
 .cache/
 .parcel-dist/
+.rts2_cache_*
