@@ -1,16 +1,17 @@
 {
   "name": "anthology.scss",
   "version": "0.5.0",
+  "description": "A SCSS library for creating scaleable, brand-driven, atomic styles",
   "author": "Ian K Smith <ian.smith@radarrelay.com>",
   "scripts": {
     "example:basic": "parcel ./example/basic/basic.html --out-dir ./.parcel-dist",
     "dev": "yarn clean && yarn compile:watch",
     "build": "yarn clean && yarn compile",
-    "compile": "microbundle build src/index.ts --name AnthologyClient",
-    "compile:watch": "microbundle watch src/index.ts --name AnthologyClient",
+    "compile": "microbundle build src/ts/index.ts --name AnthologyClient",
+    "compile:watch": "microbundle watch src/ts/index.ts --name AnthologyClient",
     "lint": "tslint src/**/*.ts",
     "clean": "rimraf dist",
-    "clean:cache": "rimraf .rts2_cache_*"
+    "clean:cache": "rimraf .rts2_cache_* .parcel-dist .cache"
   },
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",

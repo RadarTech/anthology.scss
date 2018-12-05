@@ -1,8 +1,18 @@
-## Anthology.scss
+# 📚 Anthology.scss
 
-This README is a work-in-progress.
+> A SCSS library for creating scaleable, brand-driven, atomic styles
 
 ## Getting started
+
+### Install
+
+```sh
+yarn add anthology.scss
+```
+or
+```sh
+npm install anthology.scss
+```
 
 Feel free to mess around with the basic example:
 
