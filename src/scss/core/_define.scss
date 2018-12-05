@@ -1,11 +1,13 @@
-/// Defines a functional CSS helper. For optimization reasons, this mixin does not emit any CSS. To emit currently
-/// defined helpers, use 'emit-functional-properties()' and 'emit-responsive-functional-properties()'
+/// Defines a functional CSS rule. For optimization reasons, this mixin does not emit any CSS. To emit currently defined
+/// helpers, use 'A(emit, ...)' and 'A(emit-responsive, ...)'.
 ///
 /// @param {String} $shorthand - The name for this series of helpers.
 /// @param {String} $property - The CSS property to target.
 /// @param {Map} $values - A map of values to assign.
-/// @param {Bool} $options.important - Whether to emit '!important' versions of the selectors. This overrides the
-/// argument in `emit-properties()` and `emit-responsive-properties()` [default: true].
+/// @param {Bool} $options.important - Whether to emit '!important' versions of the rules. This overrides the argument
+/// in `A(emit, ...)` and `A(emit-responsive, ...)` [default: true].
+/// @param {Bool} $options.responsive - Whether to emit responsive versions of the rules. This overrides the argument in
+/// `A(emit, ...)` and `A(emit-responsive, ...)` [default: true].
 /// @param {List} $options.pseudos - A list of pseudo-classes or pseudo-elements to generate selectors for.
 /// @param {List} $options.themes - A list of themes to generate selectors for.
 @mixin __anthology-define($shorthand, $property, $values, $options: ())
