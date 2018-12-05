@@ -3,6 +3,11 @@
 ///
 /// @param {Map} $config.breakpoints - A map of responsive breakpoints [default: null].
 /// @param {String} $config.separator - A string delimiter which appears between each piece of the generated selectors [default: '-'].
+/// @param {String} $config.important-tag - A string which designates '!important' rules [default: '!'].
+/// @param {String} $config.theme-tag - A string which designates themed rules [default: '#'].
+/// @param {String} $config.responsive-tag - A string which designates responsive rules [default: '@'].
+/// @param {String} $config.grid-prefix - A string which prefixes Anthology-generated grids [default: 'grid'].
+/// @param {String} $config.grid-area-prefix - A string which prefixes 'grid-area' rules for Anthology-generated grids [default: 'area'].
 @mixin __anthology-configure($config: ())
 {
 

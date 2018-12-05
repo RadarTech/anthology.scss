@@ -2,10 +2,7 @@
 
 > A SCSS library for creating scaleable, brand-driven, atomic styles
 
-## Getting started
-
-### Install
-
+## Install
 ```sh
 yarn add anthology.scss
 ```
@@ -14,13 +11,27 @@ or
 npm install anthology.scss
 ```
 
-Feel free to mess around with the basic example:
+## SCSS
 
-1. `npm install` dependencies
-2. `npm run example:basic`
-3. Open `http://localhost:1234` in your browser
-4. Edit files in `example/basic` to see the framework in action
+### `A(...)`
 
-## Building the client-side library
+Anthology _mixins_ and _functions_ are called via this primary interface. For example, you can `@include A( {foo}, {args...} );` or set `$bar: A( {baz}, {args...} );`.
 
-If you make changes to files in `src`, remember to `npm run build` so that the repository contains the latest `dist`.
+### Mixins
+
+#### `A(configure, $config)`
+
+##### Params
+```
+{Map} $config.breakpoints - A map of responsive breakpoints [default: null].
+{String} $config.separator - A string delimiter which appears between each piece of the generated selectors [default: '-'].
+{String} $config.important-tag - A string which designates '!important' rules [default: '!'].
+{String} $config.theme-tag - A string which designates themed rules [default: '#'].
+{String} $config.responsive-tag - A string which designates responsive rules [default: '@'].
+{String} $config.grid-prefix - A string which prefixes Anthology-generated grids [default: 'grid'].
+{String} $config.grid-area-prefix - A string which prefixes 'grid-area' rules for Anthology-generated grids [default: 'area'].
+```
+
+##### Usage
+
+Configures Anthology with options for responsive breakpoints and syntax tags.
