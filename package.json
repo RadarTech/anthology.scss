@@ -1,6 +1,6 @@
 {
   "name": "anthology.scss",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "A SCSS library for creating scaleable, brand-driven, atomic styles",
   "author": "Ian K Smith <ian.smith@radarrelay.com>",
   "scripts": {
