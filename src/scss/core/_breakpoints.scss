@@ -10,7 +10,7 @@
 
   @else
   {
-    @error 'Breakpoint `#{$point}` is not registered by `anth-config(...)`. Please register all breakpoints before using `__anthology-breakpoint(...)`.';
+    @error 'Breakpoint `#{$point}` is not registered by `A(configure, ...)`. Please register all breakpoints before using `A(breakpoint, ...)`.';
   }
 }
 
@@ -24,7 +24,7 @@
 
   @else
   {
-    @error 'Breakpoint `#{$point}` is not registered by `anth-config(...)`. Please register all breakpoints before using `__anthology-until-breakpoint(...)`.';
+    @error 'Breakpoint `#{$point}` is not registered by `A(configure, ...)`. Please register all breakpoints before using `A(until-breakpoint, ...)`.';
   }
 }
 
