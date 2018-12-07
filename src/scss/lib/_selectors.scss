@@ -52,6 +52,8 @@
 // Generates a usable selector that targets the class attribute, like this: `[class~="shorthand-adjective-*"]`.
 @function __anthology-compound-selector($shorthand, $adjective, $options: ())
 {
+  $theme-attr: A(map-get, $__anthology-config, 'theme-attr');
+
   // Merge default options
   $options: A(single-selector-options, $options);
 
@@ -62,7 +64,7 @@
   $important: A(map-get, $options, 'important');
 
   // Build selector
-  $theme-designation-selector: '[data-theme~="#{$theme}"]';
+  $theme-designation-selector: '[#{$theme-attr}~="#{$theme}"]';
   $raw-selector: A(str-escape, A(raw-selector, $shorthand, $adjective, $options), 2);
   $result: '.#{$raw-selector}';
 
