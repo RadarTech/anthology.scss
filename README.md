@@ -1,6 +1,6 @@
 # 📚 Anthology
 
-> A SCSS library for creating scaleable, brand-driven, atomic styles
+> SCSS library for generating functional CSS patterns that are declarative, theme-able, automatically responsive, and compatible with atomic design!
 
 Anthology helps you create functional CSS with declarative theming and responsiveness built-in.
 
