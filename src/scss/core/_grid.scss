@@ -70,7 +70,7 @@ $grid-areas: ();
       // Throw if breakpoint key is invalid.
       @else
       {
-        @error "Invalid breakpoint key: `#{$breakpoint}`. Choose one of: #{map-keys(map-get($__anthology-config, 'breakpoints'))}, or default.";
+        @error "[anthology::mixin::grid] --- Invalid breakpoint key: `#{$breakpoint}`. Choose one of: #{map-keys(map-get($__anthology-config, 'breakpoints'))}, or default.";
       }
 
     }

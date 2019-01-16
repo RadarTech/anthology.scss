@@ -27,8 +27,18 @@
     $raw-options: if(length($args) > 2, nth($args, 3), ());
     $options: A(single-selector-options, $raw-options);
 
-    $raw-selector: A(str-escape, A(raw-selector, $shorthand, $adjective, $options));
+    $should-extend-silent: if(
+      A(map-get, $options, 'breakpoint'),
+      A(map-get, $__anthology-extend-silent, 'responsive'),
+      A(map-get, $__anthology-extend-silent, 'generic'),
+    );
 
-    @extend #{'.#{$raw-selector}'};
+    $selector: if(
+      $should-extend-silent,
+      A(silent-selector, $shorthand, $adjective, $options),
+      '.#{A(str-escape, A(raw-selector, $shorthand, $adjective, $options))}'
+    );
+
+    @extend #{'#{$selector}'};
   }
 }

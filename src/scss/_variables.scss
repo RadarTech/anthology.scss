@@ -18,3 +18,8 @@ $__anthology-cache-defaults: (
   'generic': (),
   'responsive': (),
 );
+
+$__anthology-extend-silent: (
+  'generic': false,
+  'responsive': false,
+);

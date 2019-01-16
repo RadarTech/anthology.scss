@@ -17,6 +17,12 @@
     @each $breakpoint, $value in map-get($config, 'breakpoints')
     {
 
+      // "default" is reserved.
+      @if $breakpoint == 'default'
+      {
+        @error '[anthology::mixin::configure] --- Breakpoints cannot be named `default`.';
+      }
+
       $__anthology-cache-defaults: A(map-set,
         $__anthology-cache-defaults,
         ('responsive', $breakpoint),
@@ -32,7 +38,7 @@
   }
   @else
   {
-    @warn '`A(configure, ...)` should be included only once per Anthology-generated stylesheet.';
+    @warn '[anthology::mixin::configure] --- `A(configure, ...)` should be included only once per Anthology-generated stylesheet.';
   }
 
 }

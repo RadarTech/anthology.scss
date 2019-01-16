@@ -1,7 +1,7 @@
 @mixin A($mixin, $args...) {
   @if not(mixin-exists('__anthology-#{$mixin}'))
   {
-    @error 'Anthology mixin `#{$mixin}` not found.';
+    @error '[anthology] --- Anthology mixin `#{$mixin}` not found.';
   }
 
   @if $mixin == 'configure' { @include __anthology-configure($args...); }
@@ -27,6 +27,6 @@
   }
   @else
   {
-    @error 'Anthology function `#{$function}` not found.'
+    @error '[anthology] --- Anthology function `#{$function}` not found.'
   }
 }

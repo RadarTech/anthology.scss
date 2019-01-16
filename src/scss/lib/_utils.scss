@@ -1,7 +1,7 @@
 // Ensure that `set-config(...)` has been included at least once.
 @mixin __anthology-validate-config-is-ready() {
   @if not $__anthology-config-is-ready {
-    @error 'Before defining your own functional properties, run `@include anth-config(...);`.';
+    @error '[anthology::mixin::validate-config-is-ready] --- Before defining your own functional properties, call `@include A(configure...);`.';
   }
 }
 
@@ -27,7 +27,7 @@
   );
 }
 
-// Merge default options for `define-properties(...)` mixin.
+// Merge default options for `A(define, ...)` mixin.
 @function __anthology-define-options($options: ()) {
   @return A(map-merge,
     (
@@ -35,6 +35,18 @@
       'responsive': true,
       'pseudos': null,
       'themes': null,
+    ),
+    $options
+  );
+}
+
+// Merge default options for `A(emit, ...)` mixin.
+@function __anthology-emit-options($options: ()) {
+  @return A(map-merge,
+    (
+      'important': false,
+      'silent': false,
+      'flush-cache': true,
     ),
     $options
   );

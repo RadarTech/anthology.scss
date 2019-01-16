@@ -60,7 +60,7 @@
         // Throw if breakpoint key is invalid.
         @else
         {
-          @error "Invalid breakpoint key: #{$breakpoint}. Choose one of: #{map-keys(map-get($__anthology-cache, 'responsive'))}, or default.";
+          @error "[anthology::mixin::define] --- Invalid breakpoint key: #{$breakpoint}. Choose one of: #{map-keys(map-get($__anthology-cache, 'responsive'))}, or default.";
         }
 
       }
