@@ -1,16 +1,9 @@
-// Ensure that `set-config(...)` has been included at least once.
-@mixin __anthology-validate-config-is-ready() {
-  @if not $__anthology-config-is-ready {
-    @error '[anthology::mixin::validate-config-is-ready] --- Before defining your own functional properties, call `@include A(configure...);`.';
-  }
-}
-
 // Returns the cache with the specified key reset to its default value.
 @function __anthology-flush-cache($cache-key) {
   @return A(map-set,
     $__anthology-cache,
     $cache-key,
-    __anthology-map-get($__anthology-cache-defaults, $cache-key)
+    A(map-get, $__anthology-cache-defaults, $cache-key)
   );
 }
 

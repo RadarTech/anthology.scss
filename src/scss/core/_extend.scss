@@ -11,6 +11,11 @@
 /// @param {Bool} $options.important - Whether to extend with `!important`.
 @mixin __anthology-extend($args...)
 {
+  // Ensure `A(configure, ...)` has been included prior.
+  @if not $__anthology-config-is-ready {
+    @error '[anthology::mixin::extend] --- Before extending functional properties, call `@include A(configure...);`.';
+  }
+
   $shorthand: nth($args, 1);
 
   @if type-of($shorthand) == list

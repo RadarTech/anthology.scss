@@ -132,3 +132,28 @@
 
   @return $result;
 }
+
+@function __anthology-map-reorder-keys($map, $ordered-keys)
+{
+  $result: ();
+
+  @each $key in $ordered-keys
+  {
+    @if not(A(map-has-key, $map, $key))
+    {
+      @warn '[anthology::function::map-reorder-keys] --- Key `#{$key}` does not exist in the provided map. Skipping it.';
+    }
+
+    $result: A(map-set, $result, ($key), A(map-get, $map, ($key)));
+  }
+
+  @each $key, $value in $map
+  {
+    @if (not(A(list-contains, $ordered-keys, $key)))
+    {
+      $result: A(map-set, $result, ($key), A(map-get, $map, ($key)));
+    }
+  }
+
+  @return $result;
+}
