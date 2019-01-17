@@ -12,9 +12,9 @@
 }
 
 // Performs the actual CSS generation for all combinations of selectors with a given `$shorthand` and `$adjective`.
-@mixin __anthology-do-emit($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, $important)
+@mixin __anthology-do-emit($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, $important, $silent)
 {
-  $full-selector-args: ($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, $important);
+  $full-selector-args: ($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, $important, $silent);
 
   @if $important
   {
@@ -38,14 +38,24 @@
 /// Emits non-responsive rules. Emitted properties are flushed afterwards.
 ///
 /// @param {Bool} $important - Whether to emit '!important' versions of the rules [default: false].
-@mixin __anthology-emit($important: false)
+@mixin __anthology-emit($options: ())
 {
+  // Merge default options
+  $options: A(emit-options, $options);
+
+  // Unpack options
+  $important: A(map-get, $options, 'important');
+  $silent: A(map-get, $options, 'silent');
+  $flush-cache: A(map-get, $options, 'flush-cache');
+
   @include __anthology-emit-metadata();
 
   @if length(map-get($__anthology-cache, 'generic')) == 0
   {
-    @warn 'Nothing to emit';
+    @warn '[anthology::emit] --- Nothing to emit';
   }
+
+  $__anthology-extend-silent: A(map-set, $__anthology-extend-silent, ('generic'), $silent) !global;
 
   @each $shorthand, $adjectives in map-get($__anthology-cache, 'generic')
   {
@@ -58,31 +68,64 @@
       $pseudos: nth($helper, 4);
       $themes: nth($helper, 5);
 
-      // Emit without `!important`
-      @include __anthology-do-emit($shorthand, $adjective, $property, $value, null, $pseudos, $themes, false);
+      $should-emit-important: $important and $important-override;
 
-      // Emit with `!important`
-      @if $important and $important-override
+      @include __anthology-do-emit(
+        $shorthand: $shorthand,
+        $adjective: $adjective,
+        $property: $property,
+        $value: $value,
+        $breakpoint: null,
+        $pseudos: $pseudos,
+        $themes: $themes,
+        $important: false,
+        $silent: $silent,
+      );
+
+      @if $should-emit-important
       {
-        @include __anthology-do-emit($shorthand, $adjective, $property, $value, null, $pseudos, $themes, true);
+        @include __anthology-do-emit(
+          $shorthand: $shorthand,
+          $adjective: $adjective,
+          $property: $property,
+          $value: $value,
+          $breakpoint: null,
+          $pseudos: $pseudos,
+          $themes: $themes,
+          $important: true,
+          $silent: $silent,
+        );
       }
     }
   }
 
-  $__anthology-cache: A(flush-cache, 'generic') !global;
+  @if $flush-cache
+  {
+    $__anthology-cache: A(flush-cache, 'generic') !global;
+  }
 }
 
 /// Emits responsive, media query efficient helpers. Emitted properties are flushed afterwards.
 ///
 /// @param {Bool} $important - Whether to emit '!important' versions of the rules [default: false].
-@mixin __anthology-emit-responsive($important: false)
+@mixin __anthology-emit-responsive($options: ())
 {
+  // Merge default options
+  $options: A(emit-options, $options);
+
+  // Unpack options
+  $important: A(map-get, $options, 'important');
+  $silent: A(map-get, $options, 'silent');
+  $flush-cache: A(map-get, $options, 'flush-cache');
+
   @include __anthology-emit-metadata();
 
   @if not map-get($__anthology-config, 'breakpoints')
   {
-    @warn 'Responsive breakpoints are not configured. Make sure to run `@include set-config( ( 'breakpoints': (...) ) );';
+    @warn '[anthology::emit-responsive] --- Responsive breakpoints are not configured. Make sure to call `@include A(configure, ( 'breakpoints': (...) ) );`';
   }
+
+  $__anthology-extend-silent: A(map-set, $__anthology-extend-silent, ('responsive'), $silent) !global;
 
   @each $breakpoint, $shorthands in map-get($__anthology-cache, 'responsive')
   {
@@ -90,45 +133,52 @@
     {
       @each $shorthand, $adjectives in $shorthands
       {
-        @each $adjective, $helper in $adjectives
+        @each $adjective, $attributes in $adjectives
         {
-          // Unpack helper
-          $property: nth($helper, 1);
-          $value: nth($helper, 2);
-          $important-override: nth($helper, 3);
-          $include-responsive-tag: nth($helper, 4);
-          $pseudos: nth($helper, 5);
-          $themes: nth($helper, 6);
+          // Unpack attributes
+          $property: nth($attributes, 1);
+          $value: nth($attributes, 2);
+          $important-override: nth($attributes, 3);
+          $include-responsive-tag: nth($attributes, 4);
+          $pseudos: nth($attributes, 5);
+          $themes: nth($attributes, 6);
 
-          // Emit without responsive tag (dynamically responsive values)
-          @if not($include-responsive-tag)
+          $should-emit-breakpoint-tag: if($include-responsive-tag, $breakpoint, null);
+          $should-emit-important: $important and $important-override;
+
+          @include __anthology-do-emit(
+            $shorthand: $shorthand,
+            $adjective: $adjective,
+            $property: $property,
+            $value: $value,
+            $breakpoint: $should-emit-breakpoint-tag,
+            $pseudos: $pseudos,
+            $themes: $themes,
+            $important: false,
+            $silent: $silent,
+          );
+
+          @if $should-emit-important
           {
-            // Emit without `!important`;
-            @include __anthology-do-emit($shorthand, $adjective, $property, $value, null, $pseudos, $themes, false);
-
-            // Emit with `!important`
-            @if $important and $important-override
-            {
-              @include __anthology-do-emit($shorthand, $adjective, $property, $value, null, $pseudos, $themes, true);
-            }
-          }
-
-          // Emit with responsive tag
-          @else
-          {
-            // Emit without `!important`
-            @include __anthology-do-emit($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, false);
-
-            // Emit with `!important`
-            @if $important and $important-override
-            {
-              @include __anthology-do-emit($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, true);
-            }
+            @include __anthology-do-emit(
+              $shorthand: $shorthand,
+              $adjective: $adjective,
+              $property: $property,
+              $value: $value,
+              $breakpoint: $should-emit-breakpoint-tag,
+              $pseudos: $pseudos,
+              $themes: $themes,
+              $important: true,
+              $silent: $silent,
+            );
           }
         }
       }
     }
   }
 
-  $__anthology-cache: A(flush-cache, 'responsive') !global;
+  @if $flush-cache
+  {
+    $__anthology-cache: A(flush-cache, 'responsive') !global;
+  }
 }

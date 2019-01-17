@@ -17,12 +17,27 @@
     @each $breakpoint, $value in map-get($config, 'breakpoints')
     {
 
+      // "default" is reserved.
+      @if $breakpoint == 'default'
+      {
+        @error '[anthology::configure] --- Breakpoints cannot be named `default`.';
+      }
+
       $__anthology-cache-defaults: A(map-set,
         $__anthology-cache-defaults,
         ('responsive', $breakpoint),
         ()
       ) !global;
 
+    }
+
+    $escaped-config-keys: ('separator', 'important-tag', 'theme-tag', 'responsive-tag', 'grid-prefix', 'grid-area-prefix', 'theme-attr');
+    @each $config-key, $value in $config
+    {
+      @if A(list-contains, $escaped-config-keys, $config-key)
+      {
+        $config: A(map-set, $config, $config-key, A(str-escape, A(map-get, $config,$config-key), 2));
+      }
     }
 
     // Build global objects
@@ -32,7 +47,7 @@
   }
   @else
   {
-    @warn '`A(configure, ...)` should be included only once per Anthology-generated stylesheet.';
+    @warn '[anthology::configure] --- `A(configure, ...)` should be included only once per Anthology-generated stylesheet.';
   }
 
 }

@@ -1,6 +1,6 @@
 {
   "name": "anthology.scss",
-  "version": "0.5.3",
+  "version": "0.6.1",
   "description": "A SCSS library for generating functional CSS patterns that are declarative, theme-able, automatically responsive, and compatible with atomic design!",
   "author": "Ian K Smith <ian.smith@radarrelay.com>",
   "license": "MIT",

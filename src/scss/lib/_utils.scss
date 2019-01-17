@@ -1,16 +1,9 @@
-// Ensure that `set-config(...)` has been included at least once.
-@mixin __anthology-validate-config-is-ready() {
-  @if not $__anthology-config-is-ready {
-    @error 'Before defining your own functional properties, run `@include anth-config(...);`.';
-  }
-}
-
 // Returns the cache with the specified key reset to its default value.
 @function __anthology-flush-cache($cache-key) {
   @return A(map-set,
     $__anthology-cache,
     $cache-key,
-    __anthology-map-get($__anthology-cache-defaults, $cache-key)
+    A(map-get, $__anthology-cache-defaults, $cache-key)
   );
 }
 
@@ -27,7 +20,7 @@
   );
 }
 
-// Merge default options for `define-properties(...)` mixin.
+// Merge default options for `A(define, ...)` mixin.
 @function __anthology-define-options($options: ()) {
   @return A(map-merge,
     (
@@ -35,6 +28,18 @@
       'responsive': true,
       'pseudos': null,
       'themes': null,
+    ),
+    $options
+  );
+}
+
+// Merge default options for `A(emit, ...)` mixin.
+@function __anthology-emit-options($options: ()) {
+  @return A(map-merge,
+    (
+      'important': false,
+      'silent': false,
+      'flush-cache': true,
     ),
     $options
   );

@@ -12,8 +12,10 @@
 /// @param {List} $options.themes - A list of themes to generate selectors for.
 @mixin __anthology-define($shorthand, $property, $values, $options: ())
 {
-  // Ensure `set-config(...)` has been included prior.
-  @include __anthology-validate-config-is-ready();
+  // Ensure `A(configure, ...)` has been included prior.
+  @if not $__anthology-config-is-ready {
+    @error '[anthology::define] --- Before defining your own functional properties, call `@include A(configure...);`.';
+  }
 
   // Merge default options
   $options: A(define-options, $options);
@@ -60,7 +62,7 @@
         // Throw if breakpoint key is invalid.
         @else
         {
-          @error "Invalid breakpoint key: #{$breakpoint}. Choose one of: #{map-keys(map-get($__anthology-cache, 'responsive'))}, or default.";
+          @error "[anthology::define] --- Invalid breakpoint key: #{$breakpoint}. Choose one of: #{map-keys(map-get($__anthology-cache, 'responsive'))}, or default.";
         }
 
       }

@@ -28,11 +28,11 @@ $adjectives: (
   )
 );
 
-@include A(emit, true);
-@include A(emit-responsive, true);
+@include A(emit, (important: true, silent: true));
+@include A(emit-responsive, (important: true, silent: true));
 
 .foo {
-  @include A(extend, 'bg', 'greyscale');
+  @include A(extend, 'bg', 'red', (breakpoint: 'small'));
 }
 
 $example-grid-config: (
