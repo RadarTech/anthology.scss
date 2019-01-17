@@ -75,7 +75,7 @@
   // Warn the user we will be overriding it with $value
   @if type-of(nth($keys, -1)) == "map"
   {
-    @warn "[anthology::function::map-set] --- The last key you specified is a map; it will be overrided with `#{$value}`.";
+    @warn "[anthology::map-set] --- The last key you specified is a map; it will be overrided with `#{$value}`.";
   }
 
   // If $keys is a single key
@@ -141,7 +141,7 @@
   {
     @if not(A(map-has-key, $map, $key))
     {
-      @warn '[anthology::function::map-reorder-keys] --- Key `#{$key}` does not exist in the provided map. Skipping it.';
+      @warn '[anthology::map-reorder-keys] --- Key `#{$key}` does not exist in the provided map. Skipping it.';
     }
 
     $result: A(map-set, $result, ($key), A(map-get, $map, ($key)));

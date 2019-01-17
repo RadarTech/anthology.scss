@@ -20,7 +20,7 @@
       // "default" is reserved.
       @if $breakpoint == 'default'
       {
-        @error '[anthology::mixin::configure] --- Breakpoints cannot be named `default`.';
+        @error '[anthology::configure] --- Breakpoints cannot be named `default`.';
       }
 
       $__anthology-cache-defaults: A(map-set,
@@ -31,6 +31,15 @@
 
     }
 
+    $escaped-config-keys: ('separator', 'important-tag', 'theme-tag', 'responsive-tag', 'grid-prefix', 'grid-area-prefix', 'theme-attr');
+    @each $config-key, $value in $config
+    {
+      @if A(list-contains, $escaped-config-keys, $config-key)
+      {
+        $config: A(map-set, $config, $config-key, A(str-escape, A(map-get, $config,$config-key), 2));
+      }
+    }
+
     // Build global objects
     $__anthology-config: A(map-merge, $__anthology-config-defaults, $config) !global;
     $__anthology-cache: A(map-merge, $__anthology-cache-defaults, $__anthology-cache) !global;
@@ -38,7 +47,7 @@
   }
   @else
   {
-    @warn '[anthology::mixin::configure] --- `A(configure, ...)` should be included only once per Anthology-generated stylesheet.';
+    @warn '[anthology::configure] --- `A(configure, ...)` should be included only once per Anthology-generated stylesheet.';
   }
 
 }

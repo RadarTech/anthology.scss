@@ -5,9 +5,9 @@ $__anthology-config: ();
 $__anthology-config-defaults: (
   'breakpoints': null,
   'separator': '-',
-  'important-tag': '!',
-  'theme-tag': '#',
-  'responsive-tag': '@',
+  'important-tag': '\\\\!',
+  'theme-tag': '\\\\#',
+  'responsive-tag': '\\\\@',
   'grid-prefix': 'grid',
   'grid-area-prefix': 'area',
   'theme-attr': 'data-theme',

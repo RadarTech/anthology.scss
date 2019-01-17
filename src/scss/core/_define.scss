@@ -14,7 +14,7 @@
 {
   // Ensure `A(configure, ...)` has been included prior.
   @if not $__anthology-config-is-ready {
-    @error '[anthology::mixin::define] --- Before defining your own functional properties, call `@include A(configure...);`.';
+    @error '[anthology::define] --- Before defining your own functional properties, call `@include A(configure...);`.';
   }
 
   // Merge default options
@@ -62,7 +62,7 @@
         // Throw if breakpoint key is invalid.
         @else
         {
-          @error "[anthology::mixin::define] --- Invalid breakpoint key: #{$breakpoint}. Choose one of: #{map-keys(map-get($__anthology-cache, 'responsive'))}, or default.";
+          @error "[anthology::define] --- Invalid breakpoint key: #{$breakpoint}. Choose one of: #{map-keys(map-get($__anthology-cache, 'responsive'))}, or default.";
         }
 
       }

@@ -52,7 +52,7 @@
 
   @if length(map-get($__anthology-cache, 'generic')) == 0
   {
-    @warn '[anthology::mixin::emit] --- Nothing to emit';
+    @warn '[anthology::emit] --- Nothing to emit';
   }
 
   $__anthology-extend-silent: A(map-set, $__anthology-extend-silent, ('generic'), $silent) !global;
@@ -122,7 +122,7 @@
 
   @if not map-get($__anthology-config, 'breakpoints')
   {
-    @warn '[anthology::mixin::emit-responsive] --- Responsive breakpoints are not configured. Make sure to call `@include A(configure, ( 'breakpoints': (...) ) );`';
+    @warn '[anthology::emit-responsive] --- Responsive breakpoints are not configured. Make sure to call `@include A(configure, ( 'breakpoints': (...) ) );`';
   }
 
   $__anthology-extend-silent: A(map-set, $__anthology-extend-silent, ('responsive'), $silent) !global;

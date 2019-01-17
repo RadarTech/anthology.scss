@@ -13,7 +13,7 @@
 {
   // Ensure `A(configure, ...)` has been included prior.
   @if not $__anthology-config-is-ready {
-    @error '[anthology::mixin::extend] --- Before extending functional properties, call `@include A(configure...);`.';
+    @error '[anthology::extend] --- Before extending functional properties, call `@include A(configure...);`.';
   }
 
   $shorthand: nth($args, 1);
@@ -38,10 +38,14 @@
       A(map-get, $__anthology-extend-silent, 'generic'),
     );
 
+    $raw-selector: A(raw-selector, $shorthand, $adjective, $options);
+    // We need to dilute the string escapes by half.
+    $raw-selector: A(str-replace, $raw-selector, '\\\\', '\\');
+
     $selector: if(
       $should-extend-silent,
-      A(silent-selector, $shorthand, $adjective, $options),
-      '.#{A(str-escape, A(raw-selector, $shorthand, $adjective, $options))}'
+      '%#{$raw-selector}',
+      '.#{$raw-selector}',
     );
 
     @extend #{'#{$selector}'};

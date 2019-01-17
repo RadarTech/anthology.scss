@@ -55,6 +55,16 @@
   @return '#{$values}';
 }
 
+@function __anthology-str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + A(str-replace, str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+
+  @return $string;
+}
+
 $__anthology-escape-chars: (
   '!', '"', '#', '$', '%','&', "'", '(', ')', '*',
 
@@ -74,38 +84,10 @@ $__anthology-escape-chars: (
     $escape: '#{$escape}\\';
   }
 
-  // If $result starts with a number, escape it.
-  @for $i from 0 through 9
-  {
-    @if A(str-starts-with, $result, quote($i))
-    {
-      $result: '#{$escape}#{$result}';
-    }
-  }
-
-  // If $result starts with a dash or underscore, escape it.
-  @if A(str-starts-with, $result, '-') or A(str-starts-with, $result, '_')
-  {
-    $result: '#{$escape}#{$result}';
-  }
-
   // Escape the listed characters
-  @each $c in $__anthology-escape-chars {
-    $split-string: A(str-split, $result, $c);
-
-    @for $i from 1 through length($split-string)
-    {
-      $part: nth($split-string, $i);
-
-      @if $i == 1
-      {
-        $result: $part;
-      }
-      @else
-      {
-        $result: '#{$result}#{$escape}#{$c}#{$part}';
-      }
-    }
+  @each $c in $__anthology-escape-chars
+  {
+    $result: A(str-replace, $result, $c,'#{$escape}#{$c}');
   }
 
   @return $result;

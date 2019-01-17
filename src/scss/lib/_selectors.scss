@@ -39,20 +39,13 @@
   {
     @if not A(str-starts-with, $pseudo, ':') and not A(str-starts-with, $pseudo, '::')
     {
-      @error '[anthology::function::raw-selector] --- Expected a pseudo-class or pseudo-element, received `#{$pseudo}`.';
+      @error '[anthology::raw-selector] --- Expected a pseudo-class or pseudo-element, received `#{$pseudo}`.';
     }
 
-    $with-pseudo: '#{$pseudo}';
+    $with-pseudo: '\\\\#{$pseudo}';
     $result: '#{$result}#{$sep}#{$with-pseudo}';
   }
 
-  @return $result;
-}
-
-@function __anthology-silent-selector($shorthand, $adjective, $options)
-{
-  $raw-selector: A(str-escape, A(raw-selector, $shorthand, $adjective, $options), 1);
-  $result: '%#{$raw-selector}';
   @return $result;
 }
 
@@ -72,9 +65,12 @@
 
   // Build selector
   $theme-designation-selector: '[#{$theme-attr}~="#{$theme}"]';
-  $raw-selector: A(str-escape, A(raw-selector, $shorthand, $adjective, $options), 2);
-  $class-indicator: if($silent, '%', '.');
-  $result: '#{$class-indicator}#{$raw-selector}';
+  $raw-selector: A(raw-selector, $shorthand, $adjective, $options);
+  $result: if(
+    $silent,
+    '%#{$raw-selector}',
+    '.#{$raw-selector}',
+  );
 
   @if $theme
   {
