@@ -1,13 +1,13 @@
 // Generates a raw selector string.
-@function __anthology-raw-selector($shorthand, $adjective, $options)
+@function _anthology-raw-selector($shorthand, $adjective, $options)
 {
   // Get config properties
-  $sep: A(map-get, $__anthology-config, 'separator');
-  $imp-tag: A(map-get, $__anthology-config, 'important-tag');
-  $theme-tag: A(map-get, $__anthology-config, 'theme-tag');
-  $res-tag: A(map-get, $__anthology-config, 'responsive-tag');
+  $sep: _A(get-var, ('config', 'separator'));
+  $imp-tag: _A(get-var, ('config', 'important-tag'));
+  $theme-tag: _A(get-var, ('config', 'theme-tag'));
+  $res-tag: _A(get-var, ('config', 'responsive-tag'));
 
-  // $options should already be normalized with `__anthology-single-selector-options(...)` by this point.
+  // $options should already be normalized with `_anthology-single-selector-options(...)` by this point.
   // Unpack options
   $breakpoint: A(map-get, $options, 'breakpoint');
   $theme: A(map-get, $options, 'theme');
@@ -50,12 +50,12 @@
 }
 
 // Generates a usable selector that targets themes and pseudo-elements/pseudo-classes.
-@function __anthology-compound-selector($shorthand, $adjective, $options, $silent)
+@function _anthology-compound-selector($shorthand, $adjective, $options, $silent)
 {
-  $theme-attr: A(map-get, $__anthology-config, 'theme-attr');
+  $theme-attr: _A(get-var, ('config', 'theme-attr'));
 
   // Merge default options
-  $options: A(single-selector-options, $options);
+  $options: _A(single-selector-options, $options);
 
   // Unpack options
   $breakpoint: A(map-get, $options, 'breakpoint');
@@ -63,9 +63,10 @@
   $pseudo: A(map-get, $options, 'pseudo');
   $important: A(map-get, $options, 'important');
 
-  // Build selector
+  // Build raw selector
   $theme-designation-selector: '[#{$theme-attr}~="#{$theme}"]';
-  $raw-selector: A(raw-selector, $shorthand, $adjective, $options);
+  $raw-selector: _A(raw-selector, $shorthand, $adjective, $options);
+
   $result: if(
     $silent,
     '%#{$raw-selector}',
@@ -94,9 +95,9 @@
 }
 
 // Generates all combinations of class attribute selectors for the given arguments.
-@function __anthology-full-selector($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, $important, $silent)
+@function _anthology-full-selector($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, $important, $silent)
 {
-  $result: A(compound-selector, $shorthand, $adjective, ('important': $important, 'breakpoint': $breakpoint), $silent);
+  $result: _A(compound-selector, $shorthand, $adjective, ('important': $important, 'breakpoint': $breakpoint), $silent);
 
   @if $pseudos
   {
@@ -104,11 +105,12 @@
     @each $pseudo in $pseudos
     {
 
+      // pseudo + theme
       @if $themes
       {
         @each $theme in $themes
         {
-          $selector: A(compound-selector, $shorthand, $adjective, ('theme': $theme, 'pseudo': $pseudo, 'important': $important, 'breakpoint': $breakpoint), $silent);
+          $selector: _A(compound-selector, $shorthand, $adjective, ('theme': $theme, 'pseudo': $pseudo, 'important': $important, 'breakpoint': $breakpoint), $silent);
           @if not A(str-contains, $result, $selector)
           {
             $result: '#{$result}, #{$selector}';
@@ -116,7 +118,8 @@
         }
       }
 
-      $selector: A(compound-selector, $shorthand, $adjective, ('pseudo': $pseudo, 'important': $important, 'breakpoint': $breakpoint), $silent);
+      // pseudo only
+      $selector: _A(compound-selector, $shorthand, $adjective, ('pseudo': $pseudo, 'important': $important, 'breakpoint': $breakpoint), $silent);
       @if not A(str-contains, $result, $selector)
       {
         $result: '#{$result}, #{$selector}';
@@ -126,9 +129,10 @@
 
   @if $themes
   {
+    // theme only
     @each $theme in $themes
     {
-      $selector: A(compound-selector, $shorthand, $adjective, ('theme': $theme, 'important': $important, 'breakpoint': $breakpoint), $silent);
+      $selector: _A(compound-selector, $shorthand, $adjective, ('theme': $theme, 'important': $important, 'breakpoint': $breakpoint), $silent);
       @if not A(str-contains, $result, $selector)
       {
         $result: '#{$result}, #{$selector}';

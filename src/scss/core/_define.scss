@@ -10,15 +10,15 @@
 /// `A(emit, ...)` and `A(emit-responsive, ...)` [default: true].
 /// @param {List} $options.pseudos - A list of pseudo-classes or pseudo-elements to generate selectors for.
 /// @param {List} $options.themes - A list of themes to generate selectors for.
-@mixin __anthology-define($shorthand, $property, $values, $options: ())
+@mixin anthology-define($shorthand, $property, $values, $options: ())
 {
   // Ensure `A(configure, ...)` has been included prior.
-  @if not $__anthology-config-is-ready {
+  @if not _A(get-var, ('config-is-ready')) {
     @error '[anthology::define] --- Before defining your own functional properties, call `@include A(configure...);`.';
   }
 
   // Merge default options
-  $options: A(define-options, $options);
+  $options: _A(define-options, $options);
 
   // Unpack options
   $important: A(map-get, $options, 'important');
@@ -37,13 +37,12 @@
       {
 
         // Handle valid breakpoints.
-        @if A(map-has-key, $__anthology-cache, ('responsive', $breakpoint))
+        @if _A(var-exists, ('define-state', 'responsive', $breakpoint))
         {
           @if $responsive == true
           {
-            $__anthology-cache: A(map-set,
-              $__anthology-cache,
-              ('responsive', $breakpoint, $shorthand, $adjective),
+            $_anthology-vars: _A(set-var,
+              ('define-state', 'responsive', $breakpoint, $shorthand, $adjective),
               ($property, $breakpoint-value, $important, false, $pseudos, $themes)
             ) !global;
           }
@@ -52,9 +51,8 @@
         // Handle the default case.
         @else if $breakpoint == 'default'
         {
-          $__anthology-cache: A(map-set,
-            $__anthology-cache,
-            ('generic', $shorthand, $adjective),
+          $_anthology-vars: _A(set-var,
+            ('define-state', 'generic', $shorthand, $adjective),
             ($property, $breakpoint-value, $important, $pseudos, $themes)
           ) !global;
         }
@@ -62,7 +60,7 @@
         // Throw if breakpoint key is invalid.
         @else
         {
-          @error "[anthology::define] --- Invalid breakpoint key: #{$breakpoint}. Choose one of: #{map-keys(map-get($__anthology-cache, 'responsive'))}, or default.";
+          @error "[anthology::define] --- Invalid breakpoint key: #{$breakpoint}. Choose one of: #{map-keys(_A(get-var, ('define-state', 'responsive')))}, or default.";
         }
 
       }
@@ -75,19 +73,17 @@
       @if $responsive == true
       {
         // Map responsive properties dynamically
-        @each $breakpoint in map-keys(map-get($__anthology-cache, 'responsive'))
+        @each $breakpoint in map-keys(_A(get-var, ('define-state', 'responsive')))
         {
-          $__anthology-cache: A(map-set,
-            $__anthology-cache,
-            ('responsive', $breakpoint, $shorthand, $adjective),
+          $_anthology-vars: _A(set-var,
+            ('define-state', 'responsive', $breakpoint, $shorthand, $adjective),
             ($property, $value, $important, true, $pseudos, $themes)
           ) !global;
         }
       }
 
-      $__anthology-cache: A(map-set,
-        $__anthology-cache,
-        ('generic', $shorthand, $adjective),
+      $_anthology-vars: _A(set-var,
+        ('define-state', 'generic', $shorthand, $adjective),
         ($property, $value, $important, $pseudos, $themes)
       ) !global;
 

@@ -5,7 +5,7 @@
 /// @param {Map} $parent-map - The map we are merging into.
 /// @param {ArgList} $child-maps - A list of maps we are sourcing for the merge. Values here take precedence.
 /// @return {*} - The newly formed map.
-@function __anthology-map-merge($parent-map, $child-maps...)
+@function anthology-map-merge($parent-map, $child-maps...)
 {
   $result: $parent-map;
 
@@ -41,7 +41,7 @@
 /// @param {Map} $map - The map we are searching.
 /// @param {List} $keys - The path we are searching in the map.
 /// @return {*} - The value at the specified $keys path.
-@function __anthology-map-get($map, $keys)
+@function anthology-map-get($map, $keys)
 {
   $result: $map;
 
@@ -66,7 +66,7 @@
 /// @param {List} $keys - The path to the key we are assigning.
 /// @param {*} $value - The value to assign.
 /// @return {Map} - The newly formed map.
-@function __anthology-map-set($map, $keys, $value)
+@function anthology-map-set($map, $keys, $value)
 {
   $maps: ($map,);
   $result: null;
@@ -117,7 +117,7 @@
 /// @param {Map} $map - The map we are searching in.
 /// @param {List} $keys - The path to the key we are verifying exists.
 /// @return {Boolean} - The truthiness of the specified key's existence.
-@function __anthology-map-has-key($map, $keys)
+@function anthology-map-has-key($map, $keys)
 {
   $current-map: $map;
   $result: true;
@@ -133,7 +133,7 @@
   @return $result;
 }
 
-@function __anthology-map-reorder-keys($map, $ordered-keys)
+@function anthology-map-reorder-keys($map, $ordered-keys)
 {
   $result: ();
 
