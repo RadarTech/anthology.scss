@@ -27,10 +27,14 @@
   }
   @else
   {
-    // Merge default options
     $adjective: nth($args, 2);
-    $raw-options: if(length($args) > 2, nth($args, 3), ());
-    $options:_A(single-selector-options, $raw-options);
+    $options: if(length($args) > 2, nth($args, 3), ());
+
+    // Unpack options
+    $breakpoint: A(map-get, $options, 'breakpoint');
+    $theme: A(map-get, $options, 'theme');
+    $pseudo: A(map-get, $options, 'pseudo');
+    $important: A(map-get, $options, 'important');
 
     $should-extend-silent: if(
       A(map-get, $options, 'breakpoint'),
@@ -38,7 +42,15 @@
       _A(get-var, 'extend-silent-generic'),
     );
 
-    $raw-selector: _A(raw-selector, $shorthand, $adjective, $options);
+    $raw-selector: _A(raw-selector,
+      $shorthand: $shorthand,
+      $adjective: $adjective,
+      $breakpoint: $breakpoint,
+      $theme: $theme,
+      $pseudo: $pseudo,
+      $important: $important,
+    );
+
     // We need to dilute the string escapes by half.
     $raw-selector: A(str-replace, $raw-selector, '\\\\', '\\');
 

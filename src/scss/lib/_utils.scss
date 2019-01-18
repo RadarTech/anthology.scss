@@ -1,18 +1,5 @@
 // --- Default options helpers ---------------------------------------------- //
 
-// Merge default options for 'single selectors'.
-@function _anthology-single-selector-options($options: ()) {
-  @return A(map-merge,
-    (
-      'breakpoint': null,
-      'theme': null,
-      'pseudo': null,
-      'important': false,
-    ),
-    $options
-  );
-}
-
 // Merge default options for `A(define, ...)` mixin.
 @function _anthology-define-options($options: ()) {
   @return A(map-merge,

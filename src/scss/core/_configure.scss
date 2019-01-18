@@ -42,15 +42,24 @@
     // Build global objects
     $config: A(map-merge, _A(get-var, 'config-defaults'), $config);
     $_anthology-vars: _A(set-var, 'config', $config) !global;
-
     $_anthology-vars: _A(flush-define-state, 'generic') !global;
     $_anthology-vars: _A(flush-define-state, 'responsive') !global;
 
+    // Set shortcuts to configured "tags"
+    $_anthology-const-separator: A(map-get, $config, 'separator') !global;
+    $_anthology-const-important-tag: A(map-get, $config, 'important-tag') !global;
+    $_anthology-const-theme-tag: A(map-get, $config, 'theme-tag') !global;
+    $_anthology-const-responsive-tag: A(map-get, $config, 'responsive-tag') !global;
+    $_anthology-const-grid-prefix: A(map-get, $config, 'grid-prefix') !global;
+    $_anthology-const-grid-area-prefix: A(map-get, $config, 'grid-area-prefix') !global;
+    $_anthology-const-theme-attr: A(map-get, $config, 'theme-attr') !global;
+
+    // Set configuration as "ready"
     $_anthology-vars: _A(set-var, 'config-is-ready', true) !global;
   }
   @else
   {
-    @warn '[anthology::configure] --- `A(configure, ...)` should be included only once per Anthology-generated stylesheet.';
+    @error '[anthology::configure] --- `A(configure, ...)` can only be included only once per Anthology-generated stylesheet.';
   }
 
 }

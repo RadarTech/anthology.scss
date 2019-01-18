@@ -1,3 +1,5 @@
+// We manage variables in a global map object, which can be interacted with
+// using `_A(get-var, ...)`, `_A(set-var, ...)`, and `_A(var-exists, ...)`.
 $_anthology-vars: (
   'config': (),
   'config-defaults': (
@@ -28,3 +30,13 @@ $_anthology-vars: (
   'extend-silent-generic': false,
   'extend-silent-responsive': false,
 );
+
+// For variables that need performant access, we define global shortcuts.
+$_anthology-const-separator: null;
+$_anthology-const-important-tag: null;
+$_anthology-const-theme-tag: null;
+$_anthology-const-responsive-tag: null;
+$_anthology-const-grid-prefix: null;
+$_anthology-const-grid-area-prefix: null;
+$_anthology-const-theme-attr: null;
+
