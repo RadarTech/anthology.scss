@@ -2,10 +2,10 @@ $grid-areas: ();
 
 @mixin anthology-grid($name, $responsive-template-config)
 {
-  // Get config properties
-  $sep: _A(get-var, ('config', 'separator'));
-  $grid-prefix: _A(get-var, ('config', 'grid-prefix'));
-  $grid-area-prefix: _A(get-var, ('config', 'grid-area-prefix'));
+  // Get shortcuts to config tags
+  $sep: $_anthology-const-separator;
+  $grid-prefix: $_anthology-const-grid-prefix;
+  $grid-area-prefix: $_anthology-const-grid-area-prefix;
 
   $selector: '.#{$grid-prefix}#{$sep}#{$name}';
 
