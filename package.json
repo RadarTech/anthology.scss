@@ -12,7 +12,8 @@
     "compile:watch": "microbundle watch src/ts/index.ts --name AnthologyClient",
     "lint": "tslint src/**/*.ts",
     "clean": "rimraf dist",
-    "clean:cache": "rimraf .rts2_cache_* .parcel-dist .cache"
+    "clean:cache": "rimraf .rts2_cache_* .parcel-dist .cache",
+    "prepublishOnly": "yarn build"
   },
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
