@@ -100,7 +100,8 @@
     }
   }
 
-  $_anthology-vars: _A(set-var, ('emit-state', 'generic'), _A(get-var, ('define-state', 'generic'))) !global;
+  $new-emit-state: A(map-merge, _A(get-var, ('emit-state', 'generic')), _A(get-var, ('define-state', 'generic')));
+  $_anthology-vars: _A(set-var, ('emit-state', 'generic'), $new-emit-state) !global;
   @if $flush-cache
   {
     $_anthology-vars: _A(flush-define-state, 'generic') !global;
@@ -180,7 +181,8 @@
     }
   }
 
-  $_anthology-vars: _A(set-var, ('emit-state', 'responsive'), _A(get-var, ('define-state', 'responsive'))) !global;
+  $new-emit-state: A(map-merge, _A(get-var, ('emit-state', 'responsive')), _A(get-var, ('define-state', 'responsive')));
+  $_anthology-vars: _A(set-var, ('emit-state', 'responsive'), $new-emit-state) !global;
   @if $flush-cache
   {
     $_anthology-vars: _A(flush-define-state, 'responsive') !global;
