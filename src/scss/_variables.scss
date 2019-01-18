@@ -16,17 +16,14 @@ $_anthology-vars: (
 
   'define-state': (),
   'define-state-defaults': (
-    'breakpoints': null,
-    'separator': '-',
-    'important-tag': '\\\\!',
-    'theme-tag': '\\\\#',
-    'responsive-tag': '\\\\@',
-    'grid-prefix': 'grid',
-    'grid-area-prefix': 'area',
-    'theme-attr': 'data-theme',
+    'generic': (),
+    'responsive': (),
   ),
 
-  'emit-state': (),
+  'emit-state': (
+    'generic': (),
+    'responsive': (),
+  ),
 
   'extend-silent-generic': false,
   'extend-silent-responsive': false,
