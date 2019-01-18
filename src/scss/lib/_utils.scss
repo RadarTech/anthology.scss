@@ -1,14 +1,7 @@
-// Returns the cache with the specified key reset to its default value.
-@function __anthology-flush-cache($cache-key) {
-  @return A(map-set,
-    $__anthology-cache,
-    $cache-key,
-    A(map-get, $__anthology-cache-defaults, $cache-key)
-  );
-}
+// --- Default options helpers ---------------------------------------------- //
 
 // Merge default options for 'single selectors'.
-@function __anthology-single-selector-options($options: ()) {
+@function _anthology-single-selector-options($options: ()) {
   @return A(map-merge,
     (
       'breakpoint': null,
@@ -21,7 +14,7 @@
 }
 
 // Merge default options for `A(define, ...)` mixin.
-@function __anthology-define-options($options: ()) {
+@function _anthology-define-options($options: ()) {
   @return A(map-merge,
     (
       'important': true,
@@ -34,7 +27,7 @@
 }
 
 // Merge default options for `A(emit, ...)` mixin.
-@function __anthology-emit-options($options: ()) {
+@function _anthology-emit-options($options: ()) {
   @return A(map-merge,
     (
       'important': false,
@@ -45,7 +38,36 @@
   );
 }
 
-@function __anthology-to-json($map) {
+// --- Variable helpers ----------------------------------------------------- //
+
+@function _anthology-set-var($variable-path, $new-value)
+{
+  @return A(map-set, $_anthology-vars, $variable-path, $new-value);
+}
+
+@function _anthology-get-var($variable-path)
+{
+  @return A(map-get, $_anthology-vars, $variable-path);
+}
+
+@function _anthology-var-exists($variable-path)
+{
+  @return A(map-has-key, $_anthology-vars, $variable-path);
+}
+
+// Returns the cache with the specified key reset to its default value.
+@function _anthology-flush-define-state($state-key) {
+  @return A(map-set,
+    $_anthology-vars,
+    ('define-state', $state-key),
+    _A(get-var, ('define-state-defaults', $state-key))
+  );
+}
+
+// --- Miscellaneous utils -------------------------------------------------- //
+
+
+@function anthology-to-json($map) {
   $typeOfArg: type-of($map);
 
   @if $typeOfArg == 'list'

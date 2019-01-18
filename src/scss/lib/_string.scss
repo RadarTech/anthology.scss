@@ -1,10 +1,10 @@
 /// Split a string
-/// Based on: https://stackoverflow.com/questions/32376461/how-to-split__anthology-string-into-two-lists-of-numbers-in-sass
+/// Based on: https://stackoverflow.com/questions/32376461/how-to-split_anthology-string-into-two-lists-of-numbers-in-sass
 ///
 /// @param {String} $string - The string to split.
 /// @param {String} $delimiter - The delimiter to split on.
 /// @return {List} - A list containing the remaining strings after splitting.
-@function __anthology-str-split($string, $delimiter)
+@function anthology-str-split($string, $delimiter)
 {
   $result: ();
   $index: str-index($string, $delimiter);
@@ -31,7 +31,7 @@
 /// @param {String} $string - The string we are searching in.
 /// @param {String} $substring - The string we are searching for.
 /// @return {Bool} - The truthiness of the substrings's existence in the parent string.
-@function __anthology-str-contains($string, $substring)
+@function anthology-str-contains($string, $substring)
 {
   @return str-index($string, $substring) != null;
 }
@@ -41,21 +41,21 @@
 /// @param {String} $string - The string we are searching in.
 /// @param {String} $substring - The string we are searching for.
 /// @return {Bool} - The truthiness of the substring's existence in the parent string.
-@function __anthology-str-starts-with($string, $substring)
+@function anthology-str-starts-with($string, $substring)
 {
   @return str-index($string, $substring) == 1;
 }
 
-/// __anthology-stringify an arbitrary number of values.
+/// _anthology-stringify an arbitrary number of values.
 ///
-/// @param {ArgList} $values - A list of values to __anthology-stringify.
+/// @param {ArgList} $values - A list of values to _anthology-stringify.
 /// @return {String} - The resulting string.
-@function __anthology-stringify($values...)
+@function anthology-stringify($values...)
 {
   @return '#{$values}';
 }
 
-@function __anthology-str-replace($string, $search, $replace: '') {
+@function anthology-str-replace($string, $search, $replace: '') {
   $index: str-index($string, $search);
 
   @if $index {
@@ -65,7 +65,7 @@
   @return $string;
 }
 
-$__anthology-escape-chars: (
+$_anthology-escape-chars: (
   '!', '"', '#', '$', '%','&', "'", '(', ')', '*',
 
   '+', ',', '.', '/', ':', ';', '<', '=', '>',
@@ -74,7 +74,7 @@ $__anthology-escape-chars: (
 );
 
 /// Escapes
-@function __anthology-str-escape($string, $escape-multiplicity: 1) {
+@function anthology-str-escape($string, $escape-multiplicity: 1) {
   $result: $string;
   $escape: '';
 
@@ -85,7 +85,7 @@ $__anthology-escape-chars: (
   }
 
   // Escape the listed characters
-  @each $c in $__anthology-escape-chars
+  @each $c in $_anthology-escape-chars
   {
     $result: A(str-replace, $result, $c,'#{$escape}#{$c}');
   }

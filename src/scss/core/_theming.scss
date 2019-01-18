@@ -1,13 +1,13 @@
 /// Emits arbitrary themed CSS.
 ///
 /// @param {String} $theme - The theme to target
-@mixin __anthology-with-theme($theme)
+@mixin anthology-with-theme($theme)
 {
   $full-selector: '';
 
   @each $selector in selector-parse(&)
   {
-    $theme-attr: A(map-get, $__anthology-config, 'theme-attr');
+    $theme-attr: _A(get-var, ('config', 'theme-attr'));
     $nested-element-theme-selector: '[#{$theme-attr}~="#{$theme}"] #{$selector}';
     $same-element-theme-selector: A(stringify, selector-unify($selector, '[#{$theme-attr}~="#{$theme}"]'));
     $selector: '#{$nested-element-theme-selector}, #{$same-element-theme-selector}';
@@ -29,7 +29,7 @@
 ///
 /// @param {String} $property - The CSS property to change.
 /// @param {Map} $themed-values - A map of corresponding themes/values.
-@mixin __anthology-themeify($property, $themed-values)
+@mixin anthology-themeify($property, $themed-values)
 {
   @each $theme, $value in $themed-values
   {

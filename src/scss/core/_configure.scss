@@ -8,10 +8,10 @@
 /// @param {String} $config.responsive-tag - A string which designates responsive rules [default: '@'].
 /// @param {String} $config.grid-prefix - A string which prefixes Anthology-generated grids [default: 'grid'].
 /// @param {String} $config.grid-area-prefix - A string which prefixes 'grid-area' rules for Anthology-generated grids [default: 'area'].
-@mixin __anthology-configure($config: ())
+@mixin anthology-configure($config: ())
 {
 
-  @if not($__anthology-config-is-ready == true)
+  @if not(_A(get-var, 'config-is-ready'))
   {
     // Assign an empty map to each configured breakpoint
     @each $breakpoint, $value in map-get($config, 'breakpoints')
@@ -23,9 +23,8 @@
         @error '[anthology::configure] --- Breakpoints cannot be named `default`.';
       }
 
-      $__anthology-cache-defaults: A(map-set,
-        $__anthology-cache-defaults,
-        ('responsive', $breakpoint),
+      $_anthology-vars: _A(set-var,
+        ('define-state-defaults', 'responsive', $breakpoint),
         ()
       ) !global;
 
@@ -36,14 +35,18 @@
     {
       @if A(list-contains, $escaped-config-keys, $config-key)
       {
-        $config: A(map-set, $config, $config-key, A(str-escape, A(map-get, $config,$config-key), 2));
+        $config: A(map-set, $config, $config-key, A(str-escape, A(map-get, $config, $config-key), 2));
       }
     }
 
     // Build global objects
-    $__anthology-config: A(map-merge, $__anthology-config-defaults, $config) !global;
-    $__anthology-cache: A(map-merge, $__anthology-cache-defaults, $__anthology-cache) !global;
-    $__anthology-config-is-ready: true !global;
+    $config: A(map-merge, _A(get-var, 'config-defaults'), $config);
+    $_anthology-vars: _A(set-var, 'config', $config) !global;
+
+    $_anthology-vars: _A(flush-define-state, 'generic') !global;
+    $_anthology-vars: _A(flush-define-state, 'responsive') !global;
+
+    $_anthology-vars: _A(set-var, 'config-is-ready', true) !global;
   }
   @else
   {
