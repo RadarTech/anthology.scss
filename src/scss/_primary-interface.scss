@@ -1,32 +1,64 @@
-@mixin A($mixin, $args...) {
-  @if not(mixin-exists('__anthology-#{$mixin}'))
+// --- Mixin interface ------------------------------------------------------ //
+
+@mixin A($mixin, $args...)
+{
+  @if not(mixin-exists('anthology-#{$mixin}'))
   {
     @error '[anthology] --- Anthology mixin `#{$mixin}` not found.';
   }
 
-  @if $mixin == 'configure' { @include __anthology-configure($args...); }
-  @else if $mixin == 'define' { @include __anthology-define($args...); }
-  @else if $mixin == 'emit' { @include __anthology-emit($args...); }
-  @else if $mixin == 'emit-responsive' { @include __anthology-emit-responsive($args...); }
-  @else if $mixin == 'extend' { @include __anthology-extend($args...); }
-  @else if $mixin == 'with-theme' { @include __anthology-with-theme($args...) { @content; }; }
-  @else if $mixin == 'themeify' { @include __anthology-themeify($args...); }
-  @else if $mixin == 'breakpoint' { @include __anthology-breakpoint($args...) { @content; }; }
-  @else if $mixin == 'until-breakpoint' { @include __anthology-until-breakpoint($args...) { @content; }; }
-  @else if $mixin == 'between-breakpoints' { @include __anthology-between-breakpoints($args...) { @content; }; }
-  @else if $mixin == 'grid' { @include __anthology-grid($args...) { @content; }; }
+  @if $mixin == 'configure' { @include anthology-configure($args...); }
+  @else if $mixin == 'define' { @include anthology-define($args...); }
+  @else if $mixin == 'emit' { @include anthology-emit($args...); }
+  @else if $mixin == 'emit-responsive' { @include anthology-emit-responsive($args...); }
+  @else if $mixin == 'extend' { @include anthology-extend($args...); }
+  @else if $mixin == 'with-theme' { @include anthology-with-theme($args...) { @content; }; }
+  @else if $mixin == 'themeify' { @include anthology-themeify($args...); }
+  @else if $mixin == 'breakpoint' { @include anthology-breakpoint($args...) { @content; }; }
+  @else if $mixin == 'until-breakpoint' { @include anthology-until-breakpoint($args...) { @content; }; }
+  @else if $mixin == 'between-breakpoints' { @include anthology-between-breakpoints($args...) { @content; }; }
+  @else if $mixin == 'grid' { @include anthology-grid($args...) { @content; }; }
 }
 
-@function A($function, $args...) {
-  $function-name: '__anthology-#{$function}';
+@mixin _A($mixin, $args...)
+{
+  @if not(mixin-exists('_anthology-#{$mixin}'))
+  {
+    @error '[anthology] --- Internal Anthology mixin `#{$mixin}` not found.';
+  }
+
+  @if $mixin == 'do-emit' { @include _anthology-do-emit($args...); }
+  @else if $mixin == 'emit-metadata' { @include _anthology-emit-metadata($args...); }
+}
+
+// --- Function interface --------------------------------------------------- //
+
+@function A($function, $args...)
+{
+  $function-name: 'anthology-#{$function}';
   $function-exists: function-exists($function-name);
 
-  @if $function-exists == true
+  @if $function-exists
   {
-    @return call(get-function('__anthology-#{$function}'), $args...);
+    @return call(get-function($function-name), $args...);
   }
   @else
   {
     @error '[anthology] --- Anthology function `#{$function}` not found.'
+  }
+}
+
+@function _A($function, $args...)
+{
+  $function-name: '_anthology-#{$function}';
+  $function-exists: function-exists($function-name);
+
+  @if $function-exists
+  {
+    @return call(get-function($function-name), $args...);
+  }
+  @else
+  {
+    @error '[anthology] --- Internal Anthology function `#{$function}` not found.'
   }
 }

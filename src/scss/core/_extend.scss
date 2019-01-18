@@ -9,10 +9,10 @@
 /// @param {String} $options.pseudo - Whether to extend and target a specific psuedo-class or pseudo-element [default:
 /// null].
 /// @param {Bool} $options.important - Whether to extend with `!important`.
-@mixin __anthology-extend($args...)
+@mixin anthology-extend($args...)
 {
   // Ensure `A(configure, ...)` has been included prior.
-  @if not $__anthology-config-is-ready {
+  @if not _A(get-var, 'config-is-ready') {
     @error '[anthology::extend] --- Before extending functional properties, call `@include A(configure...);`.';
   }
 
@@ -30,15 +30,15 @@
     // Merge default options
     $adjective: nth($args, 2);
     $raw-options: if(length($args) > 2, nth($args, 3), ());
-    $options: A(single-selector-options, $raw-options);
+    $options:_A(single-selector-options, $raw-options);
 
     $should-extend-silent: if(
       A(map-get, $options, 'breakpoint'),
-      A(map-get, $__anthology-extend-silent, 'responsive'),
-      A(map-get, $__anthology-extend-silent, 'generic'),
+      _A(get-var, 'extend-silent-responsive'),
+      _A(get-var, 'extend-silent-generic'),
     );
 
-    $raw-selector: A(raw-selector, $shorthand, $adjective, $options);
+    $raw-selector: _A(raw-selector, $shorthand, $adjective, $options);
     // We need to dilute the string escapes by half.
     $raw-selector: A(str-replace, $raw-selector, '\\\\', '\\');
 

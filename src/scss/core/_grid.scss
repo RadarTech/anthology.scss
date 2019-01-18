@@ -1,11 +1,11 @@
 $grid-areas: ();
 
-@mixin __anthology-grid($name, $responsive-template-config)
+@mixin anthology-grid($name, $responsive-template-config)
 {
   // Get config properties
-  $sep: A(map-get, $__anthology-config, 'separator');
-  $grid-prefix: A(map-get, $__anthology-config, 'grid-prefix');
-  $grid-area-prefix: A(map-get, $__anthology-config, 'grid-area-prefix');
+  $sep: _A(get-var, ('config', 'separator'));
+  $grid-prefix: _A(get-var, ('config', 'grid-prefix'));
+  $grid-area-prefix: _A(get-var, ('config', 'grid-area-prefix'));
 
   $selector: '.#{$grid-prefix}#{$sep}#{$name}';
 
@@ -44,7 +44,7 @@ $grid-areas: ();
       }
 
       // Handle valid breakpoints.
-      @if A(map-has-key, $__anthology-config, ('breakpoints', $breakpoint))
+      @if _A(var-exists, ('config', 'breakpoints', $breakpoint))
       {
         @include A(breakpoint, $breakpoint) {
           grid-template-columns: $columns;
@@ -70,7 +70,7 @@ $grid-areas: ();
       // Throw if breakpoint key is invalid.
       @else
       {
-        @error "[anthology::grid] --- Invalid breakpoint key: `#{$breakpoint}`. Choose one of: #{map-keys(map-get($__anthology-config, 'breakpoints'))}, or default.";
+        @error "[anthology::grid] --- Invalid breakpoint key: `#{$breakpoint}`. Choose one of: #{map-keys(_A(get-var, ('define-state', 'responsive')))}, or default.";
       }
 
     }

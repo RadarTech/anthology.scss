@@ -1,25 +1,33 @@
-$__anthology-config-is-ready: false;
-$__anthology-metadata-is-emitted: false;
+$_anthology-vars: (
+  'config': (),
+  'config-defaults': (
+    'breakpoints': null,
+    'separator': '-',
+    'important-tag': '\\\\!',
+    'theme-tag': '\\\\#',
+    'responsive-tag': '\\\\@',
+    'grid-prefix': 'grid',
+    'grid-area-prefix': 'area',
+    'theme-attr': 'data-theme',
+  ),
 
-$__anthology-config: ();
-$__anthology-config-defaults: (
-  'breakpoints': null,
-  'separator': '-',
-  'important-tag': '\\\\!',
-  'theme-tag': '\\\\#',
-  'responsive-tag': '\\\\@',
-  'grid-prefix': 'grid',
-  'grid-area-prefix': 'area',
-  'theme-attr': 'data-theme',
-);
+  'config-is-ready': false,
+  'metadata-is-emitted': false,
 
-$__anthology-cache: ();
-$__anthology-cache-defaults: (
-  'generic': (),
-  'responsive': (),
-);
+  'define-state': (),
+  'define-state-defaults': (
+    'breakpoints': null,
+    'separator': '-',
+    'important-tag': '\\\\!',
+    'theme-tag': '\\\\#',
+    'responsive-tag': '\\\\@',
+    'grid-prefix': 'grid',
+    'grid-area-prefix': 'area',
+    'theme-attr': 'data-theme',
+  ),
 
-$__anthology-extend-silent: (
-  'generic': false,
-  'responsive': false,
+  'emit-state': (),
+
+  'extend-silent-generic': false,
+  'extend-silent-responsive': false,
 );

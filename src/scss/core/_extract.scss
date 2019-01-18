@@ -1,0 +1,16 @@
+@function anthology-extract($shorthand, $adjective, $breakpoint: null)
+{
+  // Ensure `A(configure, ...)` has been included prior.
+  @if not _A(get-var, 'config-is-ready') {
+    @error '[anthology::extract] --- Before extending functional properties, call `@include A(configure...);`.';
+  }
+
+  @if $breakpoint and $breakpoint != 'default'
+  {
+    @return nth(_A(get-var, ('emit-state', 'responsive', $breakpoint, $shorthand, $adjective)), 2);
+  }
+  @else
+  {
+    @return nth(_A(get-var, ('emit-state', 'generic', $shorthand, $adjective)), 2);
+  }
+}

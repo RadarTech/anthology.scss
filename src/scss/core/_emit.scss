@@ -1,24 +1,24 @@
 // Emits config metadata if it has not already been emitted.
-@mixin __anthology-emit-metadata()
+@mixin _anthology-emit-metadata()
 {
-  @if not($__anthology-metadata-is-emitted == true)
+  @if not(_A(get-var, 'metadata-is-emitted') == true)
   {
     @at-root -anthology-metadata::before {
-      content: A(to-json, ( 'config': $__anthology-config ));
+      content: A(to-json, ( 'config': _A(get-var, 'config') ));
     }
 
-    $__anthology-metadata-is-emitted: true !global;
+    $_anthology-vars: _A(set-var, 'metadata-is-emitted', true) !global;
   }
 }
 
 // Performs the actual CSS generation for all combinations of selectors with a given `$shorthand` and `$adjective`.
-@mixin __anthology-do-emit($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, $important, $silent)
+@mixin _anthology-do-emit($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, $important, $silent)
 {
   $full-selector-args: ($shorthand, $adjective, $property, $value, $breakpoint, $pseudos, $themes, $important, $silent);
 
   @if $important
   {
-    $full-selector: A(full-selector, $full-selector-args...);
+    $full-selector: _A(full-selector, $full-selector-args...);
 
     #{$full-selector} {
       #{$property}: $value !important;
@@ -27,7 +27,7 @@
 
   @else
   {
-    $full-selector: A(full-selector, $full-selector-args...);
+    $full-selector: _A(full-selector, $full-selector-args...);
 
     #{$full-selector} {
       #{$property}: $value;
@@ -38,26 +38,27 @@
 /// Emits non-responsive rules. Emitted properties are flushed afterwards.
 ///
 /// @param {Bool} $important - Whether to emit '!important' versions of the rules [default: false].
-@mixin __anthology-emit($options: ())
+@mixin anthology-emit($options: ())
 {
   // Merge default options
-  $options: A(emit-options, $options);
+  $options: _A(emit-options, $options);
 
   // Unpack options
   $important: A(map-get, $options, 'important');
   $silent: A(map-get, $options, 'silent');
   $flush-cache: A(map-get, $options, 'flush-cache');
 
-  @include __anthology-emit-metadata();
+  // Emit metadata
+  @include _A(emit-metadata);
 
-  @if length(map-get($__anthology-cache, 'generic')) == 0
+  @if length(_A(get-var, ('define-state', 'generic'))) == 0
   {
     @warn '[anthology::emit] --- Nothing to emit';
   }
 
-  $__anthology-extend-silent: A(map-set, $__anthology-extend-silent, ('generic'), $silent) !global;
+  $_anthology-vars: _A(set-var, ('extend-silent-generic'), $silent) !global;
 
-  @each $shorthand, $adjectives in map-get($__anthology-cache, 'generic')
+  @each $shorthand, $adjectives in _A(get-var, ('define-state', 'generic'))
   {
     @each $adjective, $helper in $adjectives
     {
@@ -70,7 +71,7 @@
 
       $should-emit-important: $important and $important-override;
 
-      @include __anthology-do-emit(
+      @include _A(do-emit,
         $shorthand: $shorthand,
         $adjective: $adjective,
         $property: $property,
@@ -84,7 +85,7 @@
 
       @if $should-emit-important
       {
-        @include __anthology-do-emit(
+        @include _A(do-emit,
           $shorthand: $shorthand,
           $adjective: $adjective,
           $property: $property,
@@ -99,35 +100,37 @@
     }
   }
 
+  $_anthology-vars: _A(set-var, ('emit-state', 'generic'), _A(get-var, ('define-state', 'generic'))) !global;
   @if $flush-cache
   {
-    $__anthology-cache: A(flush-cache, 'generic') !global;
+    $_anthology-vars: _A(flush-define-state, 'generic') !global;
   }
+
 }
 
 /// Emits responsive, media query efficient helpers. Emitted properties are flushed afterwards.
 ///
 /// @param {Bool} $important - Whether to emit '!important' versions of the rules [default: false].
-@mixin __anthology-emit-responsive($options: ())
+@mixin anthology-emit-responsive($options: ())
 {
   // Merge default options
-  $options: A(emit-options, $options);
+  $options: _A(emit-options, $options);
 
   // Unpack options
   $important: A(map-get, $options, 'important');
   $silent: A(map-get, $options, 'silent');
   $flush-cache: A(map-get, $options, 'flush-cache');
 
-  @include __anthology-emit-metadata();
+  @include _A(emit-metadata);
 
-  @if not map-get($__anthology-config, 'breakpoints')
+  @if not _A(get-var, ('config', 'breakpoints'))
   {
     @warn '[anthology::emit-responsive] --- Responsive breakpoints are not configured. Make sure to call `@include A(configure, ( 'breakpoints': (...) ) );`';
   }
 
-  $__anthology-extend-silent: A(map-set, $__anthology-extend-silent, ('responsive'), $silent) !global;
+  $_anthology-vars: _A(set-var, ('extend-silent-responsive'), $silent) !global;
 
-  @each $breakpoint, $shorthands in map-get($__anthology-cache, 'responsive')
+  @each $breakpoint, $shorthands in _A(get-var, ('define-state', 'responsive'))
   {
     @include A(breakpoint, $breakpoint)
     {
@@ -146,7 +149,7 @@
           $should-emit-breakpoint-tag: if($include-responsive-tag, $breakpoint, null);
           $should-emit-important: $important and $important-override;
 
-          @include __anthology-do-emit(
+          @include _A(do-emit,
             $shorthand: $shorthand,
             $adjective: $adjective,
             $property: $property,
@@ -160,7 +163,7 @@
 
           @if $should-emit-important
           {
-            @include __anthology-do-emit(
+            @include _A(do-emit,
               $shorthand: $shorthand,
               $adjective: $adjective,
               $property: $property,
@@ -177,8 +180,9 @@
     }
   }
 
+  $_anthology-vars: _A(set-var, ('emit-state', 'responsive'), _A(get-var, ('define-state', 'responsive'))) !global;
   @if $flush-cache
   {
-    $__anthology-cache: A(flush-cache, 'responsive') !global;
+    $_anthology-vars: _A(flush-define-state, 'responsive') !global;
   }
 }
