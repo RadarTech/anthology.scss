@@ -7,10 +7,28 @@
 
   @if $breakpoint and $breakpoint != 'default'
   {
+    // Validate breakpoint
+    @if not _A(var-exists, ('config', 'breakpoints', $breakpoint))
+    {
+      @error "[anthology::extract] --- Invalid breakpoint key: #{$breakpoint}. Choose one of: #{map-keys(_A(get-var, ('define-state', 'responsive')))}, or default.";
+    }
+
+    // Validate arguments
+    @if not _A(var-exists, ('emit-state', 'responsive', $breakpoint, $shorthand)) or not _A(var-exists, ('emit-state', 'responsive', $breakpoint, $shorthand, $adjective))
+    {
+      @error "[anthology::extract] --- Value undefined for args `(#{$shorthand}, #{$adjective}, #{$breakpoint})`. Have you called `A(emit-responsive, ...)`?";
+    }
+
     @return nth(_A(get-var, ('emit-state', 'responsive', $breakpoint, $shorthand, $adjective)), 2);
   }
   @else
   {
+    // Validate arguments
+    @if not _A(var-exists, ('emit-state', 'generic', $shorthand)) or not _A(var-exists, ('emit-state', 'generic', $shorthand, $adjective))
+    {
+      @error "[anthology::extract] --- Value undefined for args `(#{$shorthand}, #{$adjective})`. Have you called `A(emit, ...)`?";
+    }
+
     @return nth(_A(get-var, ('emit-state', 'generic', $shorthand, $adjective)), 2);
   }
 }
