@@ -11,7 +11,7 @@
 @mixin anthology-configure($config: ())
 {
 
-  @if not(_A(get-var, 'config-is-ready'))
+  @if not(_A(get-var, 'should-block-config'))
   {
     // Assign an empty map to each configured breakpoint
     @each $breakpoint, $value in map-get($config, 'breakpoints')
@@ -59,7 +59,7 @@
   }
   @else
   {
-    @error '[anthology::configure] --- `A(configure, ...)` can only be included only once per Anthology-generated stylesheet.';
+    @error '[anthology::configure] --- `A(configure, ...)` can only be included before calling `A(emit, ...)`.';
   }
 
 }

@@ -107,6 +107,8 @@
     $_anthology-vars: _A(flush-define-state, 'generic') !global;
   }
 
+  // Disallow configuration after emitting.
+  $_anthology-vars: _A(set-var, 'should-block-config', true) !global;
 }
 
 /// Emits responsive, media query efficient helpers. Emitted properties are flushed afterwards.
@@ -187,4 +189,7 @@
   {
     $_anthology-vars: _A(flush-define-state, 'responsive') !global;
   }
+
+  // Disallow configuration after emitting.
+  $_anthology-vars: _A(set-var, 'should-block-config', true) !global;
 }
