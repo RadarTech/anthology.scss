@@ -2,6 +2,11 @@ $grid-areas: ();
 
 @mixin anthology-grid($name, $responsive-template-config)
 {
+  // Ensure `A(configure, ...)` has been included prior.
+  @if not _A(get-var, ('config-is-ready')) {
+    @error '[anthology::grid] --- Before creating grids, call `@include A(configure...);`.';
+  }
+
   // Get shortcuts to config tags
   $sep: $_anthology-const-separator;
   $grid-prefix: $_anthology-const-grid-prefix;

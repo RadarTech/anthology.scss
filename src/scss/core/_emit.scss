@@ -40,6 +40,11 @@
 /// @param {Bool} $important - Whether to emit '!important' versions of the rules [default: false].
 @mixin anthology-emit($options: ())
 {
+  // Ensure `A(configure, ...)` has been included prior.
+  @if not _A(get-var, ('config-is-ready')) {
+    @error '[anthology::emit] --- Before emitting, call `@include A(configure...);` and define some functional properties with `A(define, ...)`.';
+  }
+
   // Merge default options
   $options: _A(emit-options, $options);
 
@@ -116,6 +121,11 @@
 /// @param {Bool} $important - Whether to emit '!important' versions of the rules [default: false].
 @mixin anthology-emit-responsive($options: ())
 {
+  // Ensure `A(configure, ...)` has been included prior.
+  @if not _A(get-var, ('config-is-ready')) {
+    @error '[anthology::emit-responsive] --- Before emitting, call `@include A(configure...);` and define some functional properties with `A(define, ...)`.';
+  }
+
   // Merge default options
   $options: _A(emit-options, $options);
 
