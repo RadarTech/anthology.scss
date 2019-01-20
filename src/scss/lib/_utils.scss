@@ -27,27 +27,27 @@
 
 // --- Variable helpers ----------------------------------------------------- //
 
-@function _anthology-set-var($variable-path, $new-value)
+@function _anthology-config-to-map()
 {
-  @return A(map-set, $_anthology-vars, $variable-path, $new-value);
-}
-
-@function _anthology-get-var($variable-path)
-{
-  @return A(map-get, $_anthology-vars, $variable-path);
-}
-
-@function _anthology-var-exists($variable-path)
-{
-  @return A(map-has-key, $_anthology-vars, $variable-path);
+  @return (
+    'breakpoints': $_anthology-config-breakpoints,
+    'separator': $_anthology-config-separator,
+    'important-tag': $_anthology-config-important-tag,
+    'theme-tag': $_anthology-config-theme-tag,
+    'responsive-tag': $_anthology-config-responsive-tag,
+    'grid-prefix': $_anthology-config-grid-prefix,
+    'grid-area-prefix': $_anthology-config-grid-area-prefix,
+    'theme-attr': $_anthology-config-theme-attr,
+  );
 }
 
 // Returns the cache with the specified key reset to its default value.
-@function _anthology-flush-define-state($state-key) {
+@function _anthology-flush-define-state($state-key)
+{
   @return A(map-set,
-    $_anthology-vars,
-    ('define-state', $state-key),
-    _A(get-var, ('define-state-defaults', $state-key))
+    $_anthology-define-state,
+    $state-key,
+    A(map-get, $_anthology-define-state-defaults, $state-key),
   );
 }
 

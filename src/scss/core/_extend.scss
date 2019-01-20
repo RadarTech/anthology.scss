@@ -12,7 +12,7 @@
 @mixin anthology-extend($args...)
 {
   // Ensure `A(configure, ...)` has been included prior.
-  @if not _A(get-var, 'config-is-ready') {
+  @if not $_anthology-config-is-ready {
     @error '[anthology::extend] --- Before extending functional properties, call `@include A(configure...);`.';
   }
 
@@ -38,8 +38,8 @@
 
     $should-extend-silent: if(
       A(map-get, $options, 'breakpoint'),
-      _A(get-var, 'extend-silent-responsive'),
-      _A(get-var, 'extend-silent-generic'),
+      $_anthology-extend-silent-responsive,
+      $_anthology-extend-silent-generic,
     );
 
     $raw-selector: _A(raw-selector,

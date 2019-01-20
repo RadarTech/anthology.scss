@@ -6,10 +6,10 @@
 @function _anthology-raw-selector($shorthand, $adjective, $breakpoint: null, $theme: null, $pseudo: null, $important: false)
 {
   // Get shortcuts to config properties
-  $sep: $_anthology-const-separator;
-  $imp-tag: $_anthology-const-important-tag;
-  $theme-tag: $_anthology-const-theme-tag;
-  $res-tag: $_anthology-const-responsive-tag;
+  $sep: $_anthology-config-separator;
+  $imp-tag: $_anthology-config-important-tag;
+  $theme-tag: $_anthology-config-theme-tag;
+  $res-tag: $_anthology-config-responsive-tag;
 
   // Build the resulting selector
   $result: '#{$shorthand}#{$sep}#{$adjective}';
@@ -49,7 +49,7 @@
 // Generates a usable selector that targets themes and pseudo-elements/pseudo-classes.
 @function _anthology-compound-selector($shorthand, $adjective, $silent, $breakpoint: null, $theme: null, $pseudo: null, $important: false)
 {
-  $theme-attr: $_anthology-const-theme-attr;
+  $theme-attr: $_anthology-config-theme-attr;
 
   // Build raw selector
   $theme-designation-selector: '[#{$theme-attr}~="#{$theme}"]';

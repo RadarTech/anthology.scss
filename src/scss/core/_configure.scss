@@ -8,13 +8,12 @@
 /// @param {String} $config.responsive-tag - A string which designates responsive rules [default: '@'].
 /// @param {String} $config.grid-prefix - A string which prefixes Anthology-generated grids [default: 'grid'].
 /// @param {String} $config.grid-area-prefix - A string which prefixes 'grid-area' rules for Anthology-generated grids [default: 'area'].
-@mixin anthology-configure($config: ())
-{
+@mixin anthology-configure($config: ()) {
 
-  @if not(_A(get-var, 'should-block-config'))
+  @if not $_anthology-should-block-config
   {
     // Assign an empty map to each configured breakpoint
-    @each $breakpoint, $value in map-get($config, 'breakpoints')
+    @each $breakpoint, $value in A(map-get, $config, 'breakpoints')
     {
 
       // "default" is reserved.
@@ -23,8 +22,9 @@
         @error '[anthology::configure] --- Breakpoints cannot be named `default`.';
       }
 
-      $_anthology-vars: _A(set-var,
-        ('define-state-defaults', 'responsive', $breakpoint),
+      $_anthology-define-state-defaults: A(map-set,
+        $_anthology-define-state-defaults,
+        ('responsive', $breakpoint),
         ()
       ) !global;
 
@@ -39,23 +39,22 @@
       }
     }
 
-    // Build global objects
-    $config: A(map-merge, _A(get-var, 'config-defaults'), $config);
-    $_anthology-vars: _A(set-var, 'config', $config) !global;
-    $_anthology-vars: _A(flush-define-state, 'generic') !global;
-    $_anthology-vars: _A(flush-define-state, 'responsive') !global;
+    // Assign config variables
+    $config: A(map-merge, $_anthology-config-defaults, $config);
+    $_anthology-config-breakpoints: A(map-get, $config, 'breakpoints') !global;
+    $_anthology-config-separator: A(map-get, $config, 'separator') !global;
+    $_anthology-config-important-tag: A(map-get, $config, 'important-tag') !global;
+    $_anthology-config-theme-tag: A(map-get, $config, 'theme-tag') !global;
+    $_anthology-config-responsive-tag: A(map-get, $config, 'responsive-tag') !global;
+    $_anthology-config-grid-prefix: A(map-get, $config, 'grid-prefix') !global;
+    $_anthology-config-grid-area-prefix: A(map-get, $config, 'grid-area-prefix') !global;
+    $_anthology-config-theme-attr: A(map-get, $config, 'theme-attr') !global;
 
-    // Set shortcuts to configured "tags"
-    $_anthology-const-separator: A(map-get, $config, 'separator') !global;
-    $_anthology-const-important-tag: A(map-get, $config, 'important-tag') !global;
-    $_anthology-const-theme-tag: A(map-get, $config, 'theme-tag') !global;
-    $_anthology-const-responsive-tag: A(map-get, $config, 'responsive-tag') !global;
-    $_anthology-const-grid-prefix: A(map-get, $config, 'grid-prefix') !global;
-    $_anthology-const-grid-area-prefix: A(map-get, $config, 'grid-area-prefix') !global;
-    $_anthology-const-theme-attr: A(map-get, $config, 'theme-attr') !global;
+    $_anthology-define-state: _A(flush-define-state, 'generic') !global;
+    $_anthology-define-state: _A(flush-define-state, 'responsive') !global;
 
     // Set configuration as "ready"
-    $_anthology-vars: _A(set-var, 'config-is-ready', true) !global;
+    $_anthology-config-is-ready: true !global;
   }
   @else
   {
