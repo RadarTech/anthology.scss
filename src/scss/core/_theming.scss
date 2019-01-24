@@ -9,7 +9,7 @@
   {
     $theme-attr: $_anthology-config-theme-attr;
     $nested-element-theme-selector: '[#{$theme-attr}~="#{$theme}"] #{$selector}';
-    $same-element-theme-selector: A(stringify, selector-unify($selector, '[#{$theme-attr}~="#{$theme}"]'));
+    $same-element-theme-selector: selector-unify($selector, '[#{$theme-attr}~="#{$theme}"]');
     $selector: '#{$nested-element-theme-selector}, #{$same-element-theme-selector}';
 
     @if $full-selector == ''
