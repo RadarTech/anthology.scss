@@ -4,6 +4,7 @@ $_anthology-config-separator: null;
 $_anthology-config-important-tag: null;
 $_anthology-config-theme-tag: null;
 $_anthology-config-responsive-tag: null;
+$_anthology-config-namespace-tag: null;
 $_anthology-config-grid-prefix: null;
 $_anthology-config-grid-area-prefix: null;
 $_anthology-config-theme-attr: null;
@@ -14,6 +15,7 @@ $_anthology-config-defaults: (
   'important-tag': '\\\\!',
   'theme-tag': '\\\\#',
   'responsive-tag': '\\\\@',
+  'namespace-tag': '\\/',
   'grid-prefix': 'grid',
   'grid-area-prefix': 'area',
   'theme-attr': 'data-theme',

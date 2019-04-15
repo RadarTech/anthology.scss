@@ -18,6 +18,7 @@
   @else if $mixin == 'until-breakpoint' { @include anthology-until-breakpoint($args...) { @content; }; }
   @else if $mixin == 'between-breakpoints' { @include anthology-between-breakpoints($args...) { @content; }; }
   @else if $mixin == 'grid' { @include anthology-grid($args...) { @content; }; }
+  @else if $mixin == 'with-namespace' { @include anthology-with-namespace($args...) { @content; } }
 }
 
 @mixin _A($mixin, $args...)

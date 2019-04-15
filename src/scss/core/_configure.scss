@@ -1,13 +1,5 @@
-/// Sets the configuration for generating functional properties. `A(define, ...)` will throw if this mixin
-/// has not been included prior.
-///
-/// @param {Map} $config.breakpoints - A map of responsive breakpoints [default: null].
-/// @param {String} $config.separator - A string delimiter which appears between each piece of the generated selectors [default: '-'].
-/// @param {String} $config.important-tag - A string which designates '!important' rules [default: '!'].
-/// @param {String} $config.theme-tag - A string which designates themed rules [default: '#'].
-/// @param {String} $config.responsive-tag - A string which designates responsive rules [default: '@'].
-/// @param {String} $config.grid-prefix - A string which prefixes Anthology-generated grids [default: 'grid'].
-/// @param {String} $config.grid-area-prefix - A string which prefixes 'grid-area' rules for Anthology-generated grids [default: 'area'].
+/// Sets the configuration for generating functional properties.
+/// `A(define, ...)` will throw if this mixin has not been included prior.
 @mixin anthology-configure($config: ()) {
 
   @if not $_anthology-should-block-config
@@ -30,12 +22,24 @@
 
     }
 
-    $escaped-config-keys: ('separator', 'important-tag', 'theme-tag', 'responsive-tag', 'grid-prefix', 'grid-area-prefix', 'theme-attr');
+    // Apply string escapes to required configuration keys.
+    $escaped-config-keys: (
+    // Config key      // Escape multiplicity
+      'separator':        2,
+      'important-tag':    2,
+      'theme-tag':        2,
+      'responsive-tag':   2,
+      'namespace-tag':    1,
+      'grid-prefix':      2,
+      'grid-area-prefix': 2,
+      'theme-attr':       2,
+    );
     @each $config-key, $value in $config
     {
-      @if A(list-contains, $escaped-config-keys, $config-key)
+      @if map-has-key($escaped-config-keys, $config-key)
       {
-        $config: A(map-set, $config, $config-key, A(str-escape, A(map-get, $config, $config-key), 2));
+        $multiplicity: map-get($escaped-config-keys, $config-key);
+        $config: A(map-set, $config, $config-key, A(str-escape, A(map-get, $config, $config-key), $multiplicity));
       }
     }
 
@@ -46,6 +50,7 @@
     $_anthology-config-important-tag: A(map-get, $config, 'important-tag') !global;
     $_anthology-config-theme-tag: A(map-get, $config, 'theme-tag') !global;
     $_anthology-config-responsive-tag: A(map-get, $config, 'responsive-tag') !global;
+    $_anthology-config-namespace-tag: A(map-get, $config, 'namespace-tag') !global;
     $_anthology-config-grid-prefix: A(map-get, $config, 'grid-prefix') !global;
     $_anthology-config-grid-area-prefix: A(map-get, $config, 'grid-area-prefix') !global;
     $_anthology-config-theme-attr: A(map-get, $config, 'theme-attr') !global;

@@ -28,10 +28,10 @@ $adjectives: (
   )
 );
 
-@include A(emit, (important: true, silent: true));
-@include A(emit-responsive, (important: true, silent: true));
+@include A(emit, (important: true, silent: false));
+@include A(emit-responsive, (important: true, silent: false));
 
-.foo {
+@include A(with-namespace, 'hello', 'world') {
   @include A(extend, 'bg', 'red', (breakpoint: 'small'));
 }
 
