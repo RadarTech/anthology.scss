@@ -1,6 +1,5 @@
 // --- Imports -------------------------------------------------------------- //
 
-import chalk from 'chalk';
 import { AnthologyRule, ExtractOptions } from './types';
 
 // --- Business logic ------------------------------------------------------- //
@@ -169,9 +168,7 @@ export class AnthologyClient<BreakpointNames extends string> {
     // Throw if the rule is invalid or not found in this style sheet.
     if (!isValidRule) {
       throw new Error(
-        `Could not find Anthology-generated rule associated with selector: ${chalk.cyan(
-          selectorEscaped,
-        )}`,
+        `Could not find Anthology-generated rule associated with selector: ${selectorEscaped}`,
       );
     }
 
