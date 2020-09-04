@@ -21,7 +21,7 @@
   "devDependencies": {
     "@radarrelay/tslint-config": "github:RadarRelay/tslint-config",
     "microbundle": "^0.8.3",
-    "node-sass": "~4.9.3",
+    "node-sass": "~4.13.1",
     "parcel-bundler": "~1.10.2",
     "prettier": "~1.14.3",
     "rimraf": "^2.6.2",
@@ -29,6 +29,6 @@
     "typescript": "~3.1.2"
   },
   "peerDependencies": {
-    "node-sass": "~4.9.3"
+    "node-sass": "~4.13.1"
   }
 }
